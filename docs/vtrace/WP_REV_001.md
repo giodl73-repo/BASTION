@@ -34,8 +34,8 @@ official use, external action, publication, or release.
 
 Create the dependency-free `bastion-review` Rust library that evaluates a
 frozen, security-admitted digest-bound review packet without mutating its
-subject. Stop after the crate deterministically returns only typed `pass`,
-`hold`, or `reject` control dispositions, retains findings, conflicts,
+subject. Stop after the crate deterministically returns only typed
+`PassRecommended`, `Hold`, or `Reject` control dispositions, retains findings, conflicts,
 negative evidence, and dissent, and passes the exact bounded evidence suite.
 
 This bootstrap does not implement quantitative reproduction, domain analysis,
@@ -139,15 +139,22 @@ All public types are non-operational, domain-neutral review-control types:
   not generate or claim to cryptographically verify them.
 
 The evaluator borrows immutable input, creates a new decision, performs no
-I/O, reads no ambient state, and exposes no producer mutation. `Pass` requires
-current passed evidence, exact subject/context/security-admission/policy
-agreement, distinct producer/reviewer identities, exact equality between the
-  independently frozen policy sets and all seven supplied controlled sets,
+I/O, reads no ambient state, and exposes no producer mutation.
+`PassRecommended` requires exactly one current `Passed` evidence record for
+every expected method and no other current method/state, exact subject/context/
+security-admission/policy agreement, distinct producer/reviewer identities,
+and exact equality between the independently frozen policy sets and all seven
+supplied controlled sets,
 zero failed gate or open conflict, zero incomplete
 defer, and zero unresolved critical/major finding. Minor/editorial findings remain visible and
 explicitly dispositioned. The model has no free-form text, content, product,
 HND/terminal/release-request, or authority-effect field. Identifiers are opaque
 references whose external meaning is never interpreted as evidence or authority.
+
+Every non-passing evidence state blocks recommendation: `Planned`, `Absent`,
+`Executed`, `Stale`, `Conflicted`, `Held`, or `Superseded` yields `Hold`;
+`Failed` or `Rejected` yields `Reject`. Mixed states, duplicate records for one
+method, and unexpected methods block before convergence.
 
 ## 5. Determinism and finite bounds
 
@@ -220,15 +227,18 @@ append-preserved prior finding/defer/dissent/negative
 evidence; deterministic permutation; immutable repeat evaluation; valid
 Identifier and Digest256 lower/upper constructor boundaries.
 
-Fail-closed cases: subject/context/admission mismatch; zero or non-current
-evidence; omitted or extra member in each evidence/derivation/negative-case/
+Fail-closed cases: subject/context/admission mismatch; zero evidence; each
+planned/absent/executed/failed/stale/conflicted/held/rejected/superseded state
+alone and mixed with passed evidence; duplicate/unexpected evidence method;
+omitted or extra member in each evidence/derivation/negative-case/
 unresolved-question/trace/role/assurance set; required-set binding or digest
 substitution; each derivation/negative-case/unresolved-question bound plus one;
 self-approval/conflict; missing/duplicate role; missing/failed gate;
 policy ID/digest/version mismatch; context/admission-only substitution in
 evidence, finding, role, or assurance records;
 record ID/content-digest/version/predecessor substitution; non-monotone/broken
-successor; missing/mismatched/forged external acceptance receipt; attempted
+successor; missing/mismatched acceptance receipt or controller bond (external
+authenticity remains governance evidence outside this crate); attempted
 caller assertion of accepted/superseded state (structurally absent);
 incomplete finding/defer; open conflict; open critical/major; orphan/duplicate/
 stale trace; planned-as-executed evidence; false approval; duplicate ID; every
