@@ -84,12 +84,14 @@ All public types are non-operational, domain-neutral review-control types:
 - `FindingDisposition`: `Open`, `Remediated`, `Deferred`, `AcceptedRisk`, or
   `Rejected`.
 - `Finding`: stable ID, reviewed digest, role, severity, affected claim,
-  evidence IDs, disposition, owner, destination, substantive closure,
-  independence, and retained dissent IDs.
+  evidence IDs, disposition, owner, destination, controlled closure-condition
+  ID, independence, and retained dissent IDs. Closure content stays in the
+  external controlled corpus and cannot enter this crate.
 - `RoleDecision` and `AssuranceDecision`: stable role/gate ID, independent
   reviewer ID, exact digests, and `Pass`, `Hold`, or `Reject` disposition.
 - `EvidenceConflict`: stable ID, both evidence IDs/digests, highest plausible
-  severity, owner, resolution trigger, and open/resolved state.
+  severity, owner, controlled resolution-trigger ID, and open/resolved state.
+  Trigger content remains external and unrepresentable here.
 - `TraceLink`: stable parent/child IDs and digests, owning stage, gate posture,
   evidence state, invalidation/supersession relation, and explicit next-stage
   non-authorizations; no domain value.
@@ -99,7 +101,7 @@ All public types are non-operational, domain-neutral review-control types:
   self-approval, reviewer conflict, missing role/assurance/trace, failed gate,
   evidence-free pass, absent/failed/stale/conflicted evidence, incomplete
   finding/defer, orphan/duplicate trace, open conflict, open critical/major,
-  false approval, invalid bound, and prohibited authority request.
+  false approval, invalid bound, and prohibited input surface.
 - `ReviewDecision`: `Pass`, `Hold`, or `Reject`, bound to unchanged digests and
   containing deterministically sorted blocker, finding, conflict, trace, and
   dissent IDs.
@@ -109,10 +111,10 @@ I/O, reads no ambient state, and exposes no producer mutation. `Pass` requires
 current passed evidence, exact subject/context/security-admission agreement,
 distinct producer/reviewer identities, every required role, assurance, and
 trace link, zero failed gate or open conflict, zero incomplete defer, and zero
-unresolved critical/major finding. Minor/editorial findings remain visible and
-explicitly dispositioned. Advocacy, credentials, classified appeal, HND/
-terminal/release request, or operational content is rejected rather than
-converted into evidence or authority.
+  unresolved critical/major finding. Minor/editorial findings remain visible and
+explicitly dispositioned. The model has no free-form text, content, product,
+HND/terminal/release-request, or authority-effect field. Identifiers are opaque
+references whose external meaning is never interpreted as evidence or authority.
 
 ## 5. Determinism and finite bounds
 
@@ -122,8 +124,8 @@ Constructors enforce before allocation-dependent work:
   IDs, 256 conflicts, 128 required roles, 128 role decisions, 32 assurance
   gates, 32 assurance decisions, and 128 evidence/dissent references per
   finding;
-- each identifier at most 128 bytes and closure/trigger text at most 4,096
-  ASCII bytes; aggregate caller-supplied review text at most 1 MiB;
+- each identifier at most 128 bytes; there is no free-form text or payload
+  field, and closure/trigger content is referenced only by `Identifier`;
 - generation is `u64` and never incremented inside review;
 - no recursion, threads, async, retry, randomness, locale, clock, filesystem
   order, map/set iteration, parser, or unsafe code; and
@@ -131,9 +133,9 @@ Constructors enforce before allocation-dependent work:
   before convergence evaluation.
 
 The evaluator uses bounded loops over caller-owned slices and result vectors.
-One maximum-cardinality evaluation must stay below 64 MiB additional heap.
-Evidence commands enforce 60 seconds wall time, 1 GiB process-tree memory,
-and 10 MiB combined generated output per run.
+The accepted executable memory bound is the evidence runner's enforced 1 GiB
+process-tree ceiling; no lower unmeasured heap claim is made. Evidence commands
+also enforce 60 seconds wall time and 10 MiB combined generated output per run.
 
 ## 6. Exact command bindings
 
@@ -152,13 +154,13 @@ Its SHA-256 is fixed at implementation review before evidence runs. Invocation:
 | `CMD-L1-WORKSPACE-CHECK` | `L1WorkspaceCheck` | `cargo +1.95.0 check --workspace --locked --offline --all-targets` |
 | `CMD-L1-LINT` | `L1Clippy` | `cargo +1.95.0 clippy --workspace --locked --offline --all-targets -- -D warnings` |
 | `CMD-L1-TEST` | `L1Test` | `cargo +1.95.0 test --workspace --locked --offline` |
-| `CMD-L1-DOC` | `L1Doc` | `cargo +1.95.0 doc --workspace --locked --offline --no-deps` plus doctests |
-| `CMD-L1-STATIC` | `L1Static` | fail on unsafe/FFI, panic escapes, unwrap/expect/todo/unimplemented, recursion, I/O, ambient state, operational terms/payloads, forbidden paths, or producer dependency on `bastion-review` |
+| `CMD-L1-DOC` | `L1Doc` | `cargo +1.95.0 doc --workspace --locked --offline --no-deps`, then `cargo +1.95.0 test -p bastion-review --doc --locked --offline` |
+| `CMD-L1-STATIC` | `L1Static` | fail on unsafe/FFI, panic escapes, unwrap/expect/todo/unimplemented, recursion, I/O, ambient state, any free-form/content/product/authority-effect field, forbidden paths, or producer dependency on `bastion-review` |
 | `CMD-L1-SUPPLY-CHAIN` | `L1SupplyChain` | Cargo metadata/lock assertion: one workspace package, zero external/transitive dependency, feature, build, proc-macro, native, registry, git, or path dependency |
 | `CMD-L2-CONTRACT-MATRIX` | `L2Contract` | execute every required `CONTRACT-TEST-001` and `CONTRACT-TRACE-001` bootstrap partition |
 | `CMD-L2-MODEL` | `L2Model` | exhaustive bounded state/trace/convergence cases and deterministic permutation equality |
 | `CMD-L2-ADVERSARIAL` | `L2Adversarial` | stale/mismatch, self-approval, conflict, missing role/gate/trace, false-pass, duplicate/oversize, advocacy/classified-appeal substitution, dissent/defer attacks |
-| `CMD-L2-NO-EMISSION` | `L2NoAuthority` | prove no I/O, operational payload, HND/TERM/REL/Taxlane output, product value, or authority-returning surface |
+| `CMD-L2-NO-EMISSION` | `L2NoAuthority` | prove no free-form or product payload, I/O, HND/TERM/REL/Taxlane output/request, product value, or authority-returning surface |
 
 All modes emit `review-gate-evidence.v1` JSON binding repository, WP, mode,
 implementation/acceptance/WP/runner/toolchain/manifest/lock digests, exact argv
@@ -178,8 +180,9 @@ evidence; self-approval/conflict; missing/duplicate role; missing/failed gate;
 incomplete finding/defer; open conflict; open critical/major; orphan/duplicate/
 stale trace; planned-as-executed evidence; false approval; duplicate ID; every
 bound plus one; erased dissent/negative result; advocacy, credentials, or
-inaccessible classified appeal as evidence; operational/targeting/
-vulnerability content marker; HND/TERM/REL/Taxlane/official-use request;
+inaccessible classified appeal represented as evidence; payload insertion
+through every identifier constructor; attempted HND/TERM/REL/Taxlane/
+official-use field or effect (structurally absent);
 subject mutation; dependency/unsafe/I/O/producer-backedge insertion.
 
 Exit requires all 13 command identities to pass at one implementation digest,
