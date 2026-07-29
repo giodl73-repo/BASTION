@@ -2,7 +2,8 @@
 
 ## 1. Status and authority
 
-Status: `proposed; planning fixed-point candidate; no validation executed`.
+Status: `accepted planning fixed point; WP-WS-001 coordination/no-semantics
+validation complete; no product validation executed`.
 
 Assignment: `ASG-BASTION-VV-PLANNING-001`.
 

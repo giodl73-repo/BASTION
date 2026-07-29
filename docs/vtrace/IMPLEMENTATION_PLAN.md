@@ -12,14 +12,15 @@ record, mission/force/procurement decision, budget, allocation, rate, Taxlane
 mutation, HND emission, release, official use, or public claim.
 
 The companion `WORK_PACKAGES.md` is an allocation and gate register, not an
-accepted work package. Prospective `CHG-BA-TST-BOOT-002` changes only the
-future pure-scaffold eligibility described in sections 5 and 11.
-Implementation remains blocked until accepted
-digest-bound `VERIFICATION.md` and `VALIDATION.md` fixed points exist, every
-applicable hold is closed by its fixed owner except where an open hold is the
-explicit input to a no-emission proof, and the exact WP, representation,
-resource bounds, safe fixtures, toolchain, dependencies, commands, rollback,
-and assurance decisions are independently accepted.
+accepted work package. Accepted historical `CHG-BA-TST-BOOT-002` established
+only the pure-scaffold eligibility described in sections 5 and 11. The V&V
+planning fixed points and `WP-WS-001` exit are complete; `WP-REV-001` and
+`WP-TST-001` may now seek separate exact acceptance. Semantic implementation
+remains blocked until every applicable hold is closed by its fixed owner
+except where an open hold is the explicit input to a no-emission proof, and
+the exact WP, representation, resource bounds, safe fixtures, toolchain,
+dependencies, commands, rollback, and assurance decisions are independently
+accepted.
 
 ## 2. Frozen baseline
 
@@ -76,7 +77,7 @@ Within `WP-IMPLEMENTATION`, `WP-WS-001` is complete, `WP-REV-001` and
 
 | WP | Fixed boundary/touch | Coherent planned result | Current disposition |
 |---|---|---|---|
-| `WP-VV-001` | VTRACE planning only | Accepted VERIFICATION and VALIDATION plans with exact method, command, evidence, assurance, and decision registries | `discovery`; planning only |
+| `WP-VV-001` | VTRACE planning only | Accepted VERIFICATION and VALIDATION plans with exact method, command, evidence, assurance, and decision registries | `complete`; accepted planning fixed point |
 | `WP-WS-001` | `PB-WS-001` | Empty policy-bearing workspace skeleton with no semantics | `complete` |
 | `WP-CST-001` | `PB-CST-001` + `PB-REV-001` / `PB-TST-001` sidecars | Public-aggregate source/security admission, immutable custody, safe rejection, and exact-output re-admission | `block` |
 | `WP-AUT-001` | `PB-AUT-001` + `PB-REV-001` / `PB-TST-001` sidecars | Bounded civilian mission/authority abstraction re-admitted through SOURCE | `block` |
@@ -293,7 +294,7 @@ transposes are zero-orphan; rollback is proven; and authority remains bounded.
 `WP-TST-001` may now seek separate exact acceptance. No semantic hold is closed
 and no waiver is accepted.
 
-The section 3.3.2 transpose supplies the sole prospective bootstrap exception:
+The section 3.3.2 transpose supplies the accepted bootstrap exception:
 WS has no TST relationship; REV and TST may carry the open TST pair only as a
 proof input in their pure bootstrap scopes after accepted WS exit. This does
 not waive criteria 1, 2, 4, 5, or 6, does not waive any other blocker, and does

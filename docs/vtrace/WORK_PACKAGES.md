@@ -21,7 +21,7 @@ gates and exact aliases in
 
 | WP | Exact boundary/slice | Smallest coherent deliverable | Exact predecessors | Status |
 |---|---|---|---|---|
-| `WP-VV-001` | VTRACE planning only | Fixed VERIFICATION and VALIDATION plans and registries | frozen baseline | `discovery` |
+| `WP-VV-001` | VTRACE planning only | Fixed VERIFICATION and VALIDATION plans and registries | frozen baseline | `complete; accepted planning fixed point` |
 | `WP-WS-001` | `PB-WS-001` | Empty workspace policy skeleton | `WP-VV-001` | `complete; accepted` |
 | `WP-REV-001` | `PB-REV-001` plus `PB-WS-001` membership integration | Empty review/evidence-state scaffold only | `WP-WS-001` | `proposed; acceptance_ready` |
 | `WP-TST-001` | `PB-TST-001`, `PB-FIX-001` plus `PB-WS-001` membership integration | Empty isolated harness and assigned fixture-custody scaffold only | `WP-WS-001` | `proposed; acceptance_ready` |
@@ -143,9 +143,9 @@ and `TBD-HND-001`. `TBD-REL-001` is not in that set, never becomes an HND-
 emission prerequisite, and remains blocking only for the separate future
 release chain.
 
-Accepted historical `CHG-BA-TST-001` permits planning-only VERIFICATION
-authoring. Prospective `CHG-BA-TST-BOOT-002` proposes the exact bootstrap
-allocation above: the TST pair remains open; it blocks every semantic/product
+Accepted historical `CHG-BA-TST-001` permitted planning-only VERIFICATION
+authoring. Accepted historical `CHG-BA-TST-BOOT-002` established the exact
+bootstrap allocation above: the TST pair remains open; it blocks every semantic/product
 WP plus GEN, DOC, and INT; it is a proof input only for pure REV/TST bootstrap;
 and WS has no TST relationship. Neither change closes either paired identity.
 

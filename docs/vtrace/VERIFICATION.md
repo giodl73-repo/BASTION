@@ -2,7 +2,8 @@
 
 ## 1. Status and authority
 
-Status: `proposed; planning fixed-point candidate; no executed evidence`.
+Status: `accepted planning fixed point; WP-WS-001 evidence executed and
+accepted; later-WP evidence absent`.
 
 Assignment: `ASG-BASTION-VV-PLANNING-001`.
 
@@ -439,9 +440,10 @@ gates. `L0/L1/L2` means required future evidence; `N/A-P` is planning-only.
 
 ### 8.1 Acyclic scaffold acceptance and entry exception
 
-Under prospective `CHG-BA-TST-BOOT-002`, the only pre-producer path is exact
-and acyclic. The change and this plan are still candidates, so no step is
-currently eligible:
+Under accepted historical `CHG-BA-TST-BOOT-002`, the only pre-producer path is
+exact and acyclic. The V&V fixed points and `WP-WS-001` exit are complete;
+`WP-REV-001` and `WP-TST-001` are now eligible only for separate exact
+acceptance decisions:
 
 1. Both V&V plans first receive independent fixed-point decisions. That event
    accepts neither a WP nor evidence.
@@ -515,8 +517,10 @@ independent recheck.
 
 ## 12. Planning disposition
 
-This verification plan is review-ready as a governance-only fixed-point
-candidate. All method and command slots are planned and unexecuted. All 13
-holds remain open; `TBD-TST-001` and `SPEC-UNK-TST-001` are not closed. No WP
-is accepted. Implementation readiness remains blocked, and no code, HND
-emission, Taxlane action, release, official use or public action is authorized.
+This verification plan is an accepted governance-only planning fixed point.
+`WP-WS-001` commands and evidence are executed and accepted; later-WP command
+bindings and evidence remain absent pending separate acceptance. All 13 holds
+remain open; `TBD-TST-001` and `SPEC-UNK-TST-001` are not closed.
+`WP-REV-001` and `WP-TST-001` are acceptance-ready, while the 16 semantic and
+later support/integration WPs remain blocked. No semantic code, HND emission,
+Taxlane action, release, official use or public action is authorized.

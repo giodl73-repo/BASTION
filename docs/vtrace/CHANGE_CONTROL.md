@@ -6,12 +6,12 @@ Repo: BASTION
 
 Assignment: `ASG-BASTION-TST-GOVERNANCE-001`
 
-State: **review-ready governance tailoring; not a fixed point or downstream
-authorization**.
+State: **accepted historical governance tailoring plus current workspace-
+membership reconciliation; no downstream authority**.
 
 This file controls the original stage-term tailoring decision needed to remove
-the governance deadlock recorded as `BA-DES-M03` and one prospective bootstrap
-successor correction. It does not edit, supersede,
+the governance deadlock recorded as `BA-DES-M03` and one accepted historical
+bootstrap successor correction. It does not edit, supersede,
 silently reinterpret, or retroactively change any fixed upstream artifact. It
 does not close `TBD-TST-001` or `SPEC-UNK-TST-001`, select any held method, or
 create verification, validation, implementation, work-package, handoff,
@@ -36,7 +36,7 @@ authority.
 | Change ID | Date | Reason | Affected IDs | Decision | Reviewer / lens | Trace updates |
 |---|---|---|---|---|---|---|
 | `CHG-BA-TST-001` | 2026-07-28 | Resolve the circular stage reading in which the exact TST method is destined for a Verification plan while a literal unscoped reading of “fixed point and every downstream stage” would prohibit authoring that planning artifact. | Exact inventory below, including `BA-DES-M03`, TST/VTR requirements, specifications and planned verification identities, REV allocation, TEST/TRACE contracts, and stage-status/gate text | Controlled prospective stage-term tailoring proposed and review-ready; author remediation complete, independent convergence required | Independent Test & Oversight; Role review steward; BASTION maintainer/stage controller; Scope, Citation, Numeracy, Civilian Control/Law/Safety/Readiness, Classification/Operational Security, and Methodology Panel lenses | Bind successor DESIGN and Pulse 07 to this exact change digest; any later VERIFICATION artifact must cite this change and remain planning-only until separately accepted |
-| `CHG-BA-TST-BOOT-002` | 2026-07-29 | Remove the remaining circular implementation-planning reading in which the TST held pair blocks entry to the pure REV/TST scaffolds needed to execute the independent bootstrap fixtures that alone can close it. | `TBD-TST-001`; `SPEC-UNK-TST-001`; `WP-WS-001`; `WP-REV-001`; `WP-TST-001`; exact hold blocker/proof transposes; PLAN/WP and V&V successor digests; Pulses 09/10 | Prospective governance-only bootstrap allocation proposed and review-ready; no current acceptance, entry, execution, evidence, or closure | Same independent test, review, stage-controller, scope, citation, numeracy, assurance, and methodology lenses as `CHG-BA-TST-001` | Bind review-ready PLAN/WP successors, superseding Pulse 09 candidate record, rebound V&V successors, and Pulse 10; preserve all other allocations |
+| `CHG-BA-TST-BOOT-002` | 2026-07-29 | Remove the remaining circular implementation-planning reading in which the TST held pair blocks entry to the pure REV/TST scaffolds needed to execute the independent bootstrap fixtures that alone can close it. | `TBD-TST-001`; `SPEC-UNK-TST-001`; `WP-WS-001`; `WP-REV-001`; `WP-TST-001`; exact hold blocker/proof transposes; PLAN/WP and V&V successor digests; Pulses 09/10 | Accepted historical governance-only bootstrap allocation; it subsequently enabled accepted V&V planning, completed `WP-WS-001`, and current separate REV/TST acceptance eligibility; no hold closure or semantic authority | Same independent test, review, stage-controller, scope, citation, numeracy, assurance, and methodology lenses as `CHG-BA-TST-001` | Bound successor PLAN/WP and V&V fixed points and the completed WS path; preserve all other allocations |
 | `CHG-BA-WS-MEM-003` | 2026-07-29 | Reconcile accepted empty `WP-WS-001` exit with deterministic later member creation. | `PB-WS-001`; first-member WPs; PLAN/WP/status ledgers | Assign configuration-only membership integration to the exact first WP for each Rust boundary; require ACQ before LOG/ALLY so ACQ deterministically creates `PB-DOM-001` | Independent test, review, stage-controller, scope, security, civilian-control, and VTRACE lenses | Bind successor PLAN/WP digests; no semantic/runtime edge, hold closure, HND emission, release, or authority |
 
 ## Exact impact inventory
@@ -50,7 +50,7 @@ authority.
 | Logical / physical allocation | `ARC-REV-001`; `PB-REV-001` | Ownership and package direction unchanged; no edge added. |
 | Contracts | `CONTRACT-TEST-001`; `CONTRACT-TRACE-001` | Consumer, posture, blocker, and failure semantics unchanged. |
 | Design decisions | `DES-TEST-001`; `DES-TRACE-001` | Exact hold sets and product/review procedures unchanged; only stage eligibility is clarified. |
-| Finding and stage text | `BA-DES-M03`; DESIGN migration/readiness text; Pulse 07 finding/stage disposition; future VERIFICATION eligibility/gate text | Replaces deadlock with the prospective planning-only path and records no downstream pass. |
+| Finding and stage text | `BA-DES-M03`; DESIGN migration/readiness text; Pulse 07 finding/stage disposition; future VERIFICATION eligibility/gate text | Replaced the deadlock with a then-prospective, now accepted historical planning-only path; it records no semantic downstream pass. |
 | Terminal impact check only | `IF-TERM-001`; `CONTRACT-HND-001`; `ARC-HND-001`; `PB-HND-001`; `DES-HND-001` | Checked because TEST participates in the terminal gate. No semantic input, consumer, receipt, HND, Taxlane, or graph edge changes; the finite terminal branch remains exact. |
 
 Every one of the 13 inherited `TBD-*` / `SPEC-UNK-*` pairs remains open. No
@@ -228,12 +228,12 @@ following occurs:
 Any trigger fails closed. It does not retroactively rewrite the controlled
 history.
 
-## `CHG-BA-TST-BOOT-002` prospective bootstrap successor
+## `CHG-BA-TST-BOOT-002` accepted historical bootstrap successor
 
 ### Exact controlled decision
 
 The original change permits planning the TST method but does not by itself
-make the method executable. This successor proposes the minimum acyclic
+make the method executable. This successor established the minimum acyclic
 allocation needed for later independent execution:
 
 1. `TBD-TST-001` / `SPEC-UNK-TST-001` remains open and blocks exactly
@@ -293,16 +293,18 @@ set, implied current acceptance, plan-as-evidence statement, missing fixture
 execution, or semantic use of bootstrap output invalidates this successor and
 holds the entire path.
 
-## Open changes
+## Historical review questions and current disposition
 
 | Change ID | Blocking question | Owner | Due / trigger |
 |---|---|---|---|
-| `CHG-BA-TST-001` | Will independent digest-bound review accept this stage-term tailoring with zero unresolved critical or major findings? | BASTION maintainer and Role review steward, with Independent Test and Oversight concurrence | Before DESIGN fixed-point disposition or any use of the planning-only VERIFICATION exception |
-| `CHG-BA-TST-BOOT-002` | Will independent digest-bound review accept the exact 134-blocker/10-proof bootstrap allocation without a producer, evidence, hold, or authority bypass? | BASTION maintainer and Role review steward, with Independent Test and Oversight concurrence | Before recording any successor PLAN/WP or V&V fixed point or considering WS acceptance |
+| `CHG-BA-TST-001` | Historical question: would independent digest-bound review accept this stage-term tailoring with zero unresolved critical or major findings? | BASTION maintainer and Role review steward, with Independent Test and Oversight concurrence | `closed; accepted before the DESIGN/V&V successor path` |
+| `CHG-BA-TST-BOOT-002` | Historical question: would independent digest-bound review accept the exact 134-blocker/10-proof bootstrap allocation without a producer, evidence, hold, or authority bypass? | BASTION maintainer and Role review steward, with Independent Test and Oversight concurrence | `closed; accepted before V&V fixed points and WP-WS-001` |
 
 ## Disposition
 
-`CHG-BA-TST-001` remains the historical bounded stage-tailoring decision.
-`CHG-BA-TST-BOOT-002` is a **review-ready prospective successor candidate**,
-subject to independent convergence. It closes no TBD or SPEC-UNK, accepts no
-WP, records no evidence, and authorizes no downstream action.
+`CHG-BA-TST-001` remains the accepted historical bounded stage-tailoring
+decision. `CHG-BA-TST-BOOT-002` remains the accepted historical bootstrap
+allocation that enabled, but did not itself accept, the later V&V and WS
+fixed points. Neither closes a TBD or SPEC-UNK, supplies semantic evidence, or
+authorizes downstream action. Current REV/TST eligibility still requires a
+separate exact WP acceptance decision.
