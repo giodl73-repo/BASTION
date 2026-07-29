@@ -1,4 +1,4 @@
-# WP-TST-001-R3 — linearly entered boundary-test and fixture-custody bootstrap
+# WP-TST-001-R4 — closed-evidence boundary-test and fixture-custody bootstrap
 
 Status: `proposed; acceptance_candidate; not_accepted; not_entered`
 
@@ -10,14 +10,14 @@ configuration-only membership integration in `PB-WS-001`
 Logical WP predecessor: accepted `WP-WS-001` exit only. R1 commit
 `62116481b7b3e7d671517b6053c8cc3f20f93fce` and R2 commit
 `21c8066445c72358a444c0b506422ec3b9dc63e0` are retained governance history.
-After R3 acceptance, the entry commit and its direct implementation successor
+After R4 acceptance, the entry commit and its direct implementation successor
 must remain on the current governance/main lineage. Accepted REV is only a
 context co-member: workspace co-membership and Git ancestry are explicitly not
 WP-predecessor or dependency relationships.
 
 ## 1. Controlled baseline and custody
 
-The future acceptance commit must descend from R3 on current main; the entry
+The future acceptance commit must descend from R4 on current main; the entry
 commit must be its direct governance successor; and the one implementation
 commit must be the direct child of entry. Accepted `WP-WS-001` exit
 `cd1f1d75ec312789fed63a265219d8ad9069a17a` remains the sole logical WP
@@ -31,7 +31,9 @@ predecessor digest, or Cargo edge holds acceptance and entry.
 | Retained R1 WP SHA-256 | `93ea15ea87b140b7e45ae67db5a4133e24e8f18778db1ce41a891042b1157554` |
 | Retained R2 governance commit (not accepted) | `21c8066445c72358a444c0b506422ec3b9dc63e0` |
 | Retained R2 WP SHA-256 / blob | `4ecd246d67bb5d07c94496a9975c99cdc8488295e8e74235be29391b3725e146` / `47687aff86c392b7e30b237de1015b9d304d4fc4` |
-| Current R3 governance-line base before acceptance | `21c8066445c72358a444c0b506422ec3b9dc63e0` |
+| Retained R3 governance commit (not accepted) | `ae64448e98744668e3b80e3411255503bfbdd4ae` |
+| Retained R3 WP SHA-256 / blob | `76f259e3189cbb53be5e88b84dc922a13673ec52572efbe842f55fe85a67c2ae` / `655f38734b4f52ed7ff740fd2117c3cd5916f977` |
+| Current R4 governance-line base before acceptance | `ae64448e98744668e3b80e3411255503bfbdd4ae` |
 | Context-only accepted REV exit | `ab227cc06f15299b594cfe2be99915bd93c4c081` |
 | Context-only accepted REV implementation commit / SHA-256 | `5c4e96306d3c463a44be7621371759da8bca399b` / `c5c2df1178568cd49b5d721cd01cba7cce3371e049528e07bad30d6b3324ea72` |
 | Context-only accepted REV evidence-set SHA-256 / tree | `b95beff569794125018f2fde3d4d3317ed32278dfcfb1fc22a7d25cf51226bd9` / `d554c8c0c3d534aa96924f085a4dc007b25e3a3c` |
@@ -275,7 +277,7 @@ across the complete mode.
 | `CMD-L1-TEST` | `L1Test` | `cargo +1.95.0 test --workspace --locked --offline` |
 | `CMD-L1-DOC` | `L1Doc` | `cargo +1.95.0 doc --workspace --locked --offline --no-deps`, then `cargo +1.95.0 test --workspace --doc --locked --offline` |
 | `CMD-L1-STATIC` | `L1Static` | `cargo +1.95.0 test -p bastion-boundary-tests --locked --offline --test static_surface`, then exact source/path/dependency-direction assertions |
-| `CMD-L1-SUPPLY-CHAIN` | `L1SupplyChain` | `cargo +1.95.0 metadata --locked --offline --no-deps --format-version 1`, then assert exactly `bastion-boundary-tests` and unchanged `bastion-review`, both zero-dependency nodes, zero graph edges, and invariant TST node after in-memory REV-node removal |
+| `CMD-L1-SUPPLY-CHAIN` | `L1SupplyChain` | `cargo +1.95.0 metadata --locked --offline --no-deps --format-version 1`, then assert exactly `bastion-boundary-tests` and unchanged `bastion-review`, both zero-dependency nodes, zero graph edges, invariant TST after in-memory REV-node removal, zero third-party license subjects, and no registry/git/advisory dependency surface |
 | `CMD-L2-SOURCE-SPINE` | `L2SourceSpine` | `cargo +1.95.0 test -p bastion-boundary-tests --locked --offline --test source_spine` |
 | `CMD-L2-CONTRACT-MATRIX` | `L2Contract` | `cargo +1.95.0 test -p bastion-boundary-tests --locked --offline --test contract_matrix` |
 | `CMD-L2-PROPERTY` | `L2Property` | `cargo +1.95.0 test -p bastion-boundary-tests --locked --offline --test property_cases` |
@@ -367,16 +369,17 @@ lint with warnings denied, offline supply-chain closure, and exact rollback
 surface. Case labels in evidence may state only an assertion or test target
 that actually executed.
 
-### 7.1 Exact canonical forward trace
+### 7.1 Exact canonical forward edges
 
 `support/mod.rs` contains one canonical, bytewise-sorted trace manifest. Each
-row below has exactly one controlled identity, one target/assertion, and one
-consuming evidence mode. Paired identities, aliases, ranges, shorthand, and
-names ending in `bootstrap` are invalid. Every row binds the exact digest of
-its controlled source and every evidence record binds the trace-manifest
-SHA-256.
+row below is one edge with exactly one controlled identity, one assertion that
+actually executes, and one consuming evidence mode. An identity repeats only
+when distinct modes execute distinct allocated obligations. Paired cells,
+aliases, ranges, shorthand, count-driven assignment, and names ending in
+`bootstrap` are invalid. Every edge binds the exact controlled-source digest,
+and every evidence record binds the trace-manifest SHA-256.
 
-| Canonical controlled identity | Exact target / assertion | Evidence mode |
+| Canonical controlled identity | Exact executed target / assertion | Evidence mode |
 |---|---|---|
 | `BASTION-REQ-TST-001` | `source_spine::trace_bastion_req_tst_001` | `L2SourceSpine` |
 | `BASTION-REQ-TST-002` | `property_cases::trace_bastion_req_tst_002` | `L2Property` |
@@ -410,44 +413,69 @@ SHA-256.
 | `DES-REL-001` | `no_authority_surface::trace_des_rel_001` | `L2NoAuthority` |
 | `CONTRACT-TEST-001` | `contract_matrix::trace_contract_test_001` | `L2Contract` |
 | `CONTRACT-REL-001` | `no_authority_surface::trace_contract_rel_001` | `L2NoAuthority` |
-| `CR-002` | `static_surface::trace_cr_002` | `L1Static` |
-| `CR-003` | `test_gate::trace_cr_003` | `L1SupplyChain` |
-| `CR-004` | `static_surface::trace_cr_004` | `L1Static` |
-| `CR-005` | `test_gate::trace_cr_005` | `L1SupplyChain` |
-| `CR-006` | `static_surface::trace_cr_006` | `L1Static` |
-| `CR-008` | `test_gate::trace_cr_008` | `L1SupplyChain` |
-| `CR-009` | `static_surface::trace_cr_009` | `L1Static` |
-| `CR-010` | `test_gate::trace_cr_010` | `L1SupplyChain` |
-| `CR-011` | `static_surface::trace_cr_011` | `L1Static` |
-| `CR-012` | `test_gate::trace_cr_012` | `L1SupplyChain` |
-| `CR-013` | `static_surface::trace_cr_013` | `L1Static` |
-| `CR-014` | `test_gate::trace_cr_014` | `L1SupplyChain` |
-| `CR-015` | `static_surface::trace_cr_015` | `L1Static` |
-| `CR-016` | `test_gate::trace_cr_016` | `L1SupplyChain` |
-| `CR-017` | `static_surface::trace_cr_017` | `L1Static` |
-| `CR-018` | `test_gate::trace_cr_018` | `L1SupplyChain` |
-| `CR-019` | `static_surface::trace_cr_019` | `L1Static` |
-| `CR-020` | `test_gate::trace_cr_020` | `L1SupplyChain` |
-| `CR-021` | `static_surface::trace_cr_021` | `L1Static` |
-| `CR-022` | `test_gate::trace_cr_022` | `L1SupplyChain` |
-| `CR-023` | `static_surface::trace_cr_023` | `L1Static` |
-| `CR-024` | `test_gate::trace_cr_024` | `L1SupplyChain` |
-| `CR-025` | `static_surface::trace_cr_025` | `L1Static` |
-| `CR-026` | `test_gate::trace_cr_026` | `L1SupplyChain` |
-| `CR-027` | `static_surface::trace_cr_027` | `L1Static` |
-| `CR-028` | `test_gate::trace_cr_028` | `L1SupplyChain` |
-| `CR-029` | `static_surface::trace_cr_029` | `L1Static` |
-| `CR-030` | `test_gate::trace_cr_030` | `L1SupplyChain` |
-| `CR-031` | `static_surface::trace_cr_031` | `L1Static` |
-| `CR-032` | `test_gate::trace_cr_032` | `L1SupplyChain` |
-| `CR-033` | `static_surface::trace_cr_033` | `L1Static` |
-| `CR-034` | `test_gate::trace_cr_034` | `L1SupplyChain` |
-| `CR-035` | `static_surface::trace_cr_035` | `L1Static` |
-| `CR-036` | `test_gate::trace_cr_036` | `L1SupplyChain` |
-| `CR-037` | `static_surface::trace_cr_037` | `L1Static` |
-| `CR-038` | `test_gate::trace_cr_038` | `L1SupplyChain` |
-| `CR-039` | `static_surface::trace_cr_039` | `L1Static` |
-| `CR-040` | `test_gate::trace_cr_040` | `L1SupplyChain` |
+| `CR-002` | `contract_matrix::cr_002_logical_contract` | `L2Contract` |
+| `CR-002` | `source_spine::cr_002_logical_responsibility` | `L2SourceSpine` |
+| `CR-003` | `adversarial_cases::cr_003_typed_failure_rejection` | `L2Adversarial` |
+| `CR-003` | `contract_matrix::cr_003_typed_branch_totality` | `L2Contract` |
+| `CR-004` | `adversarial_cases::cr_004_exhaustion_failure` | `L2Adversarial` |
+| `CR-004` | `property_cases::cr_004_finite_bounds_progress` | `L2Property` |
+| `CR-005` | `static_surface::cr_005_call_graph_depth` | `L1Static` |
+| `CR-005` | `adversarial_cases::cr_005_termination_violation` | `L2Adversarial` |
+| `CR-006` | `adversarial_cases::cr_006_hidden_failure_scan` | `L2Adversarial` |
+| `CR-006` | `model_cases::cr_006_invalid_state` | `L2Model` |
+| `CR-008` | `adversarial_cases::cr_008_default_fallback_rejection` | `L2Adversarial` |
+| `CR-008` | `hold_closure::cr_008_missing_default_hold` | `L2HoldClosure` |
+| `CR-009` | `contract_matrix::cr_009_typed_family_exhaustiveness` | `L2Contract` |
+| `CR-009` | `model_cases::cr_009_typed_state_exhaustiveness` | `L2Model` |
+| `CR-010` | `no_authority_surface::cr_010_release_exception_no_output` | `L2NoAuthority` |
+| `CR-010` | `property_cases::cr_010_universal_admission_bypass` | `L2Property` |
+| `CR-011` | `model_cases::cr_011_replay_identity` | `L2Model` |
+| `CR-011` | `property_cases::cr_011_order_invariance` | `L2Property` |
+| `CR-011` | `source_spine::cr_011_digest_reproduction_order` | `L2SourceSpine` |
+| `CR-012` | `static_surface::cr_012_ambient_state_absence` | `L1Static` |
+| `CR-012` | `property_cases::cr_012_schedule_equivalence` | `L2Property` |
+| `CR-013` | `model_cases::cr_013_immutable_successor_acyclic` | `L2Model` |
+| `CR-014` | `static_surface::cr_014_consumer_direction` | `L1Static` |
+| `CR-014` | `test_gate::cr_014_fixed_dependency_graph` | `L1SupplyChain` |
+| `CR-015` | `adversarial_cases::cr_015_prohibited_content` | `L2Adversarial` |
+| `CR-015` | `contract_matrix::cr_015_content_boundary_provenance` | `L2Contract` |
+| `CR-016` | `adversarial_cases::cr_016_composition_minimization` | `L2Adversarial` |
+| `CR-017` | `adversarial_cases::cr_017_floor_noncompensation` | `L2Adversarial` |
+| `CR-017` | `no_authority_surface::cr_017_authority_noninflation` | `L2NoAuthority` |
+| `CR-018` | `property_cases::cr_018_facet_distribution_conservation` | `L2Property` |
+| `CR-019` | `hold_closure::cr_019_missing_null_hold` | `L2HoldClosure` |
+| `CR-019` | `model_cases::cr_019_state_null_na_stale` | `L2Model` |
+| `CR-020` | `model_cases::cr_020_checked_accounting` | `L2Model` |
+| `CR-020` | `property_cases::cr_020_reconciliation_identity` | `L2Property` |
+| `CR-021` | `adversarial_cases::cr_021_burden_shift_rejection` | `L2Adversarial` |
+| `CR-021` | `no_authority_surface::cr_021_false_savings_no_authority` | `L2NoAuthority` |
+| `CR-022` | `model_cases::cr_022_eco_delivery_adaptive_shape` | `L2Model` |
+| `CR-023` | `hold_closure::cr_023_finding_dissent_retention` | `L2HoldClosure` |
+| `CR-023` | `source_spine::cr_023_review_independence` | `L2SourceSpine` |
+| `CR-024` | `no_authority_surface::cr_024_terminal_no_output_backflow` | `L2NoAuthority` |
+| `CR-025` | `hold_closure::cr_025_hold_transpose_propagation` | `L2HoldClosure` |
+| `CR-026` | `source_spine::cr_026_invariant_coverage` | `L2SourceSpine` |
+| `CR-027` | `property_cases::cr_027_property_evidence_set` | `L2Property` |
+| `CR-028` | `model_cases::cr_028_transition_model_evidence` | `L2Model` |
+| `CR-029` | `adversarial_cases::cr_029_cross_role_adversarial` | `L2Adversarial` |
+| `CR-030` | `contract_matrix::cr_030_per_contract_fixture_matrix` | `L2Contract` |
+| `CR-031` | `static_surface::cr_031_parser_surface_absent` | `L1Static` |
+| `CR-031` | `adversarial_cases::cr_031_parser_fuzz_authority_absent` | `L2Adversarial` |
+| `CR-032` | `model_cases::cr_032_golden_successor_history` | `L2Model` |
+| `CR-032` | `property_cases::cr_032_regression_replay` | `L2Property` |
+| `CR-033` | `static_surface::cr_033_mode_isolation` | `L1Static` |
+| `CR-033` | `test_gate::cr_033_package_isolation` | `L1SupplyChain` |
+| `CR-034` | `no_authority_surface::cr_034_generated_no_emission` | `L2NoAuthority` |
+| `CR-034` | `source_spine::cr_034_generated_provenance_absence` | `L2SourceSpine` |
+| `CR-035` | `static_surface::cr_035_quality_gate_registry` | `L1Static` |
+| `CR-035` | `source_spine::cr_035_quality_output_binding` | `L2SourceSpine` |
+| `CR-036` | `test_gate::cr_036_dependency_license_advisory` | `L1SupplyChain` |
+| `CR-037` | `static_surface::cr_037_resource_bound_registry` | `L1Static` |
+| `CR-037` | `adversarial_cases::cr_037_resource_bound_failure` | `L2Adversarial` |
+| `CR-038` | `hold_closure::cr_038_waiver_ledger_nonwaiver` | `L2HoldClosure` |
+| `CR-039` | `hold_closure::cr_039_evidence_state_history` | `L2HoldClosure` |
+| `CR-039` | `source_spine::cr_039_evidence_digest_truth` | `L2SourceSpine` |
+| `CR-040` | `source_spine::cr_040_mechanical_trace_contradiction` | `L2SourceSpine` |
 | `VCL-01` | `source_spine::trace_vcl_01` | `L2SourceSpine` |
 | `VCL-02` | `contract_matrix::trace_vcl_02` | `L2Contract` |
 | `VCL-03` | `model_cases::trace_vcl_03` | `L2Model` |
@@ -502,66 +530,63 @@ SHA-256.
 | `SPEC-UNK-REL-001` | `hold_closure::trace_spec_unk_rel_001` | `L2HoldClosure` |
 | `TBD-REL-001` | `hold_closure::trace_tbd_rel_001` | `L2HoldClosure` |
 
-The forward identity count is mechanically derived as
+The unique-identity count remains mechanically derived as
 `9 requirements + 19 specifications + 4 design/contract identities + 38 CR
 identities + 10 VCL identities + 2 validation identities + 11 actor identities
 + 22 lane identities + 8 separate unknown/TBD identities = 123`. The 38 CR
-rows are exactly `CR-002` through `CR-006` and `CR-008` through `CR-040`,
-enumerated above; `CR-001` and `CR-007` are absent. R2's reviewer-side
-59-ID presence check was only a partial sampling assertion, is retired, and
-confers no completeness claim or authority in R3.
+identities are explicitly `CR-002`–`CR-006` and `CR-008`–`CR-040`;
+`CR-001` and `CR-007` are not allocated to this WP. Their 63
+edges are derived from each exact `CODE_RIGOR.md` planned-evidence obligation,
+not alternated for count. Total forward edges are 148.
 
-### 7.2 Exact canonical reverse transpose
+### 7.2 Exact CR command/evidence target lists
 
-The reverse representation has one row per consuming edge and repeats each
-canonical identity and target/assertion verbatim. Because every forward identity
-has exactly one consuming mode, the mechanically derived edge count is exactly
-123. Per-mode counts are `L1Static`=20, `L1SupplyChain`=19, `L2SourceSpine`=21, `L2Contract`=7, `L2Property`=8, `L2Model`=5, `L2Adversarial`=7, `L2HoldClosure`=13, `L2NoAuthority`=23.
+Each listed assertion is part of the named mode's executed assertion set and is
+reported in that mode's `executed_targets` evidence field. A mode may claim no
+other CR and may not omit one listed here.
 
-| Evidence mode | Canonical controlled identity | Exact target / assertion |
+| Evidence mode | Exact CR -> executed assertion list |
+|---|---|
+| `L1Static` | `CR-005` -> `static_surface::cr_005_call_graph_depth`; `CR-012` -> `static_surface::cr_012_ambient_state_absence`; `CR-014` -> `static_surface::cr_014_consumer_direction`; `CR-031` -> `static_surface::cr_031_parser_surface_absent`; `CR-033` -> `static_surface::cr_033_mode_isolation`; `CR-035` -> `static_surface::cr_035_quality_gate_registry`; `CR-037` -> `static_surface::cr_037_resource_bound_registry` |
+| `L1SupplyChain` | `CR-014` -> `test_gate::cr_014_fixed_dependency_graph`; `CR-033` -> `test_gate::cr_033_package_isolation`; `CR-036` -> `test_gate::cr_036_dependency_license_advisory` |
+| `L2SourceSpine` | `CR-002` -> `source_spine::cr_002_logical_responsibility`; `CR-011` -> `source_spine::cr_011_digest_reproduction_order`; `CR-023` -> `source_spine::cr_023_review_independence`; `CR-026` -> `source_spine::cr_026_invariant_coverage`; `CR-034` -> `source_spine::cr_034_generated_provenance_absence`; `CR-035` -> `source_spine::cr_035_quality_output_binding`; `CR-039` -> `source_spine::cr_039_evidence_digest_truth`; `CR-040` -> `source_spine::cr_040_mechanical_trace_contradiction` |
+| `L2Contract` | `CR-002` -> `contract_matrix::cr_002_logical_contract`; `CR-003` -> `contract_matrix::cr_003_typed_branch_totality`; `CR-009` -> `contract_matrix::cr_009_typed_family_exhaustiveness`; `CR-015` -> `contract_matrix::cr_015_content_boundary_provenance`; `CR-030` -> `contract_matrix::cr_030_per_contract_fixture_matrix` |
+| `L2Property` | `CR-004` -> `property_cases::cr_004_finite_bounds_progress`; `CR-010` -> `property_cases::cr_010_universal_admission_bypass`; `CR-011` -> `property_cases::cr_011_order_invariance`; `CR-012` -> `property_cases::cr_012_schedule_equivalence`; `CR-018` -> `property_cases::cr_018_facet_distribution_conservation`; `CR-020` -> `property_cases::cr_020_reconciliation_identity`; `CR-027` -> `property_cases::cr_027_property_evidence_set`; `CR-032` -> `property_cases::cr_032_regression_replay` |
+| `L2Model` | `CR-006` -> `model_cases::cr_006_invalid_state`; `CR-009` -> `model_cases::cr_009_typed_state_exhaustiveness`; `CR-011` -> `model_cases::cr_011_replay_identity`; `CR-013` -> `model_cases::cr_013_immutable_successor_acyclic`; `CR-019` -> `model_cases::cr_019_state_null_na_stale`; `CR-020` -> `model_cases::cr_020_checked_accounting`; `CR-022` -> `model_cases::cr_022_eco_delivery_adaptive_shape`; `CR-028` -> `model_cases::cr_028_transition_model_evidence`; `CR-032` -> `model_cases::cr_032_golden_successor_history` |
+| `L2Adversarial` | `CR-003` -> `adversarial_cases::cr_003_typed_failure_rejection`; `CR-004` -> `adversarial_cases::cr_004_exhaustion_failure`; `CR-005` -> `adversarial_cases::cr_005_termination_violation`; `CR-006` -> `adversarial_cases::cr_006_hidden_failure_scan`; `CR-008` -> `adversarial_cases::cr_008_default_fallback_rejection`; `CR-015` -> `adversarial_cases::cr_015_prohibited_content`; `CR-016` -> `adversarial_cases::cr_016_composition_minimization`; `CR-017` -> `adversarial_cases::cr_017_floor_noncompensation`; `CR-021` -> `adversarial_cases::cr_021_burden_shift_rejection`; `CR-029` -> `adversarial_cases::cr_029_cross_role_adversarial`; `CR-031` -> `adversarial_cases::cr_031_parser_fuzz_authority_absent`; `CR-037` -> `adversarial_cases::cr_037_resource_bound_failure` |
+| `L2HoldClosure` | `CR-008` -> `hold_closure::cr_008_missing_default_hold`; `CR-019` -> `hold_closure::cr_019_missing_null_hold`; `CR-023` -> `hold_closure::cr_023_finding_dissent_retention`; `CR-025` -> `hold_closure::cr_025_hold_transpose_propagation`; `CR-038` -> `hold_closure::cr_038_waiver_ledger_nonwaiver`; `CR-039` -> `hold_closure::cr_039_evidence_state_history` |
+| `L2NoAuthority` | `CR-010` -> `no_authority_surface::cr_010_release_exception_no_output`; `CR-017` -> `no_authority_surface::cr_017_authority_noninflation`; `CR-021` -> `no_authority_surface::cr_021_false_savings_no_authority`; `CR-024` -> `no_authority_surface::cr_024_terminal_no_output_backflow`; `CR-034` -> `no_authority_surface::cr_034_generated_no_emission` |
+
+### 7.3 Exact canonical reverse transpose
+
+The reverse representation has one row per consuming edge and repeats every
+canonical identity and assertion verbatim. Its mechanically derived edge count
+is exactly 148. Per-mode counts are `L1Static`=8, `L1SupplyChain`=3, `L2SourceSpine`=29, `L2Contract`=12, `L2Property`=16, `L2Model`=14, `L2Adversarial`=19, `L2HoldClosure`=19, `L2NoAuthority`=28.
+
+| Evidence mode | Canonical controlled identity | Exact executed target / assertion |
 |---|---|---|
-| `L1Static` | `CR-002` | `static_surface::trace_cr_002` |
-| `L1Static` | `CR-004` | `static_surface::trace_cr_004` |
-| `L1Static` | `CR-006` | `static_surface::trace_cr_006` |
-| `L1Static` | `CR-009` | `static_surface::trace_cr_009` |
-| `L1Static` | `CR-011` | `static_surface::trace_cr_011` |
-| `L1Static` | `CR-013` | `static_surface::trace_cr_013` |
-| `L1Static` | `CR-015` | `static_surface::trace_cr_015` |
-| `L1Static` | `CR-017` | `static_surface::trace_cr_017` |
-| `L1Static` | `CR-019` | `static_surface::trace_cr_019` |
-| `L1Static` | `CR-021` | `static_surface::trace_cr_021` |
-| `L1Static` | `CR-023` | `static_surface::trace_cr_023` |
-| `L1Static` | `CR-025` | `static_surface::trace_cr_025` |
-| `L1Static` | `CR-027` | `static_surface::trace_cr_027` |
-| `L1Static` | `CR-029` | `static_surface::trace_cr_029` |
-| `L1Static` | `CR-031` | `static_surface::trace_cr_031` |
-| `L1Static` | `CR-033` | `static_surface::trace_cr_033` |
-| `L1Static` | `CR-035` | `static_surface::trace_cr_035` |
-| `L1Static` | `CR-037` | `static_surface::trace_cr_037` |
-| `L1Static` | `CR-039` | `static_surface::trace_cr_039` |
+| `L1Static` | `CR-005` | `static_surface::cr_005_call_graph_depth` |
+| `L1Static` | `CR-012` | `static_surface::cr_012_ambient_state_absence` |
+| `L1Static` | `CR-014` | `static_surface::cr_014_consumer_direction` |
+| `L1Static` | `CR-031` | `static_surface::cr_031_parser_surface_absent` |
+| `L1Static` | `CR-033` | `static_surface::cr_033_mode_isolation` |
+| `L1Static` | `CR-035` | `static_surface::cr_035_quality_gate_registry` |
+| `L1Static` | `CR-037` | `static_surface::cr_037_resource_bound_registry` |
 | `L1Static` | `VCL-09` | `static_surface::trace_vcl_09` |
-| `L1SupplyChain` | `CR-003` | `test_gate::trace_cr_003` |
-| `L1SupplyChain` | `CR-005` | `test_gate::trace_cr_005` |
-| `L1SupplyChain` | `CR-008` | `test_gate::trace_cr_008` |
-| `L1SupplyChain` | `CR-010` | `test_gate::trace_cr_010` |
-| `L1SupplyChain` | `CR-012` | `test_gate::trace_cr_012` |
-| `L1SupplyChain` | `CR-014` | `test_gate::trace_cr_014` |
-| `L1SupplyChain` | `CR-016` | `test_gate::trace_cr_016` |
-| `L1SupplyChain` | `CR-018` | `test_gate::trace_cr_018` |
-| `L1SupplyChain` | `CR-020` | `test_gate::trace_cr_020` |
-| `L1SupplyChain` | `CR-022` | `test_gate::trace_cr_022` |
-| `L1SupplyChain` | `CR-024` | `test_gate::trace_cr_024` |
-| `L1SupplyChain` | `CR-026` | `test_gate::trace_cr_026` |
-| `L1SupplyChain` | `CR-028` | `test_gate::trace_cr_028` |
-| `L1SupplyChain` | `CR-030` | `test_gate::trace_cr_030` |
-| `L1SupplyChain` | `CR-032` | `test_gate::trace_cr_032` |
-| `L1SupplyChain` | `CR-034` | `test_gate::trace_cr_034` |
-| `L1SupplyChain` | `CR-036` | `test_gate::trace_cr_036` |
-| `L1SupplyChain` | `CR-038` | `test_gate::trace_cr_038` |
-| `L1SupplyChain` | `CR-040` | `test_gate::trace_cr_040` |
+| `L1SupplyChain` | `CR-014` | `test_gate::cr_014_fixed_dependency_graph` |
+| `L1SupplyChain` | `CR-033` | `test_gate::cr_033_package_isolation` |
+| `L1SupplyChain` | `CR-036` | `test_gate::cr_036_dependency_license_advisory` |
 | `L2SourceSpine` | `BASTION-REQ-TST-001` | `source_spine::trace_bastion_req_tst_001` |
 | `L2SourceSpine` | `SPEC-TST-001` | `source_spine::trace_spec_tst_001` |
 | `L2SourceSpine` | `SPEC-NF-010` | `source_spine::trace_spec_nf_010` |
+| `L2SourceSpine` | `CR-002` | `source_spine::cr_002_logical_responsibility` |
+| `L2SourceSpine` | `CR-011` | `source_spine::cr_011_digest_reproduction_order` |
+| `L2SourceSpine` | `CR-023` | `source_spine::cr_023_review_independence` |
+| `L2SourceSpine` | `CR-026` | `source_spine::cr_026_invariant_coverage` |
+| `L2SourceSpine` | `CR-034` | `source_spine::cr_034_generated_provenance_absence` |
+| `L2SourceSpine` | `CR-035` | `source_spine::cr_035_quality_output_binding` |
+| `L2SourceSpine` | `CR-039` | `source_spine::cr_039_evidence_digest_truth` |
+| `L2SourceSpine` | `CR-040` | `source_spine::cr_040_mechanical_trace_contradiction` |
 | `L2SourceSpine` | `VCL-01` | `source_spine::trace_vcl_01` |
 | `L2SourceSpine` | `VCL-10` | `source_spine::trace_vcl_10` |
 | `L2SourceSpine` | `VAL-SCOPE` | `source_spine::trace_val_scope` |
@@ -585,6 +610,11 @@ has exactly one consuming mode, the mechanically derived edge count is exactly
 | `L2Contract` | `SPEC-NF-008` | `contract_matrix::trace_spec_nf_008` |
 | `L2Contract` | `DES-TEST-001` | `contract_matrix::trace_des_test_001` |
 | `L2Contract` | `CONTRACT-TEST-001` | `contract_matrix::trace_contract_test_001` |
+| `L2Contract` | `CR-002` | `contract_matrix::cr_002_logical_contract` |
+| `L2Contract` | `CR-003` | `contract_matrix::cr_003_typed_branch_totality` |
+| `L2Contract` | `CR-009` | `contract_matrix::cr_009_typed_family_exhaustiveness` |
+| `L2Contract` | `CR-015` | `contract_matrix::cr_015_content_boundary_provenance` |
+| `L2Contract` | `CR-030` | `contract_matrix::cr_030_per_contract_fixture_matrix` |
 | `L2Contract` | `VCL-02` | `contract_matrix::trace_vcl_02` |
 | `L2Contract` | `ACT-SRC` | `contract_matrix::trace_act_src` |
 | `L2Property` | `BASTION-REQ-TST-002` | `property_cases::trace_bastion_req_tst_002` |
@@ -592,6 +622,14 @@ has exactly one consuming mode, the mechanically derived edge count is exactly
 | `L2Property` | `SPEC-NF-004` | `property_cases::trace_spec_nf_004` |
 | `L2Property` | `SPEC-NF-005` | `property_cases::trace_spec_nf_005` |
 | `L2Property` | `SPEC-NF-007` | `property_cases::trace_spec_nf_007` |
+| `L2Property` | `CR-004` | `property_cases::cr_004_finite_bounds_progress` |
+| `L2Property` | `CR-010` | `property_cases::cr_010_universal_admission_bypass` |
+| `L2Property` | `CR-011` | `property_cases::cr_011_order_invariance` |
+| `L2Property` | `CR-012` | `property_cases::cr_012_schedule_equivalence` |
+| `L2Property` | `CR-018` | `property_cases::cr_018_facet_distribution_conservation` |
+| `L2Property` | `CR-020` | `property_cases::cr_020_reconciliation_identity` |
+| `L2Property` | `CR-027` | `property_cases::cr_027_property_evidence_set` |
+| `L2Property` | `CR-032` | `property_cases::cr_032_regression_replay` |
 | `L2Property` | `VCL-04` | `property_cases::trace_vcl_04` |
 | `L2Property` | `.roles/panel-reviewer/panel.md` | `property_cases::trace_role_panel_reviewer_panel` |
 | `L2Property` | `.roles/editorial/numeracy-checker.md` | `property_cases::trace_role_editorial_numeracy_checker` |
@@ -599,16 +637,43 @@ has exactly one consuming mode, the mechanically derived edge count is exactly
 | `L2Model` | `SPEC-TST-003` | `model_cases::trace_spec_tst_003` |
 | `L2Model` | `SPEC-NF-006` | `model_cases::trace_spec_nf_006` |
 | `L2Model` | `SPEC-NF-009` | `model_cases::trace_spec_nf_009` |
+| `L2Model` | `CR-006` | `model_cases::cr_006_invalid_state` |
+| `L2Model` | `CR-009` | `model_cases::cr_009_typed_state_exhaustiveness` |
+| `L2Model` | `CR-011` | `model_cases::cr_011_replay_identity` |
+| `L2Model` | `CR-013` | `model_cases::cr_013_immutable_successor_acyclic` |
+| `L2Model` | `CR-019` | `model_cases::cr_019_state_null_na_stale` |
+| `L2Model` | `CR-020` | `model_cases::cr_020_checked_accounting` |
+| `L2Model` | `CR-022` | `model_cases::cr_022_eco_delivery_adaptive_shape` |
+| `L2Model` | `CR-028` | `model_cases::cr_028_transition_model_evidence` |
+| `L2Model` | `CR-032` | `model_cases::cr_032_golden_successor_history` |
 | `L2Model` | `VCL-03` | `model_cases::trace_vcl_03` |
 | `L2Adversarial` | `BASTION-REQ-TST-006` | `adversarial_cases::trace_bastion_req_tst_006` |
 | `L2Adversarial` | `BASTION-REQ-REL-002` | `adversarial_cases::trace_bastion_req_rel_002` |
 | `L2Adversarial` | `SPEC-TST-006` | `adversarial_cases::trace_spec_tst_006` |
 | `L2Adversarial` | `SPEC-REL-002` | `adversarial_cases::trace_spec_rel_002` |
 | `L2Adversarial` | `SPEC-NF-001` | `adversarial_cases::trace_spec_nf_001` |
+| `L2Adversarial` | `CR-003` | `adversarial_cases::cr_003_typed_failure_rejection` |
+| `L2Adversarial` | `CR-004` | `adversarial_cases::cr_004_exhaustion_failure` |
+| `L2Adversarial` | `CR-005` | `adversarial_cases::cr_005_termination_violation` |
+| `L2Adversarial` | `CR-006` | `adversarial_cases::cr_006_hidden_failure_scan` |
+| `L2Adversarial` | `CR-008` | `adversarial_cases::cr_008_default_fallback_rejection` |
+| `L2Adversarial` | `CR-015` | `adversarial_cases::cr_015_prohibited_content` |
+| `L2Adversarial` | `CR-016` | `adversarial_cases::cr_016_composition_minimization` |
+| `L2Adversarial` | `CR-017` | `adversarial_cases::cr_017_floor_noncompensation` |
+| `L2Adversarial` | `CR-021` | `adversarial_cases::cr_021_burden_shift_rejection` |
+| `L2Adversarial` | `CR-029` | `adversarial_cases::cr_029_cross_role_adversarial` |
+| `L2Adversarial` | `CR-031` | `adversarial_cases::cr_031_parser_fuzz_authority_absent` |
+| `L2Adversarial` | `CR-037` | `adversarial_cases::cr_037_resource_bound_failure` |
 | `L2Adversarial` | `VCL-06` | `adversarial_cases::trace_vcl_06` |
 | `L2Adversarial` | `.roles/assurance/classification-operational-security.md` | `adversarial_cases::trace_role_assurance_classification_operational_security` |
 | `L2HoldClosure` | `BASTION-REQ-TST-005` | `hold_closure::trace_bastion_req_tst_005` |
 | `L2HoldClosure` | `SPEC-TST-005` | `hold_closure::trace_spec_tst_005` |
+| `L2HoldClosure` | `CR-008` | `hold_closure::cr_008_missing_default_hold` |
+| `L2HoldClosure` | `CR-019` | `hold_closure::cr_019_missing_null_hold` |
+| `L2HoldClosure` | `CR-023` | `hold_closure::cr_023_finding_dissent_retention` |
+| `L2HoldClosure` | `CR-025` | `hold_closure::cr_025_hold_transpose_propagation` |
+| `L2HoldClosure` | `CR-038` | `hold_closure::cr_038_waiver_ledger_nonwaiver` |
+| `L2HoldClosure` | `CR-039` | `hold_closure::cr_039_evidence_state_history` |
 | `L2HoldClosure` | `VCL-05` | `hold_closure::trace_vcl_05` |
 | `L2HoldClosure` | `VAL-ASSURANCE` | `hold_closure::trace_val_assurance` |
 | `L2HoldClosure` | `Role review steward` | `hold_closure::trace_role_review_steward` |
@@ -628,6 +693,11 @@ has exactly one consuming mode, the mechanically derived edge count is exactly
 | `L2NoAuthority` | `SPEC-NF-003` | `no_authority_surface::trace_spec_nf_003` |
 | `L2NoAuthority` | `DES-REL-001` | `no_authority_surface::trace_des_rel_001` |
 | `L2NoAuthority` | `CONTRACT-REL-001` | `no_authority_surface::trace_contract_rel_001` |
+| `L2NoAuthority` | `CR-010` | `no_authority_surface::cr_010_release_exception_no_output` |
+| `L2NoAuthority` | `CR-017` | `no_authority_surface::cr_017_authority_noninflation` |
+| `L2NoAuthority` | `CR-021` | `no_authority_surface::cr_021_false_savings_no_authority` |
+| `L2NoAuthority` | `CR-024` | `no_authority_surface::cr_024_terminal_no_output_backflow` |
+| `L2NoAuthority` | `CR-034` | `no_authority_surface::cr_034_generated_no_emission` |
 | `L2NoAuthority` | `VCL-07` | `no_authority_surface::trace_vcl_07` |
 | `L2NoAuthority` | `VCL-08` | `no_authority_surface::trace_vcl_08` |
 | `L2NoAuthority` | `ACT-CIV` | `no_authority_surface::trace_act_civ` |
@@ -644,90 +714,147 @@ has exactly one consuming mode, the mechanically derived edge count is exactly
 | `L2NoAuthority` | `.roles/stakeholders/taxpayer-oversight.md` | `no_authority_surface::trace_role_stakeholders_taxpayer_oversight` |
 | `L2NoAuthority` | `.roles/assurance/civilian-control-law-safety-readiness.md` | `no_authority_surface::trace_role_assurance_civilian_control_law_safety_readiness` |
 
-`source_spine` compares the exact 123 forward identities and edges against
-these exact 123 reverse identities and edges after bytewise sorting. It rejects
-an absent/orphan row, unlisted extra, alias, range, shorthand, paired cell,
-duplicate identity, duplicate edge, count error, controlled-source digest
-mismatch, target/assertion mismatch, mode mismatch, spelling change, or
-non-transpose. `L1Static` and `L1SupplyChain` execute and retain their exact
-reverse CR/VCL edges; the transpose is not limited to L2 modes.
+`source_spine` compares the exact 123 unique identities and 148
+forward edges against these exact 148 reverse edges after bytewise
+sorting. It rejects an absent/orphan row, unlisted extra, alias, range,
+shorthand, paired cell, duplicate edge, wrong multiplicity, controlled-source
+digest mismatch, target/assertion mismatch, mode mismatch, spelling change, or
+non-transpose. `L1Static` and `L1SupplyChain` retain only obligations they
+actually inspect; all behavioral, contract, property, model, adversarial,
+hold, authority, and trace obligations execute in their allocated L2 modes.
 
-## 8. Evidence, independent review, and roles
+## 8. Closed evidence, set, review, and role custody
 
-Evidence is retained only under `EVID-WP-TST-001`. Every attempt, including a
-runner/supervisor failure, creates its own immutable mode successor. Version 1
-uses null predecessor ID/digest and predecessor version `0`; every later
-version names the exact preceding ID, SHA-256, and version. No record is
-deleted, overwritten, quarantined, or reused. A correction or retry is another
-successor and retains failed, conflicted, invalid, rejected, and superseded
-history.
+Evidence is retained only under `EVID-WP-TST-001` at the exact create-new
+paths in section 3. No producer deletes, truncates, overwrites, renames,
+quarantines, or reuses a path. Duplicate JSON keys are rejected while decoding;
+a missing or extra key, wrong type/cardinality/order/enum/null posture, invalid
+UTF-8, BOM, CR, trailing whitespace, path mismatch, or digest mismatch is
+invalid and non-promotable.
 
-Each of the 16 canonical `test-gate-evidence.v2` mode records contains all
-fields required by `VERIFICATION.md` lines 100–120, without omission:
+### 8.1 Canonical `test-gate-evidence.v2` mode schema
 
-1. evidence ID/version/schema, tier/status, producer WP, and exact producing
-   commit;
-2. exact requirement/specification/DES/contract/CR/hold/VCL coverage;
-3. resolved command ID/mode/argv, tool versions/configuration digests, and
-   sanitized-environment digest;
-4. every public/synthetic fixture ID/version/source/custody/purpose/input
-   digest/predecessor/supersession state;
-5. finite row/byte/time/memory/stream bounds, deterministic order, and explicit
-   seed/clock/locale controls (`disabled` where prohibited);
-6. expected/actual typed posture, exit state, stdout/stderr/output/evidence
-   digests, and retained failure/counterexample objects;
-7. author, independent reviewer, parliament/domain/formal-assurance decisions,
-   findings, dissent, conflicts, and dispositions; and
-8. predecessor digests, invalidation triggers, rollback/reproduction pointers,
-   immutable history, and successor fields.
+Every mode record is one UTF-8, no-BOM JSON object serialized on one line with
+no insignificant whitespace and one final LF. Object keys occur exactly in the
+table order below; nested-object keys occur in their stated order; arrays use
+the stated order. Integers are unsigned base-10 JSON numbers without leading
+zeroes. Strings use shortest valid JSON escaping and contain no control or
+non-ASCII byte. Digests are exactly 64 lowercase hex; commits/trees are exactly
+40 lowercase hex. The canonical payload digest is SHA-256 over the complete
+canonical bytes with the final `evidence_digest` key/value and its preceding
+comma omitted.
 
-Fields exist even when empty: typed empty arrays plus an exact not-applicable
-reason replace omission. Each record carries a payload SHA-256 over canonical
-bytes with its digest field omitted; the set independently binds the complete
-record bytes. It also binds WS/WP/acceptance/implementation/trace/fixture/
-runner/root/lock digests, executed
-target/assertion IDs, start/end/duration, bounds, per-command stream digests and
-bytes, and result. A worker cannot publish pass; the supervisor creates a
-record only after postcondition validation. Missing, planned, absent, stale,
-conflicted, held, failed, rejected, zero-test, or schema-incomplete evidence
-cannot count as pass.
+| Ordered key | Exact JSON type, cardinality, enum, and nullability |
+|---|---|
+| `schema` | string literal `test-gate-evidence.v2`; non-null |
+| `evidence_id` | string exactly `EVID-WP-TST-001-<mode>-vNNNN`; non-null |
+| `mode` | string, exactly one of the 16 MODE values in section 6; non-null |
+| `evidence_version` | integer `1..9999`; its four-digit form is `NNNN`; non-null |
+| `evidence_path` | string exactly `context/waves/2026-07-28-bastion-foundation/evidence/wp-tst-001/runs/<mode>/<evidence_id>.json`; non-null |
+| `wp_id` | string literal `WP-TST-001`; non-null |
+| `wp_artifact_digest` | digest of the independently accepted R4 bytes; non-null |
+| `acceptance_binding` | object keys `commit,pulse_digest`; both non-null; the acceptance pulse binds R4 and prior inputs only, never its own commit |
+| `entry_binding` | object keys `commit,pulse_digest,tree_digest`; all non-null; the entry pulse binds acceptance only, never its own commit |
+| `implementation_binding` | object keys `commit,tree_digest,first_parent,delta_digest,delta_paths`; first parent equals entry commit; `delta_paths` is a bytewise-sorted array of exactly the changed allowlisted paths |
+| `logical_predecessor_commit` | string literal `cd1f1d75ec312789fed63a265219d8ad9069a17a`; non-null |
+| `context_rev_binding` | object keys `exit_commit,implementation_digest,evidence_set_digest,evidence_tree_digest,unchanged_result_digest`; all non-null and context-only |
+| `artifact_digests` | bytewise path-sorted array of exactly 18 objects with keys `path,sha256`; the exact section 3 runner/root manifest/lock/package/test/support/fixture/manifest inputs; non-null |
+| `trace_manifest_digest` | digest of the accepted 123-identity/148-edge manifest; non-null |
+| `executed_targets` | bytewise-sorted array of `0..148` objects `controlled_id,assertion`; exact edges allocated to this mode in section 7; empty exactly for L0 and the four L1 modes with no section 7 edge |
+| `fixture_bindings` | fixture-ID-sorted array of exactly 4 objects `fixture_id,version,source_id,source_digest,custody_id,custody_digest,input_digest,supersession_state`; no null member |
+| `command_identity` | exact `CMD-*` string for `mode`; non-null |
+| `exact_argv` | non-empty ordered string array exactly matching section 6; non-null |
+| `tool_versions` | bytewise tool-name-sorted non-empty array of objects `tool,version,digest`; non-null |
+| `environment_digest` | digest of the exact sanitized name/value sequence; non-null |
+| `resource_bounds` | object keys `wall_seconds,process_tree_bytes,combined_stream_bytes` with exact integers `60,1073741824,10485760` |
+| `determinism_controls` | object keys `order,seed,clock,locale,retry`; values exactly `bytewise,disabled,disabled,disabled,disabled` |
+| `expected` | object keys `exit,result,posture,reason`; all typed non-null pre-run values |
+| `actual` | object keys `exit,result,posture,reason,start_utc,end_utc,duration_ms`; all non-null; duration `0..60000` |
+| `output_records` | array of exactly three objects in `stdout,stderr,structured` order, keys `kind,pointer,bytes,sha256,absence_reason`; pointer/digest non-null iff bytes > 0, otherwise both null and reason non-null |
+| `failure_records` | bytewise-ID-sorted array `0..128` of objects `id,code,assertion,output_pointer,digest,disposition`; empty allowed |
+| `counterexamples` | bytewise-ID-sorted array `0..128` of objects `id,assertion,input_digest,reproduction_pointer,output_pointer,digest`; empty allowed |
+| `required_review_lanes` | exact bytewise-sorted array of the 22 lane identities listed below; immutable and non-null |
+| `reviewer_decisions` | bytewise-lane-sorted unique subset `0..22`; objects have keys `lane,decision,record_id,record_digest,independence,finding_ids,defer_owner,defer_destination,defer_closure,defer_hold,dissent_ids,assurance`; decision enum `pass|finding|defer`; conditional fields use explicit null or sorted arrays |
+| `findings` | bytewise-ID-sorted array `0..128`, objects `id,severity,claim_digest,evidence_pointer,owner,destination,closure,disposition`; severity enum `critical|major|minor|note` |
+| `dissent` | bytewise-ID-sorted array `0..128`, objects `id,lane,claim_digest,record_digest,disposition` |
+| `conflicts` | bytewise-ID-sorted array `0..128`, objects `id,left_digest,right_digest,owner,disposition` |
+| `status` | enum `planned|absent|failed|stale|conflicted|passed|superseded`; non-null |
+| `invalidation_triggers` | bytewise-sorted non-empty string array; non-null |
+| `rollback_pointer` | non-null repository-relative path plus digest object `path,sha256` |
+| `reproduction_pointer` | non-null repository-relative path plus digest object `path,sha256` |
+| `predecessor_evidence` | null only for version 1; otherwise object `evidence_id,evidence_path,evidence_version,evidence_digest` naming the immediately preceding same-mode record |
+| `history` | ordered array of exactly `evidence_version - 1` predecessor objects oldest-to-newest; empty only for version 1 |
+| `evidence_digest` | non-null payload digest computed by the omission rule above; last key |
 
-After the 16 mode files are committed, a separate create-new set record lists
-their exact paths/digests in mode order, binds that evidence commit and Git
-tree, and records the aggregate SHA-256 over each
-`<relative-path><TAB><sha256><LF>` line in bytewise path order. The set record
-carries the same history/reproduction/review fields. Independent review binds
-the later final evidence-directory Git tree including the set record, avoiding
-a self-referential tree digest. Independent reproduction creates a new complete
-16-record/set successor and never mutates the producer set.
+The three equality constraints are conjunctive: `mode` selects one command;
+`evidence_version` supplies its exact `NNNN`; and `evidence_id`,
+`evidence_path`, mode directory, filename mode, and filename version must all
+match byte for byte. The supervisor opens only the next unused version using
+create-new semantics. Version exhaustion, a gap, duplicate, predecessor
+mismatch, history mismatch, retry, correction, failure, conflict, reproduction,
+or review update cannot reuse a prior path.
 
-All decisions bind identical per-mode digests, aggregate digest, preceding
-evidence tree, final custody tree, WP, implementation, fixture-manifest,
-runner, environment, WS-predecessor, and policy digests. Required lanes are:
+The acceptance pulse is committed before its commit is knowable and therefore
+binds only the R4 digest and prior inputs. The later entry pulse binds the
+already existing acceptance commit/pulse, but not its own future commit. After
+entry is committed, mode evidence binds the acceptance commit/pulse and entry
+commit/pulse/tree. This sequence has no self-referential commit field.
 
-- all eight exact parliament roles (`PAR-ALL`), with Independent Test &
-  Oversight as test owner and no author/self-review;
-- Methodology Panel and Role review steward;
-- Citation Auditor, Scope Keeper, and Numeracy Checker;
-- all seven stakeholder lenses, limited to detecting accidental semantic,
-  burden, people, supplier, community, alliance, or taxpayer claims; and
-- Classification & Operational Security and Civilian Control, Law, Safety &
-  Readiness as independent conjunctive assurance gates.
+### 8.2 Review successors and exact lanes
 
-Each lane records `pass`, `finding`, or `defer`, retains dissent, and names an
-owner/destination/closure condition for every non-pass. No majority, other
-lane, bootstrap test, or stage controller can waive a failed assurance gate.
-Zero unresolved critical or major finding and zero open evidence conflict are
-mandatory for an exit recommendation.
+`required_review_lanes` is exactly the bytewise-sorted set of: the eight
+Parliament file identities; `.roles/panel-reviewer/panel.md`; `Role review
+steward`; the three Editorial file identities; the seven Stakeholder file
+identities; and the two Assurance file identities already enumerated in section
+7. An execution record may have an empty or partial `reviewer_decisions`
+subset. Each added decision creates the next create-new same-mode successor,
+retains identical execution/output fields and prior decisions, and appends no
+mutation to a predecessor. Only the latest successor with exactly all 22 unique
+lanes may be `fully_reviewed` or contribute to exit. Every assurance lane must
+be `pass`; every defer has owner/destination/closure/hold; zero unresolved
+critical/major finding and zero open conflict are mandatory.
+
+### 8.3 Closed `test-gate-evidence-set.v1` schema
+
+A set is also one-line canonical UTF-8/no-BOM JSON plus final LF, using the same
+string/integer/digest rules. Its exact ordered keys are
+`schema,set_id,set_version,set_path,wp_id,wp_artifact_digest,acceptance_binding,
+entry_binding,implementation_binding,mode_records,aggregate_digest,
+required_review_lanes,review_completeness,predecessor_set,history,
+invalidation_triggers,rollback_pointer,reproduction_pointer,set_digest`.
+`schema` is literal `test-gate-evidence-set.v1`; version is `1..9999`;
+ID is exactly `EVID-WP-TST-001-SET-vNNNN`; path is exactly the section 3 set
+path using that ID/version. `mode_records` contains exactly 16 objects
+`mode,evidence_id,evidence_version,evidence_path,evidence_digest` in section 6
+MODE order, all at the identical WP/acceptance/entry/implementation binding.
+`aggregate_digest` is SHA-256 over each
+`<relative-path><TAB><sha256><LF>` in bytewise path order.
+`required_review_lanes` is the same exact 22-lane array.
+`review_completeness` is `partial|full`; `full` requires every selected
+mode successor to contain all 22 current decisions and only `full` may support
+exit. `predecessor_set` is null only for version 1, otherwise
+`set_id,set_path,set_version,set_digest`; `history` contains exactly all
+prior set bindings oldest-to-newest. Remaining binding/pointer/trigger fields
+have the identical types above.
+
+`set_digest` is the last key and equals SHA-256 over the complete canonical
+set bytes with only the final `set_digest` key/value and preceding comma
+omitted. The supervisor creates only the next unused set path after the 16
+selected mode successors exist. Review changes first create affected mode
+successors and then a set successor. Neither mode nor set history is mutated,
+deleted, overwritten, quarantined, or hidden.
 
 ## 9. Entry, stop, exit, and authority
 
 Acceptance of this candidate, if it occurs, authorizes only a later separate
-entry decision. Entry requires the exact accepted R3 and acceptance-pulse
-digests on current main. A clean isolated worktree starts at that acceptance;
-the entry commit is its direct child, and the one atomic implementation commit
-is the direct child of entry. Entry binds both commit IDs before execution,
-the exact allowlist, unchanged REV bytes, and no unrelated change. WS remains
+entry decision. The acceptance pulse binds the R4 artifact digest and all prior
+governance inputs, but never its own future commit. After it is committed, the
+entry pulse binds that acceptance commit and pulse digest, but never its own
+future commit. After entry is committed, evidence binds the resulting entry
+commit, entry-pulse digest, and entry tree. A clean isolated worktree starts at
+that entry commit, and the one atomic implementation commit is its first-parent,
+non-merge direct child. The exact allowlist, unchanged REV bytes, and no
+unrelated change are mandatory. WS remains
 the sole logical WP predecessor; current-main ancestry and co-membership do not
 create another WP predecessor.
 
