@@ -1,0 +1,6 @@
+/target/
+/.cache/
+/.env
+/data/raw/
+/data/cache/
+*.tmp
