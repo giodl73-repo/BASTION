@@ -1,4 +1,4 @@
-# WP-TST-001-R13 — job-wide bounded immutable-execution boundary-test and fixture-custody bootstrap
+# WP-TST-001-R14 — completion-proven job-wide bounded immutable-execution bootstrap
 
 Status: `proposed; acceptance_candidate; not_accepted; not_entered`
 
@@ -10,14 +10,14 @@ configuration-only membership integration in `PB-WS-001`
 Logical WP predecessor: accepted `WP-WS-001` exit only. R1 commit
 `62116481b7b3e7d671517b6053c8cc3f20f93fce` and R2 commit
 `21c8066445c72358a444c0b506422ec3b9dc63e0` are retained governance history.
-After R13 acceptance, the entry commit and its direct implementation successor
+After R14 acceptance, the entry commit and its direct implementation successor
 must remain on the current governance/main lineage. Accepted REV is only a
 context co-member: workspace co-membership and Git ancestry are explicitly not
 WP-predecessor or dependency relationships.
 
 ## 1. Controlled baseline and custody
 
-The future acceptance commit must descend from R13 on current main; the entry
+The future acceptance commit must descend from R14 on current main; the entry
 commit must be its direct governance successor; and the one implementation
 commit must be the direct child of entry. Accepted `WP-WS-001` exit
 `cd1f1d75ec312789fed63a265219d8ad9069a17a` remains the sole logical WP
@@ -29,18 +29,25 @@ predecessor digest, or Cargo edge holds acceptance and entry.
 | Sole logical WP predecessor: accepted WS exit | `cd1f1d75ec312789fed63a265219d8ad9069a17a` |
 | Retained R1 governance commit (not accepted) | `62116481b7b3e7d671517b6053c8cc3f20f93fce` |
 | Retained R1 WP SHA-256 | `93ea15ea87b140b7e45ae67db5a4133e24e8f18778db1ce41a891042b1157554` |
+| Retained R1 candidate pulse path / SHA-256 / blob | `context/waves/2026-07-28-bastion-foundation/pulses/pulse-17-wp-tst-001-candidate.md` / `f52849a3908decbae20724986026ac42c00d7e938d7d193a1c17fd8eb0a9a80e` / `b387aa17a9d50ca510c52552a83bb6d0581cbccd` at R1 commit |
 | Retained R2 governance commit (not accepted) | `21c8066445c72358a444c0b506422ec3b9dc63e0` |
 | Retained R2 WP SHA-256 / blob | `4ecd246d67bb5d07c94496a9975c99cdc8488295e8e74235be29391b3725e146` / `47687aff86c392b7e30b237de1015b9d304d4fc4` |
+| Retained R2 candidate pulse path / SHA-256 / blob | `context/waves/2026-07-28-bastion-foundation/pulses/pulse-17-wp-tst-001-candidate.md` / `2a2868748ce53369d68e6978b8d3d02d3a684d7aec98f6f5f0c3d6fea9a2110a` / `88b11c49e7d8ced29e1ebcb40f68bf5dc6b519ad` at R2 commit |
 | Retained R3 governance commit (not accepted) | `ae64448e98744668e3b80e3411255503bfbdd4ae` |
 | Retained R3 WP SHA-256 / blob | `76f259e3189cbb53be5e88b84dc922a13673ec52572efbe842f55fe85a67c2ae` / `655f38734b4f52ed7ff740fd2117c3cd5916f977` |
+| Retained R3 candidate pulse path / SHA-256 / blob | `context/waves/2026-07-28-bastion-foundation/pulses/pulse-17-wp-tst-001-candidate.md` / `954e17de5d0833d98f0a44c932476af60c0163b126c50e1be741646ee8d65bc4` / `4730684c910689009d2b81604c021b91862264ae` at R3 commit |
 | Retained R4 governance commit (not accepted) | `b919512fb73472149afea5a55d1a022bf6aec8da` |
 | Retained R4 WP SHA-256 / blob | `eaff0bd15d34afb533306ab5a4a967cb672149422e14b634ae263fea512f4f70` / `18e616868d9f94b97264e4b744961d85b6442f3d` |
+| Retained R4 candidate pulse path / SHA-256 / blob | `context/waves/2026-07-28-bastion-foundation/pulses/pulse-17-wp-tst-001-candidate.md` / `42416f3d638d06e4930413f7e3ed5ef211143f6de19ee6f31cf4eb70d3ac434d` / `2d211769e4adfb4d9d0b6171909cdeb947d76492` at R4 commit |
 | Retained R5 governance commit (not accepted) | `77e0abb94a427a1f824e4f5659e580b1aae74137` |
 | Retained R5 WP SHA-256 / blob | `c618af6d61d05c51fe689a791f7a8bc9f2ed908c4c42e7e48dd07badec2a633d` / `42f8ff4bd0e9350ac269b0a3a137209b1be1f120` |
+| Retained R5 candidate pulse path / SHA-256 / blob | `context/waves/2026-07-28-bastion-foundation/pulses/pulse-17-wp-tst-001-candidate.md` / `f231cc4684943275771cd06056abad619b8d5d8ea6c2587de52776a9da114382` / `30b7c92da8e21de9e7177779ef6d4e4127f095a4` at R5 commit |
 | Retained R6 governance commit (not accepted) | `1e0157aca9e20eb78cf1cd345fa5cc5bfc5729f3` |
 | Retained R6 WP SHA-256 / blob | `e155df20adac753a6b92cf2f36205233626c98551b0c7ac8459ff3a975dd0ced` / `34ba2c245c49478e32186fb5f7e4581e4a755847` |
+| Retained R6 candidate pulse path / SHA-256 / blob | `context/waves/2026-07-28-bastion-foundation/pulses/pulse-18-wp-tst-001-r6-candidate.md` / `cfc4b2268fd45682d655d3543f1daa06889baea16dad4c3bf370c37a6760fe4b` / `8944d7b91e7abe90fff004433d613465b601b75a` at R6 commit |
 | Retained R7 governance commit (not accepted) | `3550c5deece2ec97207fbe8c1b4dda4c44d62a97` |
 | Retained R7 WP SHA-256 / blob | `e9b2c5e82a31eb6ee172f35fe06b2db46f3affcebae0f8b5391264cca59644ff` / `89ab301d7e3596fbb32678b84c1356a41b3f2bc0` |
+| Retained R7 candidate pulse path / SHA-256 / blob | `context/waves/2026-07-28-bastion-foundation/pulses/pulse-19-wp-tst-001-r7-candidate.md` / `ec12c55fa7a08d3e764c596b25ce5af96daafcef9a0a314eb9e2cded31aeba13` / `97249bc4a20bc7dd4dff4950dd169c78cf25590a` at R7 commit |
 | Retained R8 governance commit (not accepted) | `264cff6959c74f4e9430fda3ca9e72b529da318a` |
 | Retained R8 WP SHA-256 / blob | `3165853787462ede6a39c154b060accd8d4ab43e83a36ea1373e5d01aaf86de7` / `41a279ad001ef327c8beb2b76d1ac5d2cb84e540` |
 | Retained R8 pulse SHA-256 / blob | `6e7344ec728788dd7df8289466a888ae4f545416fc18b09dd5d693578ce135fe` / `860d5da041418e08b79c4e6b33074f1fdc903292` |
@@ -56,7 +63,10 @@ predecessor digest, or Cargo edge holds acceptance and entry.
 | Retained R12 WP SHA-256 / blob (not accepted) | `b6654694983513c99730ceb0a900f44a288f26a845db41bf4ec1a7395bb193aa` / `64c051acc6b5724661b7e7181a35deca219d5ac7` |
 | Retained R12 pulse SHA-256 / blob | `8723e1cd1759f7ad29a5b0366e310b411e73a37f0971b779c3cb19edee9f2ba6` / `a9cb2cbecefa066a60602a341013443147650ab1` |
 | Retained R12 governance commit (not accepted) | `cfb466029d759919c0f8ef5e6ab7a7fe3c1aab3c` |
-| Current R13 governance-line base before acceptance | `cfb466029d759919c0f8ef5e6ab7a7fe3c1aab3c` |
+| Retained R13 WP SHA-256 / blob (not accepted) | `6bebe5ec95924acbc02f90d14869695ea8d7bc19b331c16c7a34a27b0cbca5a9` / `677191e393d275ddb1044ccb7369e667f44b22cb` |
+| Retained R13 pulse SHA-256 / blob | `47a1fb382babd7872b7394660bb1d12dd530995f9eab9ff20808b501407d5d9c` / `536b759b15254c8b79143e4319b0922df4885a22` |
+| Retained R13 governance commit (not accepted) | `3166b0cf86af45f3fd04454ff1c9734cac37843d` |
+| Current R14 governance-line base before acceptance | `3166b0cf86af45f3fd04454ff1c9734cac37843d` |
 | Context-only accepted REV exit | `ab227cc06f15299b594cfe2be99915bd93c4c081` |
 | Context-only accepted REV implementation commit / SHA-256 | `5c4e96306d3c463a44be7621371759da8bca399b` / `c5c2df1178568cd49b5d721cd01cba7cce3371e049528e07bad30d6b3324ea72` |
 | Context-only accepted REV evidence-set SHA-256 / tree | `b95beff569794125018f2fde3d4d3317ed32278dfcfb1fc22a7d25cf51226bd9` / `d554c8c0c3d534aa96924f085a4dc007b25e3a3c` |
@@ -68,6 +78,14 @@ predecessor digest, or Cargo edge holds acceptance and entry.
 | `CHANGE_CONTROL.md` | `13cbfc8990ae42a5719f3945fe9dd7a46076def0db9be1f12ce4316c2dc57190` |
 | WS workspace manifest | bound by the accepted WS-exit tree |
 | WS lockfile | bound by the accepted WS-exit tree |
+
+For each retained R1–R7 pulse row, `git cat-file -e <commit>:<path>` must
+succeed, `git rev-parse <commit>:<path>` must equal the listed blob, and
+SHA-256 of the exact raw `git cat-file blob <blob>` bytes must equal the listed
+SHA. The commit:path pair, not the reused basename or current worktree file,
+selects the version. R1–R5 intentionally bind five distinct immutable blobs at
+the same Pulse 17 path; R6 and R7 bind their versioned Pulse 18 and 19 paths.
+No later pulse bytes, rename, reconstruction, or prose copy satisfies a row.
 
 REV records may be inspected only to prove the co-member is unchanged and has
 zero edges to or from TST. No REV source, binary, result, or digest is a TST
@@ -376,7 +394,7 @@ is exact per mode and ordered by first internal use:
 | `L2HoldClosure` | `[cargo]` |
 | `L2NoAuthority` | `[cargo]` |
 
-R13 uses an exact serial phase plan. Each closed `ExecutionPhase` has ordered
+R14 uses an exact serial phase plan. Each closed `ExecutionPhase` has ordered
 keys `phase_ordinal,phase_id,kind,tool_version_indices,argv,target_first,
 target_count`: ordinal is consecutive from 1; kind is `command|targets`;
 tool indices select the exact top-level tuples in use order; argv is a literal
@@ -517,7 +535,13 @@ named by these mappings reject.
 
 The supervisor's new-run Job sequence is exact: call
 `CreateJobObjectW(null,<job_name>)` and require a new object
-(`GetLastError()!=ERROR_ALREADY_EXISTS`); call `SetInformationJobObject` with
+(`GetLastError()!=ERROR_ALREADY_EXISTS`); create a private I/O completion port
+with `CreateIoCompletionPort(INVALID_HANDLE_VALUE,null,0,1)`, derive the
+pointer-width completion key by interpreting the first `sizeof(ULONG_PTR)`
+digest bytes of SHA-256 of exact UTF-8 `completion-key=<run_id><LF>` as an
+unsigned little-endian integer and bitwise-ORing one, and associate the inactive
+Job by `SetInformationJobObject(JobObjectAssociateCompletionPortInformation)`
+with that key and port. Then call `SetInformationJobObject` with
 `JOBOBJECT_EXTENDED_LIMIT_INFORMATION.BasicLimitInformation.LimitFlags`
 containing the mandatory flags
 `JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE|JOB_OBJECT_LIMIT_JOB_MEMORY`, set
@@ -525,19 +549,41 @@ containing the mandatory flags
 `JOB_OBJECT_LIMIT_PROCESS_MEMORY` with `ProcessMemoryLimit=1073741824` as an
 additional per-process ceiling. The process flag/field may never replace or
 relax the mandatory Job-wide flag/field. Query the extended-limit information
-back and require exact flag/value equality; create the child suspended;
+back and require exact flag/value equality. As supplemental detection only,
+set `JobObjectNotificationLimitInformation2` with every byte zero except
+`LimitFlags=JOB_OBJECT_LIMIT_JOB_MEMORY_HIGH` and
+`JobHighMemoryLimit` (the `JobMemoryLimit` union member) `=1073741824`, then
+query that same information class and require exact equality. This notification
+threshold never replaces, weakens, or proves the hard extended limit. Create
+the child suspended;
 `AssignProcessToJobObject`; obtain PID and creation FILETIME; durably write the
 child start; then `ResumeThread`. `job_configuration_digest` hashes canonical
 LF rows `name=<job_name>`, `kill_on_close=true`,
+`hard_limit_flags=JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE|JOB_OBJECT_LIMIT_JOB_MEMORY<PROCESS_SUFFIX>`,
 `job_memory_bytes=1073741824`,
-`process_memory_bytes=<1073741824-or-null>`, `run_id=<run_id>`, in that order.
+`process_memory_bytes=<1073741824-or-null>`,
+`completion_key_digest=<SHA256-of-the-key-preimage>`,
+`notification_limit_flags=JOB_OBJECT_LIMIT_JOB_MEMORY_HIGH`,
+`notification_job_memory_bytes=1073741824`, `run_id=<run_id>`, in that order.
 Null means the optional process flag is absent and its ignored native field is
 zero; non-null means that flag is present and the field equals the value.
+`PROCESS_SUFFIX` is exactly empty for null or literal
+`|JOB_OBJECT_LIMIT_PROCESS_MEMORY` for the non-null value; the alias token is
+expanded before hashing and is never serialized.
 Both memory rows equal `resource_bounds`; the mandatory Job row is never null.
+The completion-port handle is not inherited. A dedicated supervisor thread
+calls `GetQueuedCompletionStatus` from before child resume until the Job's
+active-process count is zero, retaining every dequeued message, completion-key
+comparison, reported PID value, timeout, Boolean result, and `GetLastError`.
 Every API
 name, Win32 return/error code, queried limit, and handle close is retained in
 the supervisor event stream. The name is durable identity, not proof that an
 object still exists.
+
+The executable platform floor is Windows 10 desktop or Windows Server 2016,
+where information-class-2 notification structures are supported. An unsupported
+information class, failed association/set/query, or unavailable completion-port
+API is a prelaunch `binding-mismatch`; there is no polling-only fallback.
 
 Recovery first calls `OpenJobObjectW(QUERY|TERMINATE|SYNCHRONIZE,false,
 <job_name>)`. Success requires queried configuration equal to the start and a
@@ -554,21 +600,32 @@ Normal supervisor close proves kill-on-close by the queried flag; unexpected
 last-handle close may terminate the Job, after which the FILETIME-based absent
 proof is the only legal recovery branch.
 
+Recovery equality covers the queryable extended and notification limit
+structures. It does not invent or replace the lost supervisor's private
+completion port; the original association/key/API proof remains bound by the
+durable start configuration and event digest, while recovered live work is
+terminated through the named Job handle.
+
 The 1 GiB process-tree bound is therefore the Windows Job aggregate committed-
 memory ceiling, never an inferred sum of per-process observations. Every
 configuration query must prove the mandatory Job flag and exact
 `JobMemoryLimit`; a missing Job flag, zero/different Job limit, or only the
 process-memory flag is `binding-mismatch` before launch and `job-identity-lost`
-during recovery. For terminal kind `memory-limit`, `job_query_digest` also
-binds a `JobObjectLimitViolationInformation2` query whose violation flags
-include `JOB_OBJECT_LIMIT_JOB_MEMORY`, plus the extended-limit and accounting
-queries including `PeakJobMemoryUsed`; without that Job-wide violation proof
-the kind is illegal. The optional process flag may additionally be reported,
-but a process-only violation is `unexpected-exit`, not `memory-limit`.
+during recovery. A `JOB_OBJECT_MSG_JOB_MEMORY_LIMIT` dequeued with the exact
+completion key is the documented hard-limit attempt signal. A supplemental
+`JOB_OBJECT_MSG_NOTIFICATION_LIMIT` with that key is usable only when followed
+immediately by `QueryInformationJobObject(JobObjectLimitViolationInformation2)`
+whose `LimitFlags` and `ViolationLimitFlags` contain
+`JOB_OBJECT_LIMIT_JOB_MEMORY_HIGH`, whose `JobHighMemoryLimit=1073741824`, and
+whose `JobMemory>=1073741824`. The query is required to rearm that notification.
+Neither `JobObjectLimitViolationInformation2` nor its flags are queried or
+claimed without the configured notification message. The optional process
+message/flag may additionally be reported, but a process-only violation is
+`unexpected-exit`, not `memory-limit`.
 
 `TerminationObservation` has exact ordered keys
 `kind,worker_started,process_id,process_creation_filetime,job_name,
-job_configuration_digest,job_open_result,job_query_digest,
+job_configuration_digest,job_open_result,job_query_digest,memory_limit_proof,
 identity_match,job_active_count_before,termination_action,
 terminate_job_result,job_active_count_after,native_exit_u32,portable_exit,
 stdout_sha256,stderr_sha256,observed_utc,event_digest`. Kind is exactly
@@ -580,10 +637,22 @@ result is `created-handle|reopened-handle|not-found|not-attempted`; action is
 `0..4294967295`; native is uint32 or null; portable is `0..255|null`; stream
 hashes are `DIGEST|null`; event digest is defined below.
 
+`memory_limit_proof` is null iff kind is not `memory-limit`; otherwise it is a
+closed object with exact ordered keys
+`signal,completion_key_digest,message_id,reported_process_id,
+violation_query_digest,proof_digest`. Signal/message are exactly
+`hard-job-memory/JOB_OBJECT_MSG_JOB_MEMORY_LIMIT` or
+`notification-memory/JOB_OBJECT_MSG_NOTIFICATION_LIMIT`; completion-key digest
+equals the configuration; reported PID is uint `1..4294967295`; violation
+query digest is null for the documented hard message and is non-null for the
+notification message, hashing the exact successful violation structure above.
+Proof digest omits only itself. A wrong-key, process-memory, stale, malformed,
+unconfigured, timeout, or API-failure message cannot produce this object.
+
 The exhaustive tuples are: ordinary observed exit/crash = worker true, all
 identity/config/query fields non-null, open `created-handle`, action none,
 terminate not-called, before/after zero, native/portable non-null, both complete
-stream hashes non-null; recovered live Job = worker true, open
+stream hashes non-null, memory proof null; recovered live Job = worker true, open
 `reopened-handle`, identity true, positive before, action terminate-job,
 terminate succeeded, zero after, native/portable non-null after wait, and each
 stream hash non-null iff its complete pipe was recovered; already absent =
@@ -597,10 +666,19 @@ not-called; identity/API rejection = kind job-identity-lost or
 ledger-corruption, observed identity fields retained, action reject-identity,
 terminate not-called or failed, no recovery record and no promotion. Portable
 equals native through the established `<=255 ? native : 255` mapping whenever
-native is non-null. Job query digest is non-null for every created/reopened/
+native is non-null. Every non-memory branch has null memory proof. A live
+completion-port memory terminal is worker true, open `created-handle`, identity
+true, before any uint, action terminate-job, terminate succeeded, after zero,
+exits non-null after wait, stream hashes non-null iff complete, and carries the
+exact non-null proof; the supervisor calls `TerminateJobObject` even when the
+pretermination active count raced to zero. Before classifying a simultaneous
+process exit it drains all already-queued completion messages with zero-timeout
+calls; the first valid retained memory proof wins, otherwise the observed-exit
+rule applies. Job query digest is non-null for every created/reopened/
 not-found/rejection branch and hashes canonical API result, exact extended-
-limit flags, `JobMemoryLimit`, optional `ProcessMemoryLimit`, limit-violation,
-accounting/`PeakJobMemoryUsed`, process-list, and PID-FILETIME rows; unavailable
+limit flags, `JobMemoryLimit`, optional `ProcessMemoryLimit`, exact notification
+configuration, applicable notification-violation query, accounting/
+`PeakJobMemoryUsed`, process-list, and PID-FILETIME rows; unavailable
 fields are explicit null only where the exhaustive branch permits them. It is
 null only for pre-child not-attempted. No other
 state/reason/null tuple is legal.
@@ -615,12 +693,26 @@ observation is non-null, or the reverse, rejects.
 `sequence=<u64><TAB>api=<closed-api-name><TAB>result=<decimal-u32><TAB>
 value=<canonical-value-or-minus><LF>` in observed order, then
 `terminal_kind=<kind><LF>`. Closed API names are exactly
-`CreateJobObjectW,SetInformationJobObject,QueryInformationJobObject,
+`CreateJobObjectW,CreateIoCompletionPort,SetInformationJobObject,
+QueryInformationJobObject,GetQueuedCompletionStatus,
 CreateProcessW,AssignProcessToJobObject,GetProcessTimes,ResumeThread,
 OpenJobObjectW,OpenProcess,TerminateJobObject,WaitForSingleObject,
 GetExitCodeProcess,ReadFile,CloseHandle`. The digest includes failed calls and
 the event that selected termination; no prose, native struct padding, omitted
 event, or alternate order is legal.
+
+For `SetInformationJobObject`/`QueryInformationJobObject`, canonical value is
+`class=<AssociateCompletionPort|ExtendedLimit|NotificationLimit2|LimitViolation2>;
+fields=<canonical-zero-explicit-field-projection>`. For
+`CreateIoCompletionPort` it binds success/error plus the non-inherited handle
+identity digest. For `GetQueuedCompletionStatus`, result is Boolean `0|1` and
+value is exact
+`message=<decimal-DWORD-or-minus>;completion_key_digest=<DIGEST-or-minus>;
+key_match=<true|false>;reported_pid=<uint-or-minus>;last_error=<u32>`;
+a timeout is result zero, all message/key/PID values minus, and
+`last_error=WAIT_TIMEOUT`. Every dequeue, timeout, wrong key, unrelated Job
+message, and post-terminal drain call is retained; no polling inference or
+synthetic violation row is legal.
 
 Each file is create-new, completely written, `FlushFileBuffers`-flushed,
 closed, and followed by a parent-directory handle flush before child launch or
@@ -761,7 +853,7 @@ one implementation commit, implementation/test/fixture-manifest/WP/
 acceptance/runner/root-manifest/lock/WS predecessor digest, exact argv,
 sanitized-environment digest, start/end/duration, bounds, per-command exit and
 stream hashes/bytes, combined bytes, assertions, executed case target, and
-result in canonical `test-gate-evidence.v10` JSON. All 16 modes must pass at
+result in canonical `test-gate-evidence.v11` JSON. All 16 modes must pass at
 one identical binding. A zero-test target, skipped target, missing field,
 mutation during a run, mismatched digest, or output after supervisor failure
 is a failure.
@@ -1238,7 +1330,7 @@ must recompute from the named bytes; merely matching `DIGEST` syntax is not
 sufficient. No unstated coercion, default, additional property, alternate
 encoding, or nullable value exists.
 
-### 8.2 Closed `test-gate-evidence.v10` mode schema
+### 8.2 Closed `test-gate-evidence.v11` mode schema
 
 The exact ordered top-level keys are:
 `schema,evidence_id,mode,evidence_version,evidence_path,execution_id,
@@ -1255,7 +1347,7 @@ predecessor_evidence,history,evidence_digest`.
 
 | Ordered field | Exact rule |
 |---|---|
-| `schema` | string literal `test-gate-evidence.v10` |
+| `schema` | string literal `test-gate-evidence.v11` |
 | `evidence_id` | string exactly `EVID-WP-TST-001-<mode>-vNNNN` |
 | `mode` | `MODE` |
 | `evidence_version` | `VERSION` |
@@ -1268,7 +1360,7 @@ predecessor_evidence,history,evidence_digest`.
 | `predecessor_execution` | null iff `execution_history=[]`; otherwise the last closed `ExecutionBinding` in that history, retained by reviews of the new execution |
 | `execution_history` | exact ascending immutable `ExecutionBinding` array defined below |
 | `wp_id` | string literal `WP-TST-001` |
-| `wp_artifact_digest` | `DIGEST` of independently accepted R13 bytes |
+| `wp_artifact_digest` | `DIGEST` of independently accepted R14 bytes |
 | `acceptance_binding` | closed `AcceptanceBinding` below |
 | `entry_binding` | closed `EntryBinding` below |
 | `implementation_binding` | closed `ImplementationBinding` below |
@@ -1338,7 +1430,7 @@ ordinal and array byte-identically.
 |---|---|
 | `ExecutionOrigin` | exact keys `execution_id,execution_ordinal,execution_evidence_version,implementation_commit,run_id,ledger_root,ledger_aggregate_digest`; values equal the top level, implementation binding, and ledger binding; ordinal is independent of evidence version; it contains no evidence ID/version/path/digest and is byte-identical in every review successor |
 | `ExecutionBinding` | exact keys `execution_id,execution_ordinal,execution_evidence_version,execution_origin_digest,evidence_id,evidence_version,evidence_path,evidence_digest,run_id,ledger_root,ledger_aggregate_digest`; origin digest hashes canonical `ExecutionOrigin`; evidence values bind the last immutable record of that execution immediately before the next execution begins; ordinal obeys the complete consecutive history rule while the two evidence-version fields retain their exact record meanings; every digest recomputes |
-| `AcceptanceBinding` | `commit:GIT_ID,pulse_digest:DIGEST`; commit is the committed R13 acceptance pulse and that pulse hashes R13 and earlier inputs, never its own commit |
+| `AcceptanceBinding` | `commit:GIT_ID,pulse_digest:DIGEST`; commit is the committed R14 acceptance pulse and that pulse hashes R14 and earlier inputs, never its own commit |
 | `EntryBinding` | `commit:GIT_ID,pulse_digest:DIGEST,tree_digest:GIT_ID`; commit is the direct governance child of acceptance and its pulse binds acceptance, never its own commit |
 | `ImplementationBinding` | exact ordered keys `commit,tree_digest,first_parent,allowed_paths,observed_preflight`; commit/tree/parent use the prior constraints; allowed paths are the exact 18 section 3 paths in bytewise order; preflight is the closed object below |
 | `ContextRevBinding` | `exit_commit:GIT_ID,implementation_digest:DIGEST,evidence_set_digest:DIGEST,evidence_tree_digest:GIT_ID,unchanged_result_digest:DIGEST`; values are exactly `ab227cc06f15299b594cfe2be99915bd93c4c081`,`c5c2df1178568cd49b5d721cd01cba7cce3371e049528e07bad30d6b3324ea72`,`b95beff569794125018f2fde3d4d3317ed32278dfcfb1fc22a7d25cf51226bd9`,`d554c8c0c3d534aa96924f085a4dc007b25e3a3c`,`f0a15398cc87614cc904cbaa28459ef65ebc267ed70349e46f86f743ebd708c6`; the last hashes exact UTF-8 `rev_unchanged=true<LF>` and proves context only |
@@ -1355,12 +1447,12 @@ ordinal and array byte-identically.
 | `EvidenceBinding` | `evidence_id:string,evidence_path:string,evidence_version:VERSION,evidence_digest:DIGEST`; ID/path use the same mode and bound version formulas and digest hashes that immutable predecessor |
 
 Identity extraction is literal and total. `wp_candidate` hashes committed
-`pulse-25-wp-tst-001-r13-candidate.md` bytes and extracts its sole fenced
-`vtrace-author-custody.v1` block with exact LF rows `subject=WP-TST-001-R13`,
+`pulse-26-wp-tst-001-r14-candidate.md` bytes and extracts its sole fenced
+`vtrace-author-custody.v1` block with exact LF rows `subject=WP-TST-001-R14`,
 `author_id=REV-TST-WP-AUTHOR`, `controller_id=REV-TST-GOVERNANCE-CONTROLLER`,
 `subject_digest=<wp_artifact_digest>`. `acceptance_pulse` and `entry_pulse`
-similarly use future committed pulses 26 and 27, subjects
-`WP-TST-001-R13-ACCEPTANCE` and `WP-TST-001-R13-ENTRY`, authors
+similarly use future committed pulses 27 and 28, subjects
+`WP-TST-001-R14-ACCEPTANCE` and `WP-TST-001-R14-ENTRY`, authors
 `REV-TST-ACCEPTANCE-AUTHOR` and `REV-TST-ENTRY-AUTHOR`, governance controller,
 and subject digests respectively equal to the WP and acceptance-pulse digests.
 Their source digests hash complete raw pulse bytes.
@@ -1379,7 +1471,7 @@ author can be omitted from independence checks.
 For a mode, execution-origin ID is the evidence ID whose version equals
 `execution_evidence_version`; review successors retain it and an execution
 successor replaces only this binding with its new origin. Source refs are
-respectively the committed R13 candidate, acceptance, entry,
+respectively the committed R14 candidate, acceptance, entry,
 and implementation commit IDs, that execution-origin mode evidence ID, and the initial
 set evidence ID; each must resolve to the exact source just described.
 
@@ -2091,7 +2183,7 @@ assurance lanes are `pass`, all predecessors/digests/versions verify, and zero
 current critical/major finding, open defer, open dissent conflict, or evidence
 conflict is mandatory.
 
-### 8.6 Independently closed `test-gate-evidence-set.v9` schema
+### 8.6 Independently closed `test-gate-evidence-set.v10` schema
 
 A set uses section 8.1 canonical encoding and these exact ordered keys:
 `schema,set_id,set_version,set_path,wp_id,wp_artifact_digest,
@@ -2100,7 +2192,7 @@ aggregate_digest,observed_outputs,required_review_lanes,reviewer_decisions,
 findings,defers,dissent,conflicts,status,review_completeness,rollback_plan,reproduction_plan,
 predecessor_set,history,invalidation_triggers,set_digest`.
 
-`schema` is literal `test-gate-evidence-set.v9`; set version is `VERSION`; ID is
+`schema` is literal `test-gate-evidence-set.v10`; set version is `VERSION`; ID is
 exactly `EVID-WP-TST-001-SET-vNNNN`; path is exactly
 `context/waves/2026-07-28-bastion-foundation/evidence/wp-tst-001/sets/<set_id>.json`;
 WP ID is literal `WP-TST-001`; WP digest and the three binding objects use the
@@ -2206,10 +2298,15 @@ mode/set/decision preimage includes its own digest, enclosing digest, future
 commit, or future pulse. Neither history is mutated, deleted, overwritten,
 quarantined, or hidden.
 
-The dedicated R13 negative suite additionally rejects a reused/preexisting Job
+The dedicated R14 negative suite additionally rejects a reused/preexisting Job
 name; missing or changed kill-on-close/Job-memory configuration; a process-
 memory-only configuration; absent, zero, relaxed, or substituted
-`JobMemoryLimit`; false `memory-limit` without Job-wide violation proof; PID reuse with a
+`JobMemoryLimit`; completion-port creation/association after assignment;
+inherited port handle; wrong completion key; missing/mismatched notification
+set/query; synthesized, stale, process-only, wrong-key, or unconfigured
+message; notification proof without immediate successful violation query;
+hard-message proof with a fabricated violation query; false `memory-limit`
+without one exact documented signal; PID reuse with a
 different creation FILETIME, every Create/Open/Query/Assign/Terminate/Wait/
 Close failure, PID-only kill, nonzero active count after termination, truncated
 native exit, mismatched portable exit/stream hash/event preimage, and every
@@ -2227,11 +2324,15 @@ and immediately around finalization; every restored mutation, watch gap/
 overflow, worktree-sourced worker byte, blob-object mismatch, unexpected path,
 wrong create order, self-digest attempt, missing receipt/finalization, or final
 snapshot/watch mismatch is non-promotable.
+It also re-resolves each R1–R7 commit:path pair and rejects any absent pulse,
+working-tree substitution, path/version alias, wrong historical blob, raw-byte
+SHA mismatch, or attempt to treat the current Pulse 17 bytes as an earlier
+revision's bytes.
 
 ## 9. Entry, stop, exit, and authority
 
 Acceptance of this candidate, if it occurs, authorizes only a later separate
-entry decision. The acceptance pulse binds the R13 artifact digest and all prior
+entry decision. The acceptance pulse binds the R14 artifact digest and all prior
 governance inputs, but never its own future commit. After it is committed, the
 entry pulse binds that acceptance commit and pulse digest, but never its own
 future commit. After entry is committed, evidence binds the resulting entry
