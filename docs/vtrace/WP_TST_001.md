@@ -1,4 +1,4 @@
-# WP-TST-001-R11 — origin-bound lifecycle-ledger boundary-test and fixture-custody bootstrap
+# WP-TST-001-R12 — reopenable immutable-execution boundary-test and fixture-custody bootstrap
 
 Status: `proposed; acceptance_candidate; not_accepted; not_entered`
 
@@ -10,14 +10,14 @@ configuration-only membership integration in `PB-WS-001`
 Logical WP predecessor: accepted `WP-WS-001` exit only. R1 commit
 `62116481b7b3e7d671517b6053c8cc3f20f93fce` and R2 commit
 `21c8066445c72358a444c0b506422ec3b9dc63e0` are retained governance history.
-After R11 acceptance, the entry commit and its direct implementation successor
+After R12 acceptance, the entry commit and its direct implementation successor
 must remain on the current governance/main lineage. Accepted REV is only a
 context co-member: workspace co-membership and Git ancestry are explicitly not
 WP-predecessor or dependency relationships.
 
 ## 1. Controlled baseline and custody
 
-The future acceptance commit must descend from R11 on current main; the entry
+The future acceptance commit must descend from R12 on current main; the entry
 commit must be its direct governance successor; and the one implementation
 commit must be the direct child of entry. Accepted `WP-WS-001` exit
 `cd1f1d75ec312789fed63a265219d8ad9069a17a` remains the sole logical WP
@@ -50,7 +50,10 @@ predecessor digest, or Cargo edge holds acceptance and entry.
 | Retained R10 governance commit (not accepted) | `07cdba818ae4dc1120780104995b43143a6bee16` |
 | Retained R10 WP SHA-256 / blob | `6149e23aba203bb529d13936f872781f98202094984fac7a9c74e0279b700a1b` / `a6f74dcbc319921a128dda1562b821995b620735` |
 | Retained R10 pulse SHA-256 / blob | `e08e93750045e894dc976126d236849a10c37bbbfb2fc6dcc89594a0916b0da8` / `cabee5936027bc005b5bd58287f3939bab5f4e82` |
-| Current R11 governance-line base before acceptance | `07cdba818ae4dc1120780104995b43143a6bee16` |
+| Retained R11 governance commit (not accepted) | `2cc8ef35d99a2b49878dce2943b639991df1feff` |
+| Retained R11 WP SHA-256 / blob | `b3082d4853c64c7f0f7505112ccb9bb22d504cdf61e21126f8f27a0c6a5e3b9e` / `f2f20f2fda1c73b3cd0924b1bc1a2c06867043e9` |
+| Retained R11 pulse SHA-256 / blob | `8bb730b00a59634259d835e2fb82fe4346c035f9bb870bb252e5572d48c17f7c` / `6db09b5a99b328edd53cd03514b80e34049e2a11` |
+| Current R12 governance-line base before acceptance | `2cc8ef35d99a2b49878dce2943b639991df1feff` |
 | Context-only accepted REV exit | `ab227cc06f15299b594cfe2be99915bd93c4c081` |
 | Context-only accepted REV implementation commit / SHA-256 | `5c4e96306d3c463a44be7621371759da8bca399b` / `c5c2df1178568cd49b5d721cd01cba7cce3371e049528e07bad30d6b3324ea72` |
 | Context-only accepted REV evidence-set SHA-256 / tree | `b95beff569794125018f2fde3d4d3317ed32278dfcfb1fc22a7d25cf51226bd9` / `d554c8c0c3d534aa96924f085a4dc007b25e3a3c` |
@@ -370,7 +373,7 @@ is exact per mode and ordered by first internal use:
 | `L2HoldClosure` | `[cargo]` |
 | `L2NoAuthority` | `[cargo]` |
 
-R11 uses an exact serial phase plan. Each closed `ExecutionPhase` has ordered
+R12 uses an exact serial phase plan. Each closed `ExecutionPhase` has ordered
 keys `phase_ordinal,phase_id,kind,tool_version_indices,argv,target_first,
 target_count`: ordinal is consecutive from 1; kind is `command|targets`;
 tool indices select the exact top-level tuples in use order; argv is a literal
@@ -464,9 +467,9 @@ variant admits another variant's keys or placeholder null fields.
 | Variant / exact `record_kind` | Exact ordered suffix before `record_digest` |
 |---|---|
 | `RunStart` / `run-start` | `start_utc` |
-| `PhaseStart(command)` / `phase-NN-start` | `phase_ordinal,phase_id,phase_kind,argv,process_id,process_creation_utc,job_id,start_utc` |
+| `PhaseStart(command)` / `phase-NN-start` | `phase_ordinal,phase_id,phase_kind,argv,process_id,process_creation_filetime,job_name,job_configuration_digest,start_utc` |
 | `PhaseStart(targets)` / `phase-NN-start` | `phase_ordinal,phase_id,phase_kind,argv,start_utc` |
-| `TargetStart` / `target-MMM-start` | `phase_ordinal,phase_id,target_ordinal,controlled_id,assertion,argv,process_id,process_creation_utc,job_id,start_utc` |
+| `TargetStart` / `target-MMM-start` | `phase_ordinal,phase_id,target_ordinal,controlled_id,assertion,argv,process_id,process_creation_filetime,job_name,job_configuration_digest,start_utc` |
 | `TargetCompletion` / `target-MMM-completion` | `phase_ordinal,phase_id,target_ordinal,controlled_id,assertion,argv,paired_start_digest,native_exit_u32,portable_exit,state,reason,stdout_sha256,stderr_sha256,end_utc` |
 | `TargetRecovery` / `target-MMM-recovery` | `phase_ordinal,phase_id,target_ordinal,controlled_id,assertion,argv,paired_start_digest,termination_observation,native_exit_u32,portable_exit,state,reason,stdout_sha256,stderr_sha256,recovery_utc` |
 | `PhaseCompletion` / `phase-NN-completion` | `phase_ordinal,phase_id,phase_kind,argv,paired_start_digest,native_exit_u32,portable_exit,state,reason,end_utc` |
@@ -486,9 +489,11 @@ identity triple required of TargetStart, while a targets phase launches no
 child at phase start and admits none of those keys. Each
 completion/recovery's `paired_start_digest` names its unique earlier unpaired
 start at the same scope; no start is paired twice. Start process ID is uint
-`1..4294967295`, process creation time is `UTC`, and Job ID is uint
-`1..18446744073709551615`; the triple is captured after assignment to the new
-Job and before child release. Completion native exit is uint `0..4294967295`;
+`1..4294967295`; creation FILETIME is the lossless uint64 count of 100-ns
+intervals returned by `GetProcessTimes`, never a formatted timestamp. Job name
+is exact `Local\\BAS-TST-<first-32-lowercase-hex-of-SHA256(run_id)>`; its
+configuration digest is defined below. All four values are captured after Job
+assignment and before child release. Completion native exit is uint `0..4294967295`;
 portable exit is `0..255` and equals native exit when at most 255, otherwise
 255. State is `passed|failed|held`; reason is the scope's closed terminal enum.
 Target completion stream hashes are `DIGEST`.
@@ -504,24 +509,86 @@ exactly `all-phases-passed|phase-failed|phase-held`; run recovery reason is the
 same closed recovery enum and equals observation kind. State/reason pairs not
 named by these mappings reject.
 
+The supervisor's new-run Job sequence is exact: call
+`CreateJobObjectW(null,<job_name>)` and require a new object
+(`GetLastError()!=ERROR_ALREADY_EXISTS`); set exactly
+`JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE|JOB_OBJECT_LIMIT_PROCESS_MEMORY` with the
+section 8 memory limit; query the same limits back; create the child suspended;
+`AssignProcessToJobObject`; obtain PID and creation FILETIME; durably write the
+child start; then `ResumeThread`. `job_configuration_digest` hashes canonical
+LF rows `name=<job_name>`, `kill_on_close=true`,
+`process_memory_bytes=1073741824`, `run_id=<run_id>`, in that order. Every API
+name, Win32 return/error code, queried limit, and handle close is retained in
+the supervisor event stream. The name is durable identity, not proof that an
+object still exists.
+
+Recovery first calls `OpenJobObjectW(QUERY|TERMINATE|SYNCHRONIZE,false,
+<job_name>)`. Success requires queried configuration equal to the start and a
+Job process list containing the recorded PID whose `GetProcessTimes` creation
+FILETIME equals the start. It then calls `TerminateJobObject` with exact native
+exit `0xE0000001`, waits for the Job, re-queries until active-process count is
+zero, reads the process exit, and closes the handle. If open returns only
+`ERROR_FILE_NOT_FOUND`, recovery calls `OpenProcess(QUERY_LIMITED_INFORMATION|
+SYNCHRONIZE,false,<pid>)`: absent process is proven already terminated; a
+present process must have matching creation FILETIME and be absent from any
+reopenable named Job before recovery rejects as `job-identity-lost`—it is never
+killed by PID alone. Any other open/query/identity/API result rejects recovery.
+Normal supervisor close proves kill-on-close by the queried flag; unexpected
+last-handle close may terminate the Job, after which the FILETIME-based absent
+proof is the only legal recovery branch.
+
 `TerminationObservation` has exact ordered keys
-`kind,worker_started,process_id,process_creation_utc,job_id,
+`kind,worker_started,process_id,process_creation_filetime,job_name,
+job_configuration_digest,job_open_result,job_query_digest,
 identity_match,job_active_count_before,termination_action,
-job_active_count_after,native_exit_u32,observed_utc,event_digest`. Kind is
-exactly `timeout|wall-limit|memory-limit|output-limit|bound-kill|crash|
-unexpected-exit|supervisor-loss|ledger-corruption`; action is
-`none|terminate-job|already-absent`; identity match is bool and both active
-counts are uint `0..4294967295`. For a recorded child, PID, creation time, and
-Job ID equal its start and identity must match before any termination; mismatch
-rejects recovery. `already-absent` requires before/after zero; `terminate-job`
-requires positive before, successful Job termination, and after zero; `none`
-is permitted only for an independently observed crash/exit and after zero.
-When no worker started, the three identity values and native exit are null,
-identity match is false, counts are zero, and kind is
-`supervisor-loss|ledger-corruption`. Otherwise identity values are non-null;
-native exit is non-null iff independently observed, and portable exit follows
-the same mapping or is null. Stream hashes are non-null exactly when complete
-streams were independently observed. These are the only null combinations.
+terminate_job_result,job_active_count_after,native_exit_u32,portable_exit,
+stdout_sha256,stderr_sha256,observed_utc,event_digest`. Kind is exactly
+`timeout|wall-limit|memory-limit|output-limit|bound-kill|crash|
+unexpected-exit|supervisor-loss|ledger-corruption|job-identity-lost`; open
+result is `created-handle|reopened-handle|not-found|not-attempted`; action is
+`none|terminate-job|already-absent|reject-identity`; terminate result is
+`succeeded|not-called|failed`; identity match is bool; counts are uint
+`0..4294967295`; native is uint32 or null; portable is `0..255|null`; stream
+hashes are `DIGEST|null`; event digest is defined below.
+
+The exhaustive tuples are: ordinary observed exit/crash = worker true, all
+identity/config/query fields non-null, open `created-handle`, action none,
+terminate not-called, before/after zero, native/portable non-null, both complete
+stream hashes non-null; recovered live Job = worker true, open
+`reopened-handle`, identity true, positive before, action terminate-job,
+terminate succeeded, zero after, native/portable non-null after wait, and each
+stream hash non-null iff its complete pipe was recovered; already absent =
+worker true, open not-found, exact recorded-PID absence proof bound in
+`job_query_digest`, zero/zero, action
+already-absent, terminate not-called, native/portable and streams nullable only
+when no complete observation exists; pre-child supervisor/ledger loss = worker
+false, all process/Job/config/query/native/portable/stream fields null, open
+not-attempted, identity false, zero/zero, action already-absent, terminate
+not-called; identity/API rejection = kind job-identity-lost or
+ledger-corruption, observed identity fields retained, action reject-identity,
+terminate not-called or failed, no recovery record and no promotion. Portable
+equals native through the established `<=255 ? native : 255` mapping whenever
+native is non-null. Job query digest is non-null for every created/reopened/
+not-found/rejection branch and hashes canonical API result/query/process-list/
+PID-FILETIME rows; it is null only for pre-child not-attempted. No other
+state/reason/null tuple is legal.
+For every legal recovery record, its native/portable exits and stdout/stderr
+hashes are byte-identical projections of its `termination_observation`; state
+is `failed` and reason equals observation kind. A null projection where the
+observation is non-null, or the reverse, rejects.
+
+`event_digest` is SHA-256 of exact UTF-8 LF rows
+`schema=termination-events.v1`, `run_id=<run_id>`,
+`paired_start_digest=<Digest>`, followed by every supervisor event as
+`sequence=<u64><TAB>api=<closed-api-name><TAB>result=<decimal-u32><TAB>
+value=<canonical-value-or-minus><LF>` in observed order, then
+`terminal_kind=<kind><LF>`. Closed API names are exactly
+`CreateJobObjectW,SetInformationJobObject,QueryInformationJobObject,
+CreateProcessW,AssignProcessToJobObject,GetProcessTimes,ResumeThread,
+OpenJobObjectW,OpenProcess,TerminateJobObject,WaitForSingleObject,
+GetExitCodeProcess,ReadFile,CloseHandle`. The digest includes failed calls and
+the event that selected termination; no prose, native struct padding, omitted
+event, or alternate order is legal.
 
 Each file is create-new, completely written, `FlushFileBuffers`-flushed,
 closed, and followed by a parent-directory handle flush before child launch or
@@ -543,10 +610,10 @@ recoverable prefixes have unique properly nested open ancestors and exactly
 one of four final records: (1) an unpaired target/command-phase start, (2) a
 paired target terminal with its phase/run open, (3) a paired phase terminal
 with its run open, or (4) run start before any phase. Every earlier sibling is
-paired and no unrelated start is open. Case 1 proves absence or terminates the
-exact PID+creation-time+Job identity and freezes that observation. Cases 2–4
-freeze `supervisor-loss,false,null,null,null,false,0,already-absent,0,null,
-<observed UTC>,<event digest>` because the prior child terminal is already
+paired and no unrelated start is open. Case 1 applies the exact named-Job/
+FILETIME reopen/query/termination proof and freezes that full observation.
+Cases 2–4 freeze the exhaustive pre-child/no-active-worker `supervisor-loss`
+tuple above because the prior child terminal is already
 durable or no child began. Case 1 target unwind is exactly target recovery ->
 phase recovery -> run recovery; case 1 command phase and cases 2 unwind phase
 recovery -> run recovery; cases 3–4 write run recovery. Each predecessor names
@@ -570,8 +637,10 @@ literal final `tools/test_gate.ps1`, then requires
 `git -C <candidate-root> rev-parse --show-toplevel` to return that same absolute
 path after Windows handle-based normalization. Different roots, symlink/junction
 redirection, relative cwd, drive-relative form, or a caller cwd rejects. Every
-child process receives that exact root as cwd and every Git argv contains
-`-C <absolute-repo-root>`.
+supervisor Git process receives that exact root as cwd and every Git argv
+contains `-C <absolute-repo-root>`. No worker executes there: worker cwd and
+all executable/config/source inputs come only from the immutable commit-tree
+materialization defined below.
 
 The preflight uses only the following literal Git argv arrays, substituting the
 already bound lowercase commit/object IDs as single arguments. All invocations
@@ -658,7 +727,7 @@ one implementation commit, implementation/test/fixture-manifest/WP/
 acceptance/runner/root-manifest/lock/WS predecessor digest, exact argv,
 sanitized-environment digest, start/end/duration, bounds, per-command exit and
 stream hashes/bytes, combined bytes, assertions, executed case target, and
-result in canonical `test-gate-evidence.v8` JSON. All 16 modes must pass at
+result in canonical `test-gate-evidence.v9` JSON. All 16 modes must pass at
 one identical binding. A zero-test target, skipped target, missing field,
 mutation during a run, mismatched digest, or output after supervisor failure
 is a failure.
@@ -1135,11 +1204,12 @@ must recompute from the named bytes; merely matching `DIGEST` syntax is not
 sufficient. No unstated coercion, default, additional property, alternate
 encoding, or nullable value exists.
 
-### 8.2 Closed `test-gate-evidence.v8` mode schema
+### 8.2 Closed `test-gate-evidence.v9` mode schema
 
 The exact ordered top-level keys are:
 `schema,evidence_id,mode,evidence_version,evidence_path,execution_id,
-execution_evidence_version,execution_origin,wp_id,
+execution_evidence_version,execution_origin,successor_kind,
+predecessor_execution,execution_history,wp_id,
 wp_artifact_digest,acceptance_binding,entry_binding,implementation_binding,
 logical_predecessor_commit,context_rev_binding,identity_registry,candidate_author_ids,artifact_digests,
 trace_manifest_digest,allocated_targets,execution_phases,target_results,ledger_binding,post_execution_custody,fixture_bindings,command_identity,
@@ -1151,7 +1221,7 @@ predecessor_evidence,history,evidence_digest`.
 
 | Ordered field | Exact rule |
 |---|---|
-| `schema` | string literal `test-gate-evidence.v8` |
+| `schema` | string literal `test-gate-evidence.v9` |
 | `evidence_id` | string exactly `EVID-WP-TST-001-<mode>-vNNNN` |
 | `mode` | `MODE` |
 | `evidence_version` | `VERSION` |
@@ -1159,8 +1229,11 @@ predecessor_evidence,history,evidence_digest`.
 | `execution_id` | string exactly `EXEC-WP-TST-001-<mode>-vEEEE` |
 | `execution_evidence_version` | `VERSION`; fixed when execution begins and immutable across every review successor |
 | `execution_origin` | closed immutable `ExecutionOrigin` below; independently binds this execution and ledger without any review-record digest |
+| `successor_kind` | `origin|review|execution`; exact transition rules below |
+| `predecessor_execution` | null iff `execution_history=[]`; otherwise the last closed `ExecutionBinding` in that history, retained by reviews of the new execution |
+| `execution_history` | exact ascending immutable `ExecutionBinding` array defined below |
 | `wp_id` | string literal `WP-TST-001` |
-| `wp_artifact_digest` | `DIGEST` of independently accepted R11 bytes |
+| `wp_artifact_digest` | `DIGEST` of independently accepted R12 bytes |
 | `acceptance_binding` | closed `AcceptanceBinding` below |
 | `entry_binding` | closed `EntryBinding` below |
 | `implementation_binding` | closed `ImplementationBinding` below |
@@ -1204,16 +1277,27 @@ predecessor_evidence,history,evidence_digest`.
 The following nested objects are independently closed. Key order is the order
 shown; all members are non-null unless stated otherwise:
 
-At the execution-origin record, `execution_evidence_version` equals
+At the execution-origin record, `successor_kind=origin`, predecessor execution
+is null, execution history is `[]`, and `execution_evidence_version` equals
 `evidence_version`. A review-only successor increments only
 `evidence_version`; the execution version remains the origin value. Ledger
 records never contain review `evidence_version`, and review evidence never
 derives ledger paths from its mutable version.
 
+`execution_history` has cardinality `0..9998`; its bindings are strictly
+increasing by `execution_evidence_version`, begin at the first execution, and
+are consecutive with no omission or duplicate. Each member binds the latest
+immutable evidence record of that completed execution immediately before its
+successor execution began. Its last member equals `predecessor_execution`.
+Thus an origin has zero members and execution version `vEEEE` has exactly one
+member for every earlier execution in this mode; review successors retain the
+array byte-identically.
+
 | Type | Ordered members and exact rules |
 |---|---|
 | `ExecutionOrigin` | exact keys `execution_id,execution_evidence_version,implementation_commit,run_id,ledger_root,ledger_aggregate_digest`; values equal the top level, implementation binding, and ledger binding; it contains no evidence ID/version/path/digest and is byte-identical in every review successor |
-| `AcceptanceBinding` | `commit:GIT_ID,pulse_digest:DIGEST`; commit is the committed R11 acceptance pulse and that pulse hashes R11 and earlier inputs, never its own commit |
+| `ExecutionBinding` | exact keys `execution_id,execution_evidence_version,execution_origin_digest,evidence_id,evidence_version,evidence_path,evidence_digest,run_id,ledger_root,ledger_aggregate_digest`; origin digest hashes canonical `ExecutionOrigin`; evidence values bind the last immutable record of that execution immediately before the next execution begins; every digest recomputes |
+| `AcceptanceBinding` | `commit:GIT_ID,pulse_digest:DIGEST`; commit is the committed R12 acceptance pulse and that pulse hashes R12 and earlier inputs, never its own commit |
 | `EntryBinding` | `commit:GIT_ID,pulse_digest:DIGEST,tree_digest:GIT_ID`; commit is the direct governance child of acceptance and its pulse binds acceptance, never its own commit |
 | `ImplementationBinding` | exact ordered keys `commit,tree_digest,first_parent,allowed_paths,observed_preflight`; commit/tree/parent use the prior constraints; allowed paths are the exact 18 section 3 paths in bytewise order; preflight is the closed object below |
 | `ContextRevBinding` | `exit_commit:GIT_ID,implementation_digest:DIGEST,evidence_set_digest:DIGEST,evidence_tree_digest:GIT_ID,unchanged_result_digest:DIGEST`; values are exactly `ab227cc06f15299b594cfe2be99915bd93c4c081`,`c5c2df1178568cd49b5d721cd01cba7cce3371e049528e07bad30d6b3324ea72`,`b95beff569794125018f2fde3d4d3317ed32278dfcfb1fc22a7d25cf51226bd9`,`d554c8c0c3d534aa96924f085a4dc007b25e3a3c`,`f0a15398cc87614cc904cbaa28459ef65ebc267ed70349e46f86f743ebd708c6`; the last hashes exact UTF-8 `rev_unchanged=true<LF>` and proves context only |
@@ -1230,12 +1314,12 @@ derives ledger paths from its mutable version.
 | `EvidenceBinding` | `evidence_id:string,evidence_path:string,evidence_version:VERSION,evidence_digest:DIGEST`; ID/path use the same mode and bound version formulas and digest hashes that immutable predecessor |
 
 Identity extraction is literal and total. `wp_candidate` hashes committed
-`pulse-23-wp-tst-001-r11-candidate.md` bytes and extracts its sole fenced
-`vtrace-author-custody.v1` block with exact LF rows `subject=WP-TST-001-R11`,
+`pulse-24-wp-tst-001-r12-candidate.md` bytes and extracts its sole fenced
+`vtrace-author-custody.v1` block with exact LF rows `subject=WP-TST-001-R12`,
 `author_id=REV-TST-WP-AUTHOR`, `controller_id=REV-TST-GOVERNANCE-CONTROLLER`,
 `subject_digest=<wp_artifact_digest>`. `acceptance_pulse` and `entry_pulse`
-similarly use future committed pulses 24 and 25, subjects
-`WP-TST-001-R11-ACCEPTANCE` and `WP-TST-001-R11-ENTRY`, authors
+similarly use future committed pulses 25 and 26, subjects
+`WP-TST-001-R12-ACCEPTANCE` and `WP-TST-001-R12-ENTRY`, authors
 `REV-TST-ACCEPTANCE-AUTHOR` and `REV-TST-ENTRY-AUTHOR`, governance controller,
 and subject digests respectively equal to the WP and acceptance-pulse digests.
 Their source digests hash complete raw pulse bytes.
@@ -1245,14 +1329,17 @@ exactly one final ordered trailer pair `Vtrace-Author-Id:
 REV-TST-IMPLEMENTATION-AUTHOR` and `Vtrace-Controller-Id:
 REV-TST-IMPLEMENTATION-CONTROLLER`. `mode_evidence` and `set_evidence` hash
 canonical LF rows `schema=vtrace-evidence-custody.v1`, `scope=<mode-or-SET>`,
-`evidence_id=<initial-id>`, `author_id=REV-TST-EVIDENCE-AUTHOR`,
+`evidence_id=<execution-origin-id>`, `author_id=REV-TST-EVIDENCE-AUTHOR`,
 `controller_id=REV-TST-EVIDENCE-CONTROLLER`, and
 `wp_digest=<wp_artifact_digest>`. Missing/duplicate/reordered source fields,
 working-tree substitution, caller identity, digest mismatch, or any author/
 controller not projected into `candidate_author_ids` rejects. Thus no candidate
 author can be omitted from independence checks.
-Source refs are respectively the committed R11 candidate, acceptance, entry,
-and implementation commit IDs, the initial mode evidence ID, and the initial
+For a mode, execution-origin ID is the evidence ID whose version equals
+`execution_evidence_version`; review successors retain it and an execution
+successor replaces only this binding with its new origin. Source refs are
+respectively the committed R12 candidate, acceptance, entry,
+and implementation commit IDs, that execution-origin mode evidence ID, and the initial
 set evidence ID; each must resolve to the exact source just described.
 
 Target-result optionality is exact:
@@ -1261,12 +1348,12 @@ Target-result optionality is exact:
 |---|---|---|
 | `passed` | null | `/observed_outputs/structured/content` |
 | `held` | `expected-hold|dependency-hold` | `/observed_outputs/structured/content` |
-| `failed` | `assertion-failed|timeout|wall-limit|memory-limit|output-limit|bound-kill|crash|supervisor-loss|ledger-corruption|unexpected-exit` | one `OUTPUT_POINTER` |
+| `failed` | `assertion-failed|timeout|wall-limit|memory-limit|output-limit|bound-kill|crash|supervisor-loss|ledger-corruption|job-identity-lost|unexpected-exit` | one `OUTPUT_POINTER` |
 | `not_run` | `preflight-failed|command-not-started|after-terminal` | null |
 
 `target_results` always has allocation cardinality; an attempted prefix is
 represented by states, never by truncation or omission. The first
-`timeout|wall-limit|memory-limit|output-limit|bound-kill|crash|supervisor-loss|ledger-corruption|unexpected-exit`
+`timeout|wall-limit|memory-limit|output-limit|bound-kill|crash|supervisor-loss|ledger-corruption|job-identity-lost|unexpected-exit`
 is terminal. If it occurs while a
 target is active, that target is failed with the terminal reason; every later
 allocation is `not_run/after-terminal/null`. If termination occurs before or
@@ -1287,8 +1374,9 @@ zeros. Mismatch, result omission/reorder, identity substitution, skipped middle
 target, non-null optional misuse, or favorable state after terminal rejects.
 `actual.result` is `passed` iff every allocated target is passed (including the
 vacuous empty allocation), preflight passed, every internal argv exited zero,
-the phase/ledger chain is complete, post-execution custody passed, and all
-postconditions passed. Any failed target derives `failed`; otherwise
+the phase/ledger chain is complete, post-execution custody passed, the external
+receipt/finalization chain and final snapshot/watch commitments verify, and
+all postconditions passed. Any failed target derives `failed`; otherwise
 any held or not-run target derives `not-run`; `target-held` is used iff argv
 ran and no earlier exact failure reason applies. Its reason is the first
 applicable terminal/preflight/command/assertion/binding reason in observed order. Review
@@ -1344,18 +1432,35 @@ remain disabled and all remaining repository-local inputs are bound.
 manifest_digest`. Root is literal
 `context/waves/2026-07-28-bastion-foundation/evidence/wp-tst-001/`; items are
 raw-path-byte-sorted unique objects with exact keys
-`path,kind,porcelain_tag,sha256`, kind
-`ledger-record|mode-evidence|set-evidence` and tag `?|!`. A decoded path is admitted only by
+`path,kind,porcelain_tag,sha256,schema,record_digest,predecessor_digest`, kind
+`ledger-record|mode-evidence|set-evidence|review-auth|publication-receipt|
+publication-finalization` and tag `?|!`. Schema is the parsed literal schema;
+record digest recomputes from the complete canonical file under that schema;
+predecessor digest is its exact immediate predecessor or null only where the
+closed artifact schema permits an origin. A decoded path is admitted only by
 one complete anchored grammar:
 `ledger/<MODE>/vEEEE/run-aAAAA/rRRRR-<closed-ledger-kind>.json`,
 `runs/<MODE>/EVID-WP-TST-001-<MODE>-vNNNN.json`, or
-`sets/EVID-WP-TST-001-SET-vNNNN.json`. Numeric widths, MODEs, record kinds, and
+`sets/EVID-WP-TST-001-SET-vNNNN.json`,
+`review-auth/Lii/<REVIEWER_ID>.json`,
+`receipts/<MODE>/vEEEE/run-aAAAA/publication-receipt.json`, or
+`receipts/<MODE>/vEEEE/run-aAAAA/publication-finalization.json`. `ii` is exact
+two-digit `00..21`; reviewer ID must satisfy the closed `REVIEWER_ID` grammar
+and the file's lane/reviewer fields. Numeric widths, MODEs, record kinds, and
 version/run/ordinal relationships are exactly those closed in this WP. SHA-256
-hashes exact bytes; total count equals item count; manifest digest hashes each
+hashes exact raw bytes and must agree with canonical record digest rules;
+total count equals item count; manifest digest hashes each
 canonical complete item plus LF in item order. Before each mode this object
 must enumerate every prior retained ledger, mode/set evidence, and review
-successor artifact and nothing else, and each item must validate its own
-schema, digest, and predecessor chain. A malformed path, unknown file, wrong
+successor/authentication/receipt/finalization artifact and nothing else, and
+each item must validate its own schema, digest, predecessor chain, and formula
+binding. Every previously retained terminal run and every promotion candidate
+requires its complete ledger plus mode evidence, publication receipt, and
+finalization. For the single current run, post-worker/post-evidence/
+post-receipt snapshots permit only the exact proper creation prefix named by
+`publication_plan`; post-finalization requires the complete quartet. Every non-null decision requires its
+one formula-bound review-auth artifact; every referenced set requires its set
+file. A malformed path, missing mandatory artifact, unknown file, wrong
 hash, stale chain, omitted retained item, or substitution fails preflight.
 Generated items are explicitly excluded from `rows`, both 18-path manifest
 preimages, and missing/extra classification because those derive only from the
@@ -1445,10 +1550,12 @@ Conversely the not-run preflight variant is valid iff preflight is failure.
 
 After the run ledger reaches completion/recovery and before the final evidence
 path exists, the supervisor performs `post_execution_custody`. It has exact
-ordered keys `status,root_observation,git_dir_observation,common_dir_observation,
+ordered keys `status,execution_material,pre_materialization_snapshot,
+post_materialization_snapshot,post_worker_snapshot,
+root_observation,git_dir_observation,common_dir_observation,
 effective_config_observation,index_binding,porcelain_observation,
 replace_refs_observation,common_inputs,implementation_tree_digest,
-allowed_new_paths,custody_digest`. Every Git observation is the exact section 6
+generated_paths_after,allowed_new_paths,publication_plan,custody_digest`. Every Git observation is the exact section 6
 argv/environment with command ID suffixed `_post`, retaining native/portable exits and raw
 stdout/stderr counts/digests. Root/git/common outputs, effective config, index,
 replace refs, common inputs (including grafts), and implementation tree must be
@@ -1473,21 +1580,161 @@ The post tree inventory plus per-object blob reads recompute the exact
 implementation tree binding and must equal both the preflight value and
 `implementation_binding.tree_digest`; a merely clean worktree is insufficient.
 
-`allowed_new_paths` is the exact raw-byte-sorted `RawGitPath` projection of
-the preflight `generated_paths` plus only the current ledger root/files;
-porcelain may add only the newly created current-ledger paths or
+`generated_paths_after` is a fresh full filesystem/content parse under the
+same exact closed schema as preflight `generated_paths`; it never reuses the
+preflight list. It must equal the preflight items byte-for-byte plus exactly
+the current run's newly durable ledger records in record order. Every prior
+path/tag/raw hash/schema/record digest/predecessor chain is recomputed, and the
+complete manifest count/digest is recomputed. `allowed_new_paths` is exactly
+the raw-byte-sorted projection of only those current-ledger additions;
+porcelain may add only those paths or
 an emitted directory ancestor whose decoded bytes are an exact prefix ending
-`/` of that root. Prior generated entries retain the exact preflight tag and
-hash. All other pre-existing porcelain entries remain byte-identical and
+`/` of that root. All prior generated entries retain exact tag/hash/schema/
+digest/chain. All other pre-existing porcelain entries remain byte-identical and
 no other entry may appear, disappear, or change class. Status is pass iff those
-equalities hold and every post command is zero/complete. The final evidence
+equalities hold, execution material and all three execution snapshots validate,
+the watch has no prohibited event/overflow, and every post command is
+zero/complete. The final evidence
 file is create-new published only after this pass, so it is not an exception.
 Any root/index/worktree/config/replace/graft/tree drift is retained as
 non-promotable `binding-mismatch`; review cannot rewrite it.
 
+`execution_material` is a closed object with exact ordered keys
+`source_commit,source_tree,materialization_root,cargo_target_dir,
+watch_identity,materialization_invocations,tree_manifest_digest,
+worker_cwd,worker_argv,environment_digest,denied_handle_set_digest,
+pre_worker_manifest_digest,post_worker_manifest_digest,
+watch_prefix_count,watch_prefix_digest,material_digest`. Source commit/tree
+equal the implementation binding. Both roots are distinct create-new
+directories below resolved external `TEMP`, outside the repository and each
+other, with no reparse point or alternate data stream. Worker cwd equals the
+materialization root; worker argv is the section 6 exact internal argv; Cargo
+receives the exact external target directory. No worktree path is opened by a
+worker, Cargo, rustfmt, clippy, test, or assertion process.
+
+Before the first materialization Git read, the bootstrap supervisor opens
+read/delete/write-denying handles to every resolved repository input, arms
+recursive change watches on the worktree, worktree Git dir, common Git dir,
+and the two external roots, and writes a `watch-start` event. `watch_identity`
+is a `DIGEST` of canonical root/volume/file-ID rows for those watched handles.
+The watch remains armed without a gap through finalization creation and its
+verification below. Every event has exact keys
+`sequence,source,action,raw_path,byte_count,content_sha256`: sequence is
+consecutive uint64; source is `worktree|worktree-git|common-git|
+materialization|cargo-target`; action is `create|write|rename-from|rename-to|
+delete|overflow|watch-start|watch-stop`; raw path is `RawGitPath|null` only for
+start/stop/overflow; byte count is uint64 or null; content digest is `DIGEST|
+null` and is required for a stable file after create/write, except the
+formula-bound finalization self-event below. Overflow is terminal. Event digest
+hashes canonical event JSON plus LF; prefix/full digests use the section 6
+Merkle rule and exact counts.
+
+Materialization invocations are the exact fixed Git prefix followed by
+`ls-tree -r -z --full-tree <implementation_commit>` and one
+`cat-file blob <object-id>` per tree blob in raw-path order. Each invocation
+retains the closed native/portable exit and full stream custody. Tree entries
+may be only regular nonexecutable/executable blobs or directories; symlink,
+submodule, device, reparse point, duplicate raw path, case-fold collision, or
+alternate stream rejects. For every blob the supervisor recomputes Git object
+ID from exact `blob <decimal-byte-count>\0<raw-bytes>` and requires the bound
+object ID, writes create-new bytes, flushes file and parent directory, reopens
+read-only with write/delete sharing denied, and rehashes. Manifest digest hashes
+canonical `RawGitPath,mode,object-id,byte-count,SHA-256` rows. The materialized
+runner then re-execs as supervisor and launches the worker; the original
+worktree runner is only a root/materialization bootstrap and supplies no argv,
+code, fixture, configuration, outcome, or evidence byte after re-exec.
+Pre/post worker manifest digests recompute every materialized input and must
+equal the tree manifest. Denied-handle digest binds sorted volume/file-ID/
+path/size/content/access/share-mode rows for all repository and materialized
+input handles held through finalization verification. Any watch event for an
+original repository input or materialized input, even if restored, is
+`transient-mutation`; Cargo-target events are expected but cannot name another
+root. Material digest omits only itself.
+
+Every snapshot named here—`pre_materialization_snapshot`,
+`post_materialization_snapshot`, `post_worker_snapshot`, `post-evidence`,
+`post-receipt`, and `post-finalization`—is a closed `CustodySnapshot` with exact keys
+`stage,git_observations,repository_inputs,generated_paths,self_projection,
+implementation_tree_digest,material_manifest_digest,worktree_digest,
+watch_event_count,watch_event_digest,snapshot_digest`. Stage is the matching
+literal `pre-materialization|post-materialization|post-worker|post-evidence|
+post-receipt|post-finalization`; Git observations repeat
+the complete literal postrun mapping; inputs and generated paths are freshly
+read/parsed; tree and material digests recompute; worktree digest covers the
+complete raw status set; watch count/digest bind the exact prefix. The first is
+taken only after handles/watches are active and before any materialization read;
+the second after all material files/handles verify and before worker launch;
+the third after Job termination/report/ledger closure and before evidence
+publication. Repository/tree/generated bindings must be equal across the first
+three except exact current-run ledger additions at post-worker. Publication
+snapshots then add exactly evidence, receipt, and finalization in prescribed
+one-at-a-time order; any other current or transient difference fails. Thus neither a restored mutation nor a
+materialization-time mutation can disappear between snapshots.
+`self_projection` is null in every stage except post-finalization. There it has
+exact keys `path,kind,porcelain_tag,schema,byte_count,self_sha256`, with the
+formula-bound finalization values and literal null self SHA. That snapshot's
+`generated_paths` contains every required item except the current
+finalization; validators merge the self projection only after separately
+hashing/verifying the finalization record. No other missing generated item or
+self projection is legal.
+
+`publication_plan` has exact ordered keys
+`evidence_path,receipt_path,finalization_path,allowed_creation_order,
+finalization_self_event,watch_stop_event,plan_digest`. Evidence path is the enclosing create-new
+mode path. Receipt and finalization paths are exact
+`context/waves/2026-07-28-bastion-foundation/evidence/wp-tst-001/receipts/
+<MODE>/vEEEE/run-aAAAA/publication-receipt.json` and
+`.../publication-finalization.json`. Creation order is exactly
+`[evidence_path,receipt_path,finalization_path]`. The self event is the exact
+future watch event for finalization creation with its known next sequence,
+source worktree, action create, raw path, final byte count, and null content
+digest; null is required solely to avoid a self-digest cycle. Watch-stop is the
+immediately following exact event with next sequence, source worktree, action
+watch-stop, null path/count/digest. Plan digest omits only itself.
+
+Publication is exact and create-new throughout. After the passing post-worker
+snapshot, the supervisor canonicalizes evidence in memory, writes/flushes/
+closes it, flushes its parent, and takes a full `post-evidence` snapshot. It
+then writes a canonical `test-gate-publication-receipt.v1` with exact keys
+`schema,execution_id,run_id,evidence_path,evidence_digest,
+post_evidence_snapshot,watch_event_count,watch_event_digest,status,
+failure_reasons,receipt_digest`; status is `pass|failure`; reasons are the
+exact sorted subset of `write-failed|flush-failed|snapshot-failed|
+unexpected-path|transient-mutation|watch-overflow`, and pass iff exact `[]`
+and all prior equalities hold. The digest omits only itself. After durable receipt creation it takes a full
+`post-receipt` snapshot and prepares `test-gate-publication-finalization.v1`
+with exact keys `schema,execution_id,run_id,evidence_path,evidence_digest,
+receipt_path,receipt_digest,post_receipt_snapshot,
+expected_post_finalization_snapshot_digest,expected_final_watch_event_count,
+expected_final_watch_digest,status,failure_reasons,finalization_digest`.
+Status/reasons use the identical receipt rule and include every applicable
+failure. Its digest omits only itself.
+The expected final snapshot is canonical status/input/generated custody with
+the finalization represented only by the exact `self_projection`; all other
+file hashes are non-null. Expected final watch
+fields inside that snapshot bind the prefix through `finalization_self_event`;
+the finalization's separate expected final watch digest/count additionally
+append exactly `watch_stop_event`.
+
+The supervisor durably create-new writes finalization, observes exactly that
+self event, takes the actual `post-finalization` snapshot while every watch and
+denied handle remains active, then emits/observes the exact watch-stop event
+and closes the watch. It requires snapshot digest equal the precommitted expected digest using
+the same canonical self projection; it separately
+verifies the finalization SHA-256 against `finalization_digest`. It also
+requires actual final watch count/digest equal the precommitted values. No
+additional event is permitted between self-event and watch-stop. Validators
+and set assembly recompute evidence, receipt, finalization, all four
+publication snapshots, and the complete closed watch log; they require all
+three files and exact creation order before promotion. Evidence contains only
+the acyclic plan, receipt binds evidence, and finalization binds receipt plus
+precommitted self-excluding final checks. No artifact is rewritten, no digest
+contains itself, and no later mutable completion field exists.
+
 `actual.result="passed"` iff both exits are 0, posture is `promotable`, reason is
 `expected-outcome`, `failure_records`, `counterexamples`, and `conflicts` are
-empty, preflight status is pass, and every allocated target passed. Preflight
+empty, preflight status is pass, every allocated target passed, and the exact
+publication receipt/finalization chain verifies. Preflight
 failure, command-not-started, or an otherwise nonfailed held/not-run allocation
 derive `not-run` with the exact exit-pair/reason mapping above. Otherwise result is `failed`, posture
 is `non-promotable`, and reason identifies the highest-precedence cause:
@@ -1721,7 +1968,8 @@ enclosing record or pointer, so the preimage is acyclic.
 Version-1 command execution has 22 null slots. A one-lane mode successor opens
 only the next unused evidence version and changes exactly one slot. Every
 non-derived field is byte-identical to the immediate predecessor, specifically
-`schema,mode,execution_id,execution_evidence_version,execution_origin,wp_id,wp_artifact_digest,acceptance_binding,entry_binding,
+`schema,mode,execution_id,execution_evidence_version,execution_origin,
+predecessor_execution,execution_history,wp_id,wp_artifact_digest,acceptance_binding,entry_binding,
 implementation_binding,logical_predecessor_commit,context_rev_binding,
 identity_registry,candidate_author_ids,artifact_digests,trace_manifest_digest,allocated_targets,
 execution_phases,target_results,ledger_binding,post_execution_custody,fixture_bindings,
@@ -1731,7 +1979,8 @@ reproduction_plan,failure_records,counterexamples,required_review_lanes,
 invalidation_triggers`; the other 21 slots are also byte-identical.
 
 The complete and only synchronized derived delta is: increment
-`evidence_version` by 1; regenerate `evidence_id` and `evidence_path`; bind the
+`evidence_version` by 1; set `successor_kind=review`; regenerate `evidence_id`
+and `evidence_path`; bind the
 immediate predecessor in `predecessor_evidence`; append exactly that binding to
 `history`; replace exactly the indexed decision slot with its formula-bound
 next decision; recompute `findings`, `defers`, `dissent`, and `conflicts` as exact sorted
@@ -1741,13 +1990,61 @@ four arrays reconcile predecessor items one-to-one and append only permitted
 new items; the 21 retained decisions' contributions remain byte-identical.
 This reconciliation is exact, not a merge, patch, or reviewer-selected summary.
 
+An execution successor is distinct and is permitted only after the current run
+is terminal and its evidence/receipt/finalization validate. It represents an
+explicit failed, corrected-supervision, or independently reproduced new run;
+it never edits or retries the old ledger. The immediate predecessor record may
+be `origin|review|execution`, but the bound prior execution is the execution
+origin shared by that record and its review chain. Exactly these stable fields
+remain byte-identical:
+
+```text
+schema, mode, wp_id, wp_artifact_digest, acceptance_binding, entry_binding,
+implementation_binding, logical_predecessor_commit, context_rev_binding,
+candidate_author_ids, artifact_digests, trace_manifest_digest,
+allocated_targets, execution_phases, fixture_bindings, command_identity,
+exact_argv, tool_versions, environment_digest, resource_bounds,
+determinism_controls, expected, rollback_plan, reproduction_plan,
+required_review_lanes, invalidation_triggers
+```
+
+The complete execution-transition delta is exact: increment
+`evidence_version` by one and set `execution_evidence_version` equal to that
+new version; allocate the next unused run attempt and new run ID/ledger root;
+derive the new execution ID/origin; set `successor_kind=execution`; set
+`predecessor_execution` to the exact `ExecutionBinding` of the prior execution's
+latest immutable evidence record; append exactly that binding to
+`execution_history` (origin has zero, each new execution has one more, in
+execution-version order); regenerate evidence ID/path; replace only the
+mode-evidence `AuthorBinding` with the formula-bound new execution record while
+retaining the other five and the identical author-ID projection; create fresh
+target results, ledger binding, execution material, repository/publication
+custody, actual result, observed outputs, failure records, and counterexamples
+from the new run; reset all 22 reviewer slots to null and the derived findings,
+defers, dissent, and conflicts to `[]`; derive status from the new execution;
+bind the immediate prior evidence in `predecessor_evidence`, append it once to
+the complete record `history`, and recompute evidence digest. No other byte may
+change.
+
+Fresh execution fields never copy an observed byte/digest merely because the
+run is a reproduction: equality must be independently re-observed. A corrected
+run may correct supervisor operation or external transient state only; any
+implementation, expected tuple, plan, fixture, tool, environment, or governance
+change requires a new accepted WP/implementation binding, not an execution
+successor. Prior evidence, ledgers, receipts, finalizations, review-auth files,
+decisions, findings, and both histories remain create-new and reachable.
+Negative transitions reject reused run attempt/root, changed stable field,
+missing/reset history, carried review decision, copied observation, rewritten
+prior artifact, execution version not equal to new record version, or review
+successor that changes any execution field.
+
 Only the latest successor with all 22 non-null current lanes may be
 `fully_reviewed` or contribute to exit. Every lane is independent, both
 assurance lanes are `pass`, all predecessors/digests/versions verify, and zero
 current critical/major finding, open defer, open dissent conflict, or evidence
 conflict is mandatory.
 
-### 8.6 Independently closed `test-gate-evidence-set.v7` schema
+### 8.6 Independently closed `test-gate-evidence-set.v8` schema
 
 A set uses section 8.1 canonical encoding and these exact ordered keys:
 `schema,set_id,set_version,set_path,wp_id,wp_artifact_digest,
@@ -1756,7 +2053,7 @@ aggregate_digest,observed_outputs,required_review_lanes,reviewer_decisions,
 findings,defers,dissent,conflicts,status,review_completeness,rollback_plan,reproduction_plan,
 predecessor_set,history,invalidation_triggers,set_digest`.
 
-`schema` is literal `test-gate-evidence-set.v7`; set version is `VERSION`; ID is
+`schema` is literal `test-gate-evidence-set.v8`; set version is `VERSION`; ID is
 exactly `EVID-WP-TST-001-SET-vNNNN`; path is exactly
 `context/waves/2026-07-28-bastion-foundation/evidence/wp-tst-001/sets/<set_id>.json`;
 WP ID is literal `WP-TST-001`; WP digest and the three binding objects use the
@@ -1767,11 +2064,15 @@ evidence bindings, and one shared set-evidence binding, exactly 21 elements.
 `candidate_author_ids` is the identical author/controller projection in the
 set and every selected mode. `mode_records` is
 exactly 16 closed objects with ordered keys
-`mode,evidence_id,evidence_version,evidence_path,evidence_digest`, in section 6
+`mode,evidence_id,evidence_version,evidence_path,evidence_digest,
+receipt_path,receipt_digest,finalization_path,finalization_digest`, in section 6
 MODE order; each field uses the mode formulas/types in section 8.2, each digest
-recomputes, and all selected records have identical WP/acceptance/entry/
-implementation bindings. `aggregate_digest` is `DIGEST` over each selected
-`<evidence_path><TAB><evidence_digest><LF>` in strict bytewise path order.
+recomputes, receipt/finalization paths equal that execution's publication
+plan, and the complete acyclic publication/final snapshot/watch chain verifies.
+All selected records have identical WP/acceptance/entry/implementation bindings.
+`aggregate_digest` is `DIGEST` over each selected
+`<evidence_path><TAB><evidence_digest><TAB><receipt-path><TAB><receipt-digest>
+<TAB><finalization-path><TAB><finalization-digest><LF>` in strict bytewise path order.
 
 `observed_outputs` is a closed section 8.3 `ObservedOutputs`: stdout/stderr use
 the identical bounded `ByteStream`; structured content uses the identical one
@@ -1855,10 +2156,28 @@ mode/set/decision preimage includes its own digest, enclosing digest, future
 commit, or future pulse. Neither history is mutated, deleted, overwritten,
 quarantined, or hidden.
 
+The dedicated R12 negative suite additionally rejects a reused/preexisting Job
+name, missing or changed kill-on-close/memory configuration, PID reuse with a
+different creation FILETIME, every Create/Open/Query/Assign/Terminate/Wait/
+Close failure, PID-only kill, nonzero active count after termination, truncated
+native exit, mismatched portable exit/stream hash/event preimage, and every
+unnamed termination null/state/reason tuple. It rejects a generated-path
+manifest that omits or misclassifies any ledger/evidence/set/review-auth/
+receipt/finalization artifact, trusts a prior manifest rather than rereading
+bytes, admits a non-current addition postrun, or breaks a schema/digest/
+predecessor bond. It rejects review/execution successor confusion, carried
+review slots into a rerun, reset history, copied observations, reused run root,
+or changed stable execution input. It injects transient mutations before and
+during materialization, during the worker, between every publication stage,
+and immediately around finalization; every restored mutation, watch gap/
+overflow, worktree-sourced worker byte, blob-object mismatch, unexpected path,
+wrong create order, self-digest attempt, missing receipt/finalization, or final
+snapshot/watch mismatch is non-promotable.
+
 ## 9. Entry, stop, exit, and authority
 
 Acceptance of this candidate, if it occurs, authorizes only a later separate
-entry decision. The acceptance pulse binds the R11 artifact digest and all prior
+entry decision. The acceptance pulse binds the R12 artifact digest and all prior
 governance inputs, but never its own future commit. After it is committed, the
 entry pulse binds that acceptance commit and pulse digest, but never its own
 future commit. After entry is committed, evidence binds the resulting entry
