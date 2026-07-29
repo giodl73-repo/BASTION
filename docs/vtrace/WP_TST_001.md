@@ -1,4 +1,4 @@
-# WP-TST-001-R2 — WS-rooted boundary-test and append-only fixture bootstrap
+# WP-TST-001-R3 — linearly entered boundary-test and fixture-custody bootstrap
 
 Status: `proposed; acceptance_candidate; not_accepted; not_entered`
 
@@ -7,25 +7,34 @@ Date: 2026-07-29
 Primary boundaries: `PB-TST-001` and assigned `PB-FIX-001`, plus
 configuration-only membership integration in `PB-WS-001`
 
-Implementation predecessor: accepted `WP-WS-001` exit only. R1 commit
-`62116481b7b3e7d671517b6053c8cc3f20f93fce` is retained governance history,
-not an executable predecessor. REV is context-only: it is neither a dependency,
-entry precondition, executable input, nor authority, and the tests prove the
-absence of both `TST -> REV` and `REV -> TST` edges.
+Logical WP predecessor: accepted `WP-WS-001` exit only. R1 commit
+`62116481b7b3e7d671517b6053c8cc3f20f93fce` and R2 commit
+`21c8066445c72358a444c0b506422ec3b9dc63e0` are retained governance history.
+After R3 acceptance, the entry commit and its direct implementation successor
+must remain on the current governance/main lineage. Accepted REV is only a
+context co-member: workspace co-membership and Git ancestry are explicitly not
+WP-predecessor or dependency relationships.
 
 ## 1. Controlled baseline and custody
 
-The executable line must descend from accepted `WP-WS-001` exit
-`cd1f1d75ec312789fed63a265219d8ad9069a17a`. Governance may retain the R1 and
-R2 records separately, but neither changes executable ancestry. Any different
-ancestry, dirty unrelated path, predecessor digest, or dependency edge holds
-acceptance and entry.
+The future acceptance commit must descend from R3 on current main; the entry
+commit must be its direct governance successor; and the one implementation
+commit must be the direct child of entry. Accepted `WP-WS-001` exit
+`cd1f1d75ec312789fed63a265219d8ad9069a17a` remains the sole logical WP
+predecessor. Any nonlinear implementation ancestry, dirty unrelated path,
+predecessor digest, or Cargo edge holds acceptance and entry.
 
 | Controlled artifact | Exact identity |
 |---|---|
-| Sole executable predecessor: accepted WS exit | `cd1f1d75ec312789fed63a265219d8ad9069a17a` |
+| Sole logical WP predecessor: accepted WS exit | `cd1f1d75ec312789fed63a265219d8ad9069a17a` |
 | Retained R1 governance commit (not accepted) | `62116481b7b3e7d671517b6053c8cc3f20f93fce` |
 | Retained R1 WP SHA-256 | `93ea15ea87b140b7e45ae67db5a4133e24e8f18778db1ce41a891042b1157554` |
+| Retained R2 governance commit (not accepted) | `21c8066445c72358a444c0b506422ec3b9dc63e0` |
+| Retained R2 WP SHA-256 / blob | `4ecd246d67bb5d07c94496a9975c99cdc8488295e8e74235be29391b3725e146` / `47687aff86c392b7e30b237de1015b9d304d4fc4` |
+| Current R3 governance-line base before acceptance | `21c8066445c72358a444c0b506422ec3b9dc63e0` |
+| Context-only accepted REV exit | `ab227cc06f15299b594cfe2be99915bd93c4c081` |
+| Context-only accepted REV implementation commit / SHA-256 | `5c4e96306d3c463a44be7621371759da8bca399b` / `c5c2df1178568cd49b5d721cd01cba7cce3371e049528e07bad30d6b3324ea72` |
+| Context-only accepted REV evidence-set SHA-256 / tree | `b95beff569794125018f2fde3d4d3317ed32278dfcfb1fc22a7d25cf51226bd9` / `d554c8c0c3d534aa96924f085a4dc007b25e3a3c` |
 | `PACKAGE_BOUNDARIES.md` | `04f3923bf09f14b57cd02006dcb5e17abb4cac8981fced4c4749f0d446a71ca6` |
 | `IMPLEMENTATION_PLAN.md` | `d8db35026e02796bc2bba5e034aa4981394ae1d9a4574943c82f4705bd64d9aa` |
 | `WORK_PACKAGES.md` | `596761dd75e2d9b0721c7ecabb8086ee58682513b5a2c7d2a94ab1f7a79ea129` |
@@ -35,10 +44,11 @@ acceptance and entry.
 | WS workspace manifest | bound by the accepted WS-exit tree |
 | WS lockfile | bound by the accepted WS-exit tree |
 
-REV records may be inspected only as non-normative historical context. No REV
-source, binary, package metadata, result, or digest is read by a command or
-counted as evidence. This candidate may not alter REV, manufacture a producer
-packet, claim a producer pass, or treat any recommendation as acceptance.
+REV records may be inspected only to prove the co-member is unchanged and has
+zero edges to or from TST. No REV source, binary, result, or digest is a TST
+input or pass prerequisite. This candidate may not alter REV, manufacture a
+producer packet, claim a producer pass, or treat any recommendation as
+acceptance.
 
 ## 2. Objective and hard boundary
 
@@ -46,8 +56,9 @@ The smallest coherent result is an independently owned, deterministic Rust
 integration-test package and an inert synthetic fixture-custody scaffold. It
 proves only that:
 
-1. the test executable is constructible from WS alone and no TST/FIX edge
-   enters a product or REV target;
+1. TST is dependency-free: the two-node workspace graph has no edge in either
+   direction, TST-only selection does not select REV, and removing REV from an
+   in-memory graph projection leaves the TST node and command invariant;
 2. fixture identity, digest, expected posture, history, and safe content class
    are explicit and bounded;
 3. malformed, stale, substituted, oversized, unsafe-marker, silent-golden,
@@ -97,9 +108,10 @@ fixtures/bootstrap/cases/deny-marker.fixture
 tools/test_gate.ps1
 ```
 
-The root files may change only to add the test package as the sole workspace
-member and the corresponding local lock entry on the WS-rooted executable
-line. Evidence uses create-new, successor-addressed paths only:
+The root files may change only to add the test package after the unchanged REV
+co-member and add the corresponding dependency-free local lock entry on the
+linear entry/implementation line. Evidence uses create-new,
+successor-addressed paths only:
 
 ```text
 context/waves/2026-07-28-bastion-foundation/evidence/wp-tst-001/runs/<Mode>/EVID-WP-TST-001-<Mode>-vNNNN.json
@@ -128,15 +140,16 @@ workspace lints. It has:
   `hold_closure`, `no_authority_surface`, and `static_surface`, each mapped to
   its same-named allowlisted file.
 
-The root member list is exactly `["crates/bastion-boundary-tests"]` on the
-WS-rooted executable line. Cargo metadata must show one package and zero
-dependency edges. No product or REV target may depend on `PB-TST-001` or
-`PB-FIX-001`; fixtures are compile-time
+The root member list is exactly
+`["crates/bastion-boundary-tests", "crates/bastion-review"]`. Cargo metadata
+must show exactly those two zero-dependency nodes and zero edges. No product or
+REV target may depend on `PB-TST-001` or `PB-FIX-001`; fixtures are compile-time
 test inputs only through `include_bytes!`, never runtime, product, build-script,
 or generated inputs.
 
-Test support uses only `std`; it must not import, link, execute, inspect, or
-otherwise depend on a REV surface.
+Test support uses only `std`; it must not import, link, execute, or otherwise
+depend on a REV surface. Static custody may inspect the unchanged REV digest,
+metadata node, and absence of edges, but never use REV behavior as TST input.
 It performs no runtime filesystem, network, environment, process, thread,
 clock, locale, retry, randomness, or recursive operation. It exposes no public
 library surface and contains no product value or decision. Explicit
@@ -150,17 +163,22 @@ followed by exactly four current version-1 rows in ascending fixture-ID order.
 Its exact columns are:
 
 ```text
-fixture_id<TAB>version<TAB>predecessor_id<TAB>predecessor_digest<TAB>predecessor_version<TAB>supersession_state<TAB>path<TAB>sha256<TAB>class<TAB>source_posture<TAB>custodian_id<TAB>custody_id<TAB>custody_digest<TAB>purpose_id<TAB>expected_posture<TAB>expected_reason_id<TAB>proof_input_hold
+fixture_id<TAB>version<TAB>predecessor_id<TAB>predecessor_digest<TAB>predecessor_version<TAB>supersession_state<TAB>path<TAB>sha256<TAB>class<TAB>source_posture<TAB>source_id<TAB>source_digest<TAB>custodian_id<TAB>custody_id<TAB>custody_digest<TAB>purpose_id<TAB>expected_posture<TAB>expected_reason_id<TAB>proof_input_hold
 ```
 
 The four rows are:
 
-| Fixture ID | File | Class | Custody ID | Purpose / expected reason | Expected posture | Hold |
+| Fixture ID | File / class | Source ID / exact source digest | Custody ID | Purpose / expected reason | Expected posture | Hold |
 |---|---|---|---|---|---|---|
-| `FIX-TST-BOOT-001` | `cases/valid.fixture` | `valid-custody` | `CUSTODY-TST-001` | `PURPOSE-TST-CUSTODY-001` / `REASON-TST-HARNESS-ONLY-001` | `accepted-for-harness-only` | `TBD-TST-001` |
-| `FIX-TST-BOOT-002` | `cases/absent.fixture` | `explicit-absence` | `CUSTODY-TST-002` | `PURPOSE-TST-ABSENCE-001` / `REASON-SRC-ABSENT-001` | `held` | `TBD-SRC-001` |
-| `FIX-TST-BOOT-003` | `cases/stale.fixture` | `stale-binding` | `CUSTODY-TST-003` | `PURPOSE-TST-STALE-001` / `REASON-TST-STALE-001` | `rejected` | `TBD-TST-001` |
-| `FIX-TST-BOOT-004` | `cases/deny-marker.fixture` | `safe-denial-marker` | `CUSTODY-TST-004` | `PURPOSE-TST-DENY-001` / `REASON-SEC-DENY-001` | `rejected-safe` | `TBD-SEC-001` |
+| `FIX-TST-BOOT-001` | `cases/valid.fixture` / `valid-custody` | `SRC-TST-BOOT-001` / `3d41a285934e097c1c806401c27997311df0bd9236bcbb262fc22be68dd5d360` | `CUSTODY-TST-001` | `PURPOSE-TST-CUSTODY-001` / `REASON-TST-HARNESS-ONLY-001` | `accepted-for-harness-only` | `TBD-TST-001` |
+| `FIX-TST-BOOT-002` | `cases/absent.fixture` / `explicit-absence` | `SRC-TST-BOOT-002` / `69041cd1d2687c80252fe90d38559d350c4141ceb97bfb57c93df9e856d184d3` | `CUSTODY-TST-002` | `PURPOSE-TST-ABSENCE-001` / `REASON-SRC-ABSENT-001` | `held` | `TBD-SRC-001` |
+| `FIX-TST-BOOT-003` | `cases/stale.fixture` / `stale-binding` | `SRC-TST-BOOT-003` / `d94e4b91e6e30a8106c3ffb0e48dcb9e6bbdbed55d8c0960bcee84ef1fb69bb0` | `CUSTODY-TST-003` | `PURPOSE-TST-STALE-001` / `REASON-TST-STALE-001` | `rejected` | `TBD-TST-001` |
+| `FIX-TST-BOOT-004` | `cases/deny-marker.fixture` / `safe-denial-marker` | `SRC-TST-BOOT-004` / `c41e496c0790862b1a3c790703635b44e8862d7c10e95851fd052ebd778a0376` | `CUSTODY-TST-004` | `PURPOSE-TST-DENY-001` / `REASON-SEC-DENY-001` | `rejected-safe` | `TBD-SEC-001` |
+
+Each source digest is SHA-256 over exact canonical UTF-8/LF/no-BOM bytes
+`schema=synthetic-fixture-source.v1<LF>`,
+`source_id=<source_id><LF>`, and
+`source_posture=synthetic-inert<LF>` in that order.
 
 Each fixture file is UTF-8 without BOM, LF-only ASCII with exactly twelve
 single-valued `key=value` rows: `fixture_id`, `version`, `predecessor_id`,
@@ -168,8 +186,33 @@ single-valued `key=value` rows: `fixture_id`, `version`, `predecessor_id`,
 `source_posture`, `custody_id`, `purpose_id`, `expected_reason_id`, and `token`.
 Keys occur in that order and only once. Version 1 uses predecessor ID `none`,
 digest exactly 64 zeroes, predecessor version `0`, and state `current`.
-`source_posture` is exactly `synthetic-inert`; `custodian_id` in the manifest
-is exactly `ACT-TST` and `custody_digest` binds the canonical custody record.
+`source_posture` is exactly `synthetic-inert`; `source_id` is the stable safe-
+synthetic recipe identity and `source_digest` binds its exact canonical recipe
+bytes. `custodian_id` is exactly `ACT-TST`.
+
+`custody_digest` is SHA-256 over the following exact UTF-8, LF-only,
+ASCII, no-BOM canonical bytes, with no final omitted field, interpolation, or
+normalization:
+
+```text
+schema=test-fixture-custody.v1<LF>
+custodian_id=<custodian_id><LF>
+custody_id=<custody_id><LF>
+fixture_id=<fixture_id><LF>
+version=<base-10 version><LF>
+source_posture=<source_posture><LF>
+source_id=<source_id><LF>
+source_digest=<source_digest><LF>
+purpose_id=<purpose_id><LF>
+expected_posture=<expected_posture><LF>
+expected_reason_id=<expected_reason_id><LF>
+proof_input_hold=<proof_input_hold><LF>
+```
+
+Only those existing manifest values, in that order, enter the custody preimage;
+`custody_digest` itself, path, fixture-byte digest, class, predecessor, and
+supersession fields are excluded, preventing self-reference. The schema tag,
+keys, `=`, values, and final LF all count as bytes.
 Tokens use only ASCII
 upper-case letters, digits, underscore, colon, and hyphen and convey no
 real-world content. The manifest SHA-256 is lower-case hex over exact fixture
@@ -189,12 +232,17 @@ Bounds are hard failures before favorable evaluation:
   extra, duplicate, reordered, or silently defaulted field.
 
 The committed rows are positive custody representatives. Tests derive bounded
-negative missing/mismatch variants and a version-2 replay successor in memory.
+negative missing/source-substitution/custody-substitution/digest-mismatch
+variants and a version-2 replay successor in memory.
 Replay must reproduce the same verdict, identify version 1 by exact ID/version/
 digest, mark version 1 superseded without deleting it, and make version 2 the
 only current row. Any expected-posture or custody change requires that exact
 successor operation and new review; deletion, overwrite, ambiguous current
-state, hand edit, silent golden replacement, or quarantine rejects.
+state, missing source/custody field, changed canonical order, hand edit, silent
+golden replacement, or quarantine rejects. Successor and replay tests recompute
+both source and custody digests, retain the predecessor bytes/digests, reject a
+copied old digest, and reproduce the same verdict from identical canonical
+bytes.
 
 ## 6. Exact runner, commands, and execution bounds
 
@@ -227,7 +275,7 @@ across the complete mode.
 | `CMD-L1-TEST` | `L1Test` | `cargo +1.95.0 test --workspace --locked --offline` |
 | `CMD-L1-DOC` | `L1Doc` | `cargo +1.95.0 doc --workspace --locked --offline --no-deps`, then `cargo +1.95.0 test --workspace --doc --locked --offline` |
 | `CMD-L1-STATIC` | `L1Static` | `cargo +1.95.0 test -p bastion-boundary-tests --locked --offline --test static_surface`, then exact source/path/dependency-direction assertions |
-| `CMD-L1-SUPPLY-CHAIN` | `L1SupplyChain` | `cargo +1.95.0 metadata --locked --offline --no-deps --format-version 1`, then assert the exact one-package graph and zero dependency edges |
+| `CMD-L1-SUPPLY-CHAIN` | `L1SupplyChain` | `cargo +1.95.0 metadata --locked --offline --no-deps --format-version 1`, then assert exactly `bastion-boundary-tests` and unchanged `bastion-review`, both zero-dependency nodes, zero graph edges, and invariant TST node after in-memory REV-node removal |
 | `CMD-L2-SOURCE-SPINE` | `L2SourceSpine` | `cargo +1.95.0 test -p bastion-boundary-tests --locked --offline --test source_spine` |
 | `CMD-L2-CONTRACT-MATRIX` | `L2Contract` | `cargo +1.95.0 test -p bastion-boundary-tests --locked --offline --test contract_matrix` |
 | `CMD-L2-PROPERTY` | `L2Property` | `cargo +1.95.0 test -p bastion-boundary-tests --locked --offline --test property_cases` |
@@ -248,12 +296,21 @@ one identical binding. A zero-test target, skipped target, missing field,
 mutation during a run, mismatched digest, or output after supervisor failure
 is a failure.
 
+`L0FocusedTest` and every L2 command select only
+`bastion-boundary-tests`; Cargo resolution must show that REV is not selected,
+built, linked, or executed. `L1Static` binds the unchanged accepted REV source
+digest and proves no TST/REV import or path reference. `L1SupplyChain` compares
+the TST node before and after non-mutating in-memory removal of the REV metadata
+node and requires byte-identical TST package/target/dependency data. Full
+workspace L1 commands additionally prove unchanged REV behavior, but that
+result cannot satisfy, alter, or gate a TST assertion.
+
 ## 7. Required bootstrap cases
 
 `source_spine` must prove the bounded bootstrap-only chain
-`accepted WS binding -> inert fixture custody -> isolated test verdict ->
+`linear accepted entry -> inert fixture custody -> isolated test verdict ->
 non-authoritative evidence record`. Every node and edge is digest-bound; a
-missing, reordered, substituted, reverse, REV, producer, HND, Taxlane, or
+missing, reordered, substituted, reverse, dependency, producer, HND, Taxlane, or
 release edge rejects. The target proves no semantic source or product result
 exists and that no TST-to-REV or REV-to-TST edge exists.
 
@@ -310,69 +367,290 @@ lint with warnings denied, offline supply-chain closure, and exact rollback
 surface. Case labels in evidence may state only an assertion or test target
 that actually executed.
 
-### 7.1 Digest-bound forward trace
+### 7.1 Exact canonical forward trace
 
-`support/mod.rs` contains one canonical, bytewise-sorted trace manifest. Every
-row binds its controlled-source digest, exact source IDs, target/assertion IDs,
-and evidence modes. Every evidence record binds the manifest SHA-256.
+`support/mod.rs` contains one canonical, bytewise-sorted trace manifest. Each
+row below has exactly one controlled identity, one target/assertion, and one
+consuming evidence mode. Paired identities, aliases, ranges, shorthand, and
+names ending in `bootstrap` are invalid. Every row binds the exact digest of
+its controlled source and every evidence record binds the trace-manifest
+SHA-256.
 
-| Controlled source IDs | Exact target/assertion | Evidence mode(s) |
+| Canonical controlled identity | Exact target / assertion | Evidence mode |
 |---|---|---|
-| `BASTION-REQ-TST-001`; `SPEC-TST-001` | `source_spine::frozen_digest_packet`; `contract_matrix::digest_binding` | `L2SourceSpine`, `L2Contract` |
-| `BASTION-REQ-TST-002`; `SPEC-TST-002` | `property_cases::bounded_reproduction`; `model_cases::repeat_identity`; `adversarial_cases::adverse_replay` | `L2Property`, `L2Model`, `L2Adversarial` |
-| `BASTION-REQ-TST-003`; `SPEC-TST-003` | `model_cases::retained_negative_history`; `hold_closure::nonpass_retention` | `L2Model`, `L2HoldClosure` |
-| `BASTION-REQ-TST-004`; `SPEC-TST-004` | `contract_matrix::full_evidence_schema` | `L2Contract` |
-| `BASTION-REQ-TST-005`; `SPEC-TST-005` | `hold_closure::convergence_blocks` | `L2HoldClosure` |
-| `BASTION-REQ-TST-006`; `SPEC-TST-006` | `adversarial_cases::substitution_cannot_approve` | `L2Adversarial` |
-| `BASTION-REQ-REL-001`; `SPEC-REL-001` | `no_authority_surface::no_publish_or_approval` | `L2NoAuthority` |
-| `BASTION-REQ-REL-002`; `SPEC-REL-002` | `adversarial_cases::release_contract_unavailable`; `no_authority_surface::no_release_artifact` | `L2Adversarial`, `L2NoAuthority` |
-| `BASTION-REQ-REL-003`; `SPEC-REL-003` | `source_spine::context_retained_without_output`; `no_authority_surface::no_external_output` | `L2SourceSpine`, `L2NoAuthority` |
-| `SPEC-NF-001` | `adversarial_cases::bounded_safe_failure` | `L2Adversarial` |
-| `SPEC-NF-002` | `no_authority_surface::authority_and_security_absent` | `L2NoAuthority` |
-| `SPEC-NF-003` | `no_authority_surface::no_readiness_claim` | `L2NoAuthority` |
-| `SPEC-NF-004` | `property_cases::finite_tail_partitions` | `L2Property` |
-| `SPEC-NF-005` | `property_cases::no_incidence_or_uncertainty_inference` | `L2Property` |
-| `SPEC-NF-006` | `model_cases::accounting_successor_history` | `L2Model` |
-| `SPEC-NF-007` | `property_cases::determinism_and_bounds` | `L2Property` |
-| `SPEC-NF-008` | `contract_matrix::fixture_and_support_custody` | `L2Contract` |
-| `SPEC-NF-009` | `model_cases::immutable_rejection_no_emission` | `L2Model`, `L2NoAuthority` |
-| `SPEC-NF-010` | `source_spine::trace_and_review_state` | `L2SourceSpine` |
-| `DES-TEST` bootstrap; `CONTRACT-TEST` bootstrap | `contract_matrix::test_bootstrap_contract`; all seven L2 targets | `L2SourceSpine`, `L2Contract`, `L2Property`, `L2Model`, `L2Adversarial`, `L2HoldClosure`, `L2NoAuthority` |
-| `DES-REL` bootstrap; `CONTRACT-REL` bootstrap | `no_authority_surface::release_bootstrap_no_output`; `adversarial_cases::release_misuse_rejected` | `L2Adversarial`, `L2NoAuthority` |
-| `CR-002..CR-006`; `CR-008..CR-040` (exactly 38; `CR-001` and `CR-007` excluded) | `static_surface::exact_cr_allocation`; relevant seven L2 assertions above | `L1Static`, `L1SupplyChain`, all seven L2 modes |
-| `VCL-01` | `source_spine::identity_allocation_trace_custody_digest` | `L2SourceSpine` |
-| `VCL-02` | `contract_matrix::positive_negative_unauthorized_consumer` | `L2Contract` |
-| `VCL-03` | `model_cases::typed_state_transition_dag_successor_invalid_edge` | `L2Model` |
-| `VCL-04` | `property_cases::property_deterministic_reproduction` | `L2Property` |
-| `VCL-05` | `hold_closure::thirteen_hold_missing_null_na_no_default` | `L2HoldClosure` |
-| `VCL-06` | `adversarial_cases::prohibited_composition_minimization_safe_failure` | `L2Adversarial` |
-| `VCL-07` | `no_authority_surface::civilian_law_safety_readiness_stakeholder_distribution_burden` | `L2NoAuthority` |
-| `VCL-08` | `no_authority_surface::accounting_path_delivery_hnd_term_taxlane_rel_no_authority` | `L2NoAuthority` |
-| `VCL-09` | `static_surface::quality_dependency_support_isolation_generated_custody_bounds` | `L1Static`, `L1SupplyChain` |
-| `VCL-10` | `source_spine::evidence_truth_review_dissent_validation_rollback_compat_history` | `L2SourceSpine` |
-| `VAL-SCOPE`; `ACT-TST`, `ACT-SRC`, `ACT-EXT`, `ACT-LAW`, `ACT-CIV`; `ACT-PAR-ALL` exactly = `ACT-CIV`, `ACT-RDY`, `ACT-ACQ`, `ACT-LOG`, `ACT-ALLY`, `ACT-FIN`, `ACT-PPL`, `ACT-TST` | `source_spine::validation_scope_actors`; all seven L2 targets | all seven L2 modes |
-| `VAL-ASSURANCE`; `PAR-ALL`, Methodology Panel, Role review steward, Citation Auditor, Scope Keeper, Numeracy Checker, seven stakeholder lenses, Classification & Operational Security, Civilian Control/Law/Safety/Readiness | `source_spine::validation_assurance_lanes` | `L2SourceSpine`, `L2HoldClosure`, `L2NoAuthority` |
-| `SPEC-UNK-SEC-001`; `TBD-SEC-001` | `hold_closure::sec_open_proof_input`; no closure/default | `L2HoldClosure`, `L2Adversarial` |
-| `SPEC-UNK-SRC-001`; `TBD-SRC-001` | `hold_closure::src_open_proof_input`; absence remains held | `L2HoldClosure`, `L2SourceSpine` |
-| `SPEC-UNK-TST-001`; `TBD-TST-001` | `hold_closure::tst_open_proof_input`; verdict cannot close | `L2HoldClosure`, `L2Contract` |
-| `SPEC-UNK-REL-001`; `TBD-REL-001` | `hold_closure::rel_open_proof_input`; release remains unavailable | `L2HoldClosure`, `L2NoAuthority` |
+| `BASTION-REQ-TST-001` | `source_spine::trace_bastion_req_tst_001` | `L2SourceSpine` |
+| `BASTION-REQ-TST-002` | `property_cases::trace_bastion_req_tst_002` | `L2Property` |
+| `BASTION-REQ-TST-003` | `model_cases::trace_bastion_req_tst_003` | `L2Model` |
+| `BASTION-REQ-TST-004` | `contract_matrix::trace_bastion_req_tst_004` | `L2Contract` |
+| `BASTION-REQ-TST-005` | `hold_closure::trace_bastion_req_tst_005` | `L2HoldClosure` |
+| `BASTION-REQ-TST-006` | `adversarial_cases::trace_bastion_req_tst_006` | `L2Adversarial` |
+| `BASTION-REQ-REL-001` | `no_authority_surface::trace_bastion_req_rel_001` | `L2NoAuthority` |
+| `BASTION-REQ-REL-002` | `adversarial_cases::trace_bastion_req_rel_002` | `L2Adversarial` |
+| `BASTION-REQ-REL-003` | `no_authority_surface::trace_bastion_req_rel_003` | `L2NoAuthority` |
+| `SPEC-TST-001` | `source_spine::trace_spec_tst_001` | `L2SourceSpine` |
+| `SPEC-TST-002` | `property_cases::trace_spec_tst_002` | `L2Property` |
+| `SPEC-TST-003` | `model_cases::trace_spec_tst_003` | `L2Model` |
+| `SPEC-TST-004` | `contract_matrix::trace_spec_tst_004` | `L2Contract` |
+| `SPEC-TST-005` | `hold_closure::trace_spec_tst_005` | `L2HoldClosure` |
+| `SPEC-TST-006` | `adversarial_cases::trace_spec_tst_006` | `L2Adversarial` |
+| `SPEC-REL-001` | `no_authority_surface::trace_spec_rel_001` | `L2NoAuthority` |
+| `SPEC-REL-002` | `adversarial_cases::trace_spec_rel_002` | `L2Adversarial` |
+| `SPEC-REL-003` | `no_authority_surface::trace_spec_rel_003` | `L2NoAuthority` |
+| `SPEC-NF-001` | `adversarial_cases::trace_spec_nf_001` | `L2Adversarial` |
+| `SPEC-NF-002` | `no_authority_surface::trace_spec_nf_002` | `L2NoAuthority` |
+| `SPEC-NF-003` | `no_authority_surface::trace_spec_nf_003` | `L2NoAuthority` |
+| `SPEC-NF-004` | `property_cases::trace_spec_nf_004` | `L2Property` |
+| `SPEC-NF-005` | `property_cases::trace_spec_nf_005` | `L2Property` |
+| `SPEC-NF-006` | `model_cases::trace_spec_nf_006` | `L2Model` |
+| `SPEC-NF-007` | `property_cases::trace_spec_nf_007` | `L2Property` |
+| `SPEC-NF-008` | `contract_matrix::trace_spec_nf_008` | `L2Contract` |
+| `SPEC-NF-009` | `model_cases::trace_spec_nf_009` | `L2Model` |
+| `SPEC-NF-010` | `source_spine::trace_spec_nf_010` | `L2SourceSpine` |
+| `DES-TEST-001` | `contract_matrix::trace_des_test_001` | `L2Contract` |
+| `DES-REL-001` | `no_authority_surface::trace_des_rel_001` | `L2NoAuthority` |
+| `CONTRACT-TEST-001` | `contract_matrix::trace_contract_test_001` | `L2Contract` |
+| `CONTRACT-REL-001` | `no_authority_surface::trace_contract_rel_001` | `L2NoAuthority` |
+| `CR-002` | `static_surface::trace_cr_002` | `L1Static` |
+| `CR-003` | `test_gate::trace_cr_003` | `L1SupplyChain` |
+| `CR-004` | `static_surface::trace_cr_004` | `L1Static` |
+| `CR-005` | `test_gate::trace_cr_005` | `L1SupplyChain` |
+| `CR-006` | `static_surface::trace_cr_006` | `L1Static` |
+| `CR-008` | `test_gate::trace_cr_008` | `L1SupplyChain` |
+| `CR-009` | `static_surface::trace_cr_009` | `L1Static` |
+| `CR-010` | `test_gate::trace_cr_010` | `L1SupplyChain` |
+| `CR-011` | `static_surface::trace_cr_011` | `L1Static` |
+| `CR-012` | `test_gate::trace_cr_012` | `L1SupplyChain` |
+| `CR-013` | `static_surface::trace_cr_013` | `L1Static` |
+| `CR-014` | `test_gate::trace_cr_014` | `L1SupplyChain` |
+| `CR-015` | `static_surface::trace_cr_015` | `L1Static` |
+| `CR-016` | `test_gate::trace_cr_016` | `L1SupplyChain` |
+| `CR-017` | `static_surface::trace_cr_017` | `L1Static` |
+| `CR-018` | `test_gate::trace_cr_018` | `L1SupplyChain` |
+| `CR-019` | `static_surface::trace_cr_019` | `L1Static` |
+| `CR-020` | `test_gate::trace_cr_020` | `L1SupplyChain` |
+| `CR-021` | `static_surface::trace_cr_021` | `L1Static` |
+| `CR-022` | `test_gate::trace_cr_022` | `L1SupplyChain` |
+| `CR-023` | `static_surface::trace_cr_023` | `L1Static` |
+| `CR-024` | `test_gate::trace_cr_024` | `L1SupplyChain` |
+| `CR-025` | `static_surface::trace_cr_025` | `L1Static` |
+| `CR-026` | `test_gate::trace_cr_026` | `L1SupplyChain` |
+| `CR-027` | `static_surface::trace_cr_027` | `L1Static` |
+| `CR-028` | `test_gate::trace_cr_028` | `L1SupplyChain` |
+| `CR-029` | `static_surface::trace_cr_029` | `L1Static` |
+| `CR-030` | `test_gate::trace_cr_030` | `L1SupplyChain` |
+| `CR-031` | `static_surface::trace_cr_031` | `L1Static` |
+| `CR-032` | `test_gate::trace_cr_032` | `L1SupplyChain` |
+| `CR-033` | `static_surface::trace_cr_033` | `L1Static` |
+| `CR-034` | `test_gate::trace_cr_034` | `L1SupplyChain` |
+| `CR-035` | `static_surface::trace_cr_035` | `L1Static` |
+| `CR-036` | `test_gate::trace_cr_036` | `L1SupplyChain` |
+| `CR-037` | `static_surface::trace_cr_037` | `L1Static` |
+| `CR-038` | `test_gate::trace_cr_038` | `L1SupplyChain` |
+| `CR-039` | `static_surface::trace_cr_039` | `L1Static` |
+| `CR-040` | `test_gate::trace_cr_040` | `L1SupplyChain` |
+| `VCL-01` | `source_spine::trace_vcl_01` | `L2SourceSpine` |
+| `VCL-02` | `contract_matrix::trace_vcl_02` | `L2Contract` |
+| `VCL-03` | `model_cases::trace_vcl_03` | `L2Model` |
+| `VCL-04` | `property_cases::trace_vcl_04` | `L2Property` |
+| `VCL-05` | `hold_closure::trace_vcl_05` | `L2HoldClosure` |
+| `VCL-06` | `adversarial_cases::trace_vcl_06` | `L2Adversarial` |
+| `VCL-07` | `no_authority_surface::trace_vcl_07` | `L2NoAuthority` |
+| `VCL-08` | `no_authority_surface::trace_vcl_08` | `L2NoAuthority` |
+| `VCL-09` | `static_surface::trace_vcl_09` | `L1Static` |
+| `VCL-10` | `source_spine::trace_vcl_10` | `L2SourceSpine` |
+| `VAL-SCOPE` | `source_spine::trace_val_scope` | `L2SourceSpine` |
+| `VAL-ASSURANCE` | `hold_closure::trace_val_assurance` | `L2HoldClosure` |
+| `ACT-CIV` | `no_authority_surface::trace_act_civ` | `L2NoAuthority` |
+| `ACT-RDY` | `source_spine::trace_act_rdy` | `L2SourceSpine` |
+| `ACT-ACQ` | `source_spine::trace_act_acq` | `L2SourceSpine` |
+| `ACT-LOG` | `source_spine::trace_act_log` | `L2SourceSpine` |
+| `ACT-ALLY` | `source_spine::trace_act_ally` | `L2SourceSpine` |
+| `ACT-FIN` | `source_spine::trace_act_fin` | `L2SourceSpine` |
+| `ACT-PPL` | `source_spine::trace_act_ppl` | `L2SourceSpine` |
+| `ACT-TST` | `source_spine::trace_act_tst` | `L2SourceSpine` |
+| `ACT-SRC` | `contract_matrix::trace_act_src` | `L2Contract` |
+| `ACT-LAW` | `no_authority_surface::trace_act_law` | `L2NoAuthority` |
+| `ACT-EXT` | `no_authority_surface::trace_act_ext` | `L2NoAuthority` |
+| `.roles/parliament/civilian-strategy-force-planner.md` | `no_authority_surface::trace_role_parliament_civilian_strategy_force_planner` | `L2NoAuthority` |
+| `.roles/parliament/operational-readiness.md` | `source_spine::trace_role_parliament_operational_readiness` | `L2SourceSpine` |
+| `.roles/parliament/acquisition-industrial-base.md` | `source_spine::trace_role_parliament_acquisition_industrial_base` | `L2SourceSpine` |
+| `.roles/parliament/logistics-sustainment.md` | `source_spine::trace_role_parliament_logistics_sustainment` | `L2SourceSpine` |
+| `.roles/parliament/defense-comptroller.md` | `source_spine::trace_role_parliament_defense_comptroller` | `L2SourceSpine` |
+| `.roles/parliament/service-member-family.md` | `source_spine::trace_role_parliament_service_member_family` | `L2SourceSpine` |
+| `.roles/parliament/independent-test-oversight.md` | `source_spine::trace_role_parliament_independent_test_oversight` | `L2SourceSpine` |
+| `.roles/parliament/alliance-interoperability.md` | `source_spine::trace_role_parliament_alliance_interoperability` | `L2SourceSpine` |
+| `.roles/panel-reviewer/panel.md` | `property_cases::trace_role_panel_reviewer_panel` | `L2Property` |
+| `Role review steward` | `hold_closure::trace_role_review_steward` | `L2HoldClosure` |
+| `.roles/editorial/citation-auditor.md` | `source_spine::trace_role_editorial_citation_auditor` | `L2SourceSpine` |
+| `.roles/editorial/scope-keeper.md` | `no_authority_surface::trace_role_editorial_scope_keeper` | `L2NoAuthority` |
+| `.roles/editorial/numeracy-checker.md` | `property_cases::trace_role_editorial_numeracy_checker` | `L2Property` |
+| `.roles/stakeholders/service-member-family.md` | `no_authority_surface::trace_role_stakeholders_service_member_family` | `L2NoAuthority` |
+| `.roles/stakeholders/mission-user.md` | `no_authority_surface::trace_role_stakeholders_mission_user` | `L2NoAuthority` |
+| `.roles/stakeholders/depot-logistics-workforce.md` | `no_authority_surface::trace_role_stakeholders_depot_logistics_workforce` | `L2NoAuthority` |
+| `.roles/stakeholders/prime-small-supplier.md` | `no_authority_surface::trace_role_stakeholders_prime_small_supplier` | `L2NoAuthority` |
+| `.roles/stakeholders/installation-community.md` | `no_authority_surface::trace_role_stakeholders_installation_community` | `L2NoAuthority` |
+| `.roles/stakeholders/ally-partner.md` | `no_authority_surface::trace_role_stakeholders_ally_partner` | `L2NoAuthority` |
+| `.roles/stakeholders/taxpayer-oversight.md` | `no_authority_surface::trace_role_stakeholders_taxpayer_oversight` | `L2NoAuthority` |
+| `.roles/assurance/classification-operational-security.md` | `adversarial_cases::trace_role_assurance_classification_operational_security` | `L2Adversarial` |
+| `.roles/assurance/civilian-control-law-safety-readiness.md` | `no_authority_surface::trace_role_assurance_civilian_control_law_safety_readiness` | `L2NoAuthority` |
+| `SPEC-UNK-SEC-001` | `hold_closure::trace_spec_unk_sec_001` | `L2HoldClosure` |
+| `TBD-SEC-001` | `hold_closure::trace_tbd_sec_001` | `L2HoldClosure` |
+| `SPEC-UNK-SRC-001` | `hold_closure::trace_spec_unk_src_001` | `L2HoldClosure` |
+| `TBD-SRC-001` | `hold_closure::trace_tbd_src_001` | `L2HoldClosure` |
+| `SPEC-UNK-TST-001` | `hold_closure::trace_spec_unk_tst_001` | `L2HoldClosure` |
+| `TBD-TST-001` | `hold_closure::trace_tbd_tst_001` | `L2HoldClosure` |
+| `SPEC-UNK-REL-001` | `hold_closure::trace_spec_unk_rel_001` | `L2HoldClosure` |
+| `TBD-REL-001` | `hold_closure::trace_tbd_rel_001` | `L2HoldClosure` |
 
-### 7.2 Exact reverse transpose
+The forward identity count is mechanically derived as
+`9 requirements + 19 specifications + 4 design/contract identities + 38 CR
+identities + 10 VCL identities + 2 validation identities + 11 actor identities
++ 22 lane identities + 8 separate unknown/TBD identities = 123`. The 38 CR
+rows are exactly `CR-002` through `CR-006` and `CR-008` through `CR-040`,
+enumerated above; `CR-001` and `CR-007` are absent. R2's reviewer-side
+59-ID presence check was only a partial sampling assertion, is retired, and
+confers no completeness claim or authority in R3.
 
-| Evidence mode | Exact controlled rows consumed |
-|---|---|
-| `L2SourceSpine` | `TST-001`, `REL-003`, `NF-010`, `DES/CONTRACT-TEST`, `VCL-01`, `VCL-10`, `VAL-SCOPE`, `VAL-ASSURANCE`, `UNK/TBD-SRC` |
-| `L2Contract` | `TST-001`, `TST-004`, `NF-008`, `DES/CONTRACT-TEST`, `VCL-02`, `VAL-SCOPE`, `UNK/TBD-TST` |
-| `L2Property` | `TST-002`, `NF-004`, `NF-005`, `NF-007`, `DES/CONTRACT-TEST`, `VCL-04`, `VAL-SCOPE` |
-| `L2Model` | `TST-002`, `TST-003`, `NF-006`, `NF-009`, `DES/CONTRACT-TEST`, `VCL-03`, `VAL-SCOPE` |
-| `L2Adversarial` | `TST-002`, `TST-006`, `REL-002`, `NF-001`, `DES/CONTRACT-TEST`, `DES/CONTRACT-REL`, `VCL-06`, `VAL-SCOPE`, `UNK/TBD-SEC` |
-| `L2HoldClosure` | `TST-003`, `TST-005`, `DES/CONTRACT-TEST`, `VCL-05`, `VAL-SCOPE`, `VAL-ASSURANCE`, all four `UNK/TBD` pairs |
-| `L2NoAuthority` | `REL-001..003`, `NF-002`, `NF-003`, `NF-009`, `DES/CONTRACT-TEST`, `DES/CONTRACT-REL`, `VCL-07`, `VCL-08`, `VAL-SCOPE`, `VAL-ASSURANCE`, `UNK/TBD-REL` |
+### 7.2 Exact canonical reverse transpose
 
-Every reverse row also consumes the exact 38-CR allocation. The trace test
-compares forward and reverse sets exactly and rejects an absent/orphan row,
-unlisted extra, duplicate ID, duplicate edge, count error, digest mismatch,
-target mismatch, assertion mismatch, evidence-mode mismatch, or non-transpose.
+The reverse representation has one row per consuming edge and repeats each
+canonical identity and target/assertion verbatim. Because every forward identity
+has exactly one consuming mode, the mechanically derived edge count is exactly
+123. Per-mode counts are `L1Static`=20, `L1SupplyChain`=19, `L2SourceSpine`=21, `L2Contract`=7, `L2Property`=8, `L2Model`=5, `L2Adversarial`=7, `L2HoldClosure`=13, `L2NoAuthority`=23.
+
+| Evidence mode | Canonical controlled identity | Exact target / assertion |
+|---|---|---|
+| `L1Static` | `CR-002` | `static_surface::trace_cr_002` |
+| `L1Static` | `CR-004` | `static_surface::trace_cr_004` |
+| `L1Static` | `CR-006` | `static_surface::trace_cr_006` |
+| `L1Static` | `CR-009` | `static_surface::trace_cr_009` |
+| `L1Static` | `CR-011` | `static_surface::trace_cr_011` |
+| `L1Static` | `CR-013` | `static_surface::trace_cr_013` |
+| `L1Static` | `CR-015` | `static_surface::trace_cr_015` |
+| `L1Static` | `CR-017` | `static_surface::trace_cr_017` |
+| `L1Static` | `CR-019` | `static_surface::trace_cr_019` |
+| `L1Static` | `CR-021` | `static_surface::trace_cr_021` |
+| `L1Static` | `CR-023` | `static_surface::trace_cr_023` |
+| `L1Static` | `CR-025` | `static_surface::trace_cr_025` |
+| `L1Static` | `CR-027` | `static_surface::trace_cr_027` |
+| `L1Static` | `CR-029` | `static_surface::trace_cr_029` |
+| `L1Static` | `CR-031` | `static_surface::trace_cr_031` |
+| `L1Static` | `CR-033` | `static_surface::trace_cr_033` |
+| `L1Static` | `CR-035` | `static_surface::trace_cr_035` |
+| `L1Static` | `CR-037` | `static_surface::trace_cr_037` |
+| `L1Static` | `CR-039` | `static_surface::trace_cr_039` |
+| `L1Static` | `VCL-09` | `static_surface::trace_vcl_09` |
+| `L1SupplyChain` | `CR-003` | `test_gate::trace_cr_003` |
+| `L1SupplyChain` | `CR-005` | `test_gate::trace_cr_005` |
+| `L1SupplyChain` | `CR-008` | `test_gate::trace_cr_008` |
+| `L1SupplyChain` | `CR-010` | `test_gate::trace_cr_010` |
+| `L1SupplyChain` | `CR-012` | `test_gate::trace_cr_012` |
+| `L1SupplyChain` | `CR-014` | `test_gate::trace_cr_014` |
+| `L1SupplyChain` | `CR-016` | `test_gate::trace_cr_016` |
+| `L1SupplyChain` | `CR-018` | `test_gate::trace_cr_018` |
+| `L1SupplyChain` | `CR-020` | `test_gate::trace_cr_020` |
+| `L1SupplyChain` | `CR-022` | `test_gate::trace_cr_022` |
+| `L1SupplyChain` | `CR-024` | `test_gate::trace_cr_024` |
+| `L1SupplyChain` | `CR-026` | `test_gate::trace_cr_026` |
+| `L1SupplyChain` | `CR-028` | `test_gate::trace_cr_028` |
+| `L1SupplyChain` | `CR-030` | `test_gate::trace_cr_030` |
+| `L1SupplyChain` | `CR-032` | `test_gate::trace_cr_032` |
+| `L1SupplyChain` | `CR-034` | `test_gate::trace_cr_034` |
+| `L1SupplyChain` | `CR-036` | `test_gate::trace_cr_036` |
+| `L1SupplyChain` | `CR-038` | `test_gate::trace_cr_038` |
+| `L1SupplyChain` | `CR-040` | `test_gate::trace_cr_040` |
+| `L2SourceSpine` | `BASTION-REQ-TST-001` | `source_spine::trace_bastion_req_tst_001` |
+| `L2SourceSpine` | `SPEC-TST-001` | `source_spine::trace_spec_tst_001` |
+| `L2SourceSpine` | `SPEC-NF-010` | `source_spine::trace_spec_nf_010` |
+| `L2SourceSpine` | `VCL-01` | `source_spine::trace_vcl_01` |
+| `L2SourceSpine` | `VCL-10` | `source_spine::trace_vcl_10` |
+| `L2SourceSpine` | `VAL-SCOPE` | `source_spine::trace_val_scope` |
+| `L2SourceSpine` | `ACT-RDY` | `source_spine::trace_act_rdy` |
+| `L2SourceSpine` | `ACT-ACQ` | `source_spine::trace_act_acq` |
+| `L2SourceSpine` | `ACT-LOG` | `source_spine::trace_act_log` |
+| `L2SourceSpine` | `ACT-ALLY` | `source_spine::trace_act_ally` |
+| `L2SourceSpine` | `ACT-FIN` | `source_spine::trace_act_fin` |
+| `L2SourceSpine` | `ACT-PPL` | `source_spine::trace_act_ppl` |
+| `L2SourceSpine` | `ACT-TST` | `source_spine::trace_act_tst` |
+| `L2SourceSpine` | `.roles/parliament/operational-readiness.md` | `source_spine::trace_role_parliament_operational_readiness` |
+| `L2SourceSpine` | `.roles/parliament/acquisition-industrial-base.md` | `source_spine::trace_role_parliament_acquisition_industrial_base` |
+| `L2SourceSpine` | `.roles/parliament/logistics-sustainment.md` | `source_spine::trace_role_parliament_logistics_sustainment` |
+| `L2SourceSpine` | `.roles/parliament/defense-comptroller.md` | `source_spine::trace_role_parliament_defense_comptroller` |
+| `L2SourceSpine` | `.roles/parliament/service-member-family.md` | `source_spine::trace_role_parliament_service_member_family` |
+| `L2SourceSpine` | `.roles/parliament/independent-test-oversight.md` | `source_spine::trace_role_parliament_independent_test_oversight` |
+| `L2SourceSpine` | `.roles/parliament/alliance-interoperability.md` | `source_spine::trace_role_parliament_alliance_interoperability` |
+| `L2SourceSpine` | `.roles/editorial/citation-auditor.md` | `source_spine::trace_role_editorial_citation_auditor` |
+| `L2Contract` | `BASTION-REQ-TST-004` | `contract_matrix::trace_bastion_req_tst_004` |
+| `L2Contract` | `SPEC-TST-004` | `contract_matrix::trace_spec_tst_004` |
+| `L2Contract` | `SPEC-NF-008` | `contract_matrix::trace_spec_nf_008` |
+| `L2Contract` | `DES-TEST-001` | `contract_matrix::trace_des_test_001` |
+| `L2Contract` | `CONTRACT-TEST-001` | `contract_matrix::trace_contract_test_001` |
+| `L2Contract` | `VCL-02` | `contract_matrix::trace_vcl_02` |
+| `L2Contract` | `ACT-SRC` | `contract_matrix::trace_act_src` |
+| `L2Property` | `BASTION-REQ-TST-002` | `property_cases::trace_bastion_req_tst_002` |
+| `L2Property` | `SPEC-TST-002` | `property_cases::trace_spec_tst_002` |
+| `L2Property` | `SPEC-NF-004` | `property_cases::trace_spec_nf_004` |
+| `L2Property` | `SPEC-NF-005` | `property_cases::trace_spec_nf_005` |
+| `L2Property` | `SPEC-NF-007` | `property_cases::trace_spec_nf_007` |
+| `L2Property` | `VCL-04` | `property_cases::trace_vcl_04` |
+| `L2Property` | `.roles/panel-reviewer/panel.md` | `property_cases::trace_role_panel_reviewer_panel` |
+| `L2Property` | `.roles/editorial/numeracy-checker.md` | `property_cases::trace_role_editorial_numeracy_checker` |
+| `L2Model` | `BASTION-REQ-TST-003` | `model_cases::trace_bastion_req_tst_003` |
+| `L2Model` | `SPEC-TST-003` | `model_cases::trace_spec_tst_003` |
+| `L2Model` | `SPEC-NF-006` | `model_cases::trace_spec_nf_006` |
+| `L2Model` | `SPEC-NF-009` | `model_cases::trace_spec_nf_009` |
+| `L2Model` | `VCL-03` | `model_cases::trace_vcl_03` |
+| `L2Adversarial` | `BASTION-REQ-TST-006` | `adversarial_cases::trace_bastion_req_tst_006` |
+| `L2Adversarial` | `BASTION-REQ-REL-002` | `adversarial_cases::trace_bastion_req_rel_002` |
+| `L2Adversarial` | `SPEC-TST-006` | `adversarial_cases::trace_spec_tst_006` |
+| `L2Adversarial` | `SPEC-REL-002` | `adversarial_cases::trace_spec_rel_002` |
+| `L2Adversarial` | `SPEC-NF-001` | `adversarial_cases::trace_spec_nf_001` |
+| `L2Adversarial` | `VCL-06` | `adversarial_cases::trace_vcl_06` |
+| `L2Adversarial` | `.roles/assurance/classification-operational-security.md` | `adversarial_cases::trace_role_assurance_classification_operational_security` |
+| `L2HoldClosure` | `BASTION-REQ-TST-005` | `hold_closure::trace_bastion_req_tst_005` |
+| `L2HoldClosure` | `SPEC-TST-005` | `hold_closure::trace_spec_tst_005` |
+| `L2HoldClosure` | `VCL-05` | `hold_closure::trace_vcl_05` |
+| `L2HoldClosure` | `VAL-ASSURANCE` | `hold_closure::trace_val_assurance` |
+| `L2HoldClosure` | `Role review steward` | `hold_closure::trace_role_review_steward` |
+| `L2HoldClosure` | `SPEC-UNK-SEC-001` | `hold_closure::trace_spec_unk_sec_001` |
+| `L2HoldClosure` | `TBD-SEC-001` | `hold_closure::trace_tbd_sec_001` |
+| `L2HoldClosure` | `SPEC-UNK-SRC-001` | `hold_closure::trace_spec_unk_src_001` |
+| `L2HoldClosure` | `TBD-SRC-001` | `hold_closure::trace_tbd_src_001` |
+| `L2HoldClosure` | `SPEC-UNK-TST-001` | `hold_closure::trace_spec_unk_tst_001` |
+| `L2HoldClosure` | `TBD-TST-001` | `hold_closure::trace_tbd_tst_001` |
+| `L2HoldClosure` | `SPEC-UNK-REL-001` | `hold_closure::trace_spec_unk_rel_001` |
+| `L2HoldClosure` | `TBD-REL-001` | `hold_closure::trace_tbd_rel_001` |
+| `L2NoAuthority` | `BASTION-REQ-REL-001` | `no_authority_surface::trace_bastion_req_rel_001` |
+| `L2NoAuthority` | `BASTION-REQ-REL-003` | `no_authority_surface::trace_bastion_req_rel_003` |
+| `L2NoAuthority` | `SPEC-REL-001` | `no_authority_surface::trace_spec_rel_001` |
+| `L2NoAuthority` | `SPEC-REL-003` | `no_authority_surface::trace_spec_rel_003` |
+| `L2NoAuthority` | `SPEC-NF-002` | `no_authority_surface::trace_spec_nf_002` |
+| `L2NoAuthority` | `SPEC-NF-003` | `no_authority_surface::trace_spec_nf_003` |
+| `L2NoAuthority` | `DES-REL-001` | `no_authority_surface::trace_des_rel_001` |
+| `L2NoAuthority` | `CONTRACT-REL-001` | `no_authority_surface::trace_contract_rel_001` |
+| `L2NoAuthority` | `VCL-07` | `no_authority_surface::trace_vcl_07` |
+| `L2NoAuthority` | `VCL-08` | `no_authority_surface::trace_vcl_08` |
+| `L2NoAuthority` | `ACT-CIV` | `no_authority_surface::trace_act_civ` |
+| `L2NoAuthority` | `ACT-LAW` | `no_authority_surface::trace_act_law` |
+| `L2NoAuthority` | `ACT-EXT` | `no_authority_surface::trace_act_ext` |
+| `L2NoAuthority` | `.roles/parliament/civilian-strategy-force-planner.md` | `no_authority_surface::trace_role_parliament_civilian_strategy_force_planner` |
+| `L2NoAuthority` | `.roles/editorial/scope-keeper.md` | `no_authority_surface::trace_role_editorial_scope_keeper` |
+| `L2NoAuthority` | `.roles/stakeholders/service-member-family.md` | `no_authority_surface::trace_role_stakeholders_service_member_family` |
+| `L2NoAuthority` | `.roles/stakeholders/mission-user.md` | `no_authority_surface::trace_role_stakeholders_mission_user` |
+| `L2NoAuthority` | `.roles/stakeholders/depot-logistics-workforce.md` | `no_authority_surface::trace_role_stakeholders_depot_logistics_workforce` |
+| `L2NoAuthority` | `.roles/stakeholders/prime-small-supplier.md` | `no_authority_surface::trace_role_stakeholders_prime_small_supplier` |
+| `L2NoAuthority` | `.roles/stakeholders/installation-community.md` | `no_authority_surface::trace_role_stakeholders_installation_community` |
+| `L2NoAuthority` | `.roles/stakeholders/ally-partner.md` | `no_authority_surface::trace_role_stakeholders_ally_partner` |
+| `L2NoAuthority` | `.roles/stakeholders/taxpayer-oversight.md` | `no_authority_surface::trace_role_stakeholders_taxpayer_oversight` |
+| `L2NoAuthority` | `.roles/assurance/civilian-control-law-safety-readiness.md` | `no_authority_surface::trace_role_assurance_civilian_control_law_safety_readiness` |
+
+`source_spine` compares the exact 123 forward identities and edges against
+these exact 123 reverse identities and edges after bytewise sorting. It rejects
+an absent/orphan row, unlisted extra, alias, range, shorthand, paired cell,
+duplicate identity, duplicate edge, count error, controlled-source digest
+mismatch, target/assertion mismatch, mode mismatch, spelling change, or
+non-transpose. `L1Static` and `L1SupplyChain` execute and retain their exact
+reverse CR/VCL edges; the transpose is not limited to L2 modes.
 
 ## 8. Evidence, independent review, and roles
 
@@ -445,10 +723,13 @@ mandatory for an exit recommendation.
 ## 9. Entry, stop, exit, and authority
 
 Acceptance of this candidate, if it occurs, authorizes only a later separate
-entry decision. Entry requires the exact accepted WP and acceptance-pulse
-digests, a clean isolated worktree rooted at the accepted WS exit, the exact
-allowlist, one atomic
-implementation commit, and no unrelated change.
+entry decision. Entry requires the exact accepted R3 and acceptance-pulse
+digests on current main. A clean isolated worktree starts at that acceptance;
+the entry commit is its direct child, and the one atomic implementation commit
+is the direct child of entry. Entry binds both commit IDs before execution,
+the exact allowlist, unchanged REV bytes, and no unrelated change. WS remains
+the sole logical WP predecessor; current-main ancestry and co-membership do not
+create another WP predecessor.
 
 Stop immediately on any baseline, path, package, dependency, target, fixture,
 digest, schema, case, command, environment, bound, role, history, content,
@@ -471,7 +752,8 @@ governance decision against all eight planned `VER-*` identities.
 ## 10. Rollback and reopen
 
 Rollback is one atomic successor tree change that removes the exact TST package,
-fixtures, and runner and restores the WS-exit root manifest and lock bytes. It
+fixtures, and runner and restores the accepted entry root manifest and lock
+bytes, including the unchanged REV co-member. It
 never deletes evidence: mode/set records, implementation/evidence commits,
 failed results, counterexamples, findings, dissent, reproduction records, and
 the rollback decision remain recoverable in Git history and digest-bound.
