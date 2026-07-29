@@ -2,7 +2,7 @@
 
 ## 1. Status and authority
 
-Status: `proposed; bootstrap-successor planning candidate; implementation entry blocked`.
+Status: `active; WP-WS-001 complete; WP-REV-001 and WP-TST-001 acceptance-ready`.
 
 This plan converts the fixed BASTION mission-through-code-rigor chain into
 bounded future Rust work. It authorizes no code, workspace, package,
@@ -68,15 +68,16 @@ Controlled source universe: 98 requirements; 121 specification identities
   becomes an HND-emission prerequisite; it remains a separate release-blocking
   hold. The control grants no present work permission.
 
-Every `WP-IMPLEMENTATION` member is `proposed; entry_blocked`. `WP-VV-001` is
-planning-only `discovery`. No WP is accepted.
+Within `WP-IMPLEMENTATION`, `WP-WS-001` is complete, `WP-REV-001` and
+`WP-TST-001` are acceptance-ready, and every semantic producer remains
+`proposed; entry_blocked`. `WP-VV-001` planning is complete.
 
 ## 4. Smallest coherent slices
 
 | WP | Fixed boundary/touch | Coherent planned result | Current disposition |
 |---|---|---|---|
 | `WP-VV-001` | VTRACE planning only | Accepted VERIFICATION and VALIDATION plans with exact method, command, evidence, assurance, and decision registries | `discovery`; planning only |
-| `WP-WS-001` | `PB-WS-001` | Empty policy-bearing workspace skeleton with no semantics | `block` |
+| `WP-WS-001` | `PB-WS-001` | Empty policy-bearing workspace skeleton with no semantics | `complete` |
 | `WP-CST-001` | `PB-CST-001` + `PB-REV-001` / `PB-TST-001` sidecars | Public-aggregate source/security admission, immutable custody, safe rejection, and exact-output re-admission | `block` |
 | `WP-AUT-001` | `PB-AUT-001` + `PB-REV-001` / `PB-TST-001` sidecars | Bounded civilian mission/authority abstraction re-admitted through SOURCE | `block` |
 | `WP-RDY-001` | RDY slice of `PB-DOM-001` + `PB-REV-001` / `PB-TST-001` sidecars | Separate readiness, safety, resilience, surge, recovery, distributions, and floors | `block` |
@@ -88,17 +89,21 @@ planning-only `discovery`. No WP is accepted.
 | `WP-DEL-001` | DEL slice of `PB-PTH-001` + `PB-REV-001` / `PB-TST-001` sidecars | Mandatory delivery owner, capacity, milestones, observations, stop/rollback, transition, and realization posture | `block` |
 | `WP-ECO-FINAL-001` | final ECO slice of `PB-PTH-001` + `PB-REV-001` / `PB-TST-001` sidecars | Predecessor-linked final economic envelope bound to reviewed DEL | `block` |
 | `WP-ADP-001` | ADP slice of `PB-PTH-001` + `PB-REV-001` / `PB-TST-001` sidecars | Immutable adaptive successor and later-feedback request | `block` |
-| `WP-REV-001` | `PB-REV-001` | Bootstrap-only independent review/evidence-state substrate; no producer pass | `block` |
+| `WP-REV-001` | `PB-REV-001` + `PB-WS-001` membership integration | Bootstrap-only independent review/evidence-state substrate; no producer pass | `acceptance-ready` |
 | `WP-HND-001` | `PB-HND-001` + `PB-REV-001` / `PB-TST-001` sidecars | Current deterministic held/no-pack-emission proof only | `block` |
 | `WP-RUN-001` | `PB-RUN-001`, `PB-HND-001` + `PB-REV-001` / `PB-TST-001` sidecars | Fixed-order orchestration with no semantic ownership or new interface | `block` |
-| `WP-TST-001` | `PB-TST-001` and assigned `PB-FIX-001` bootstrap custody | Bootstrap-only isolated safe fixture/property/model/adversarial harness | `block` |
+| `WP-TST-001` | `PB-TST-001`, assigned `PB-FIX-001`, and `PB-WS-001` membership integration | Bootstrap-only isolated safe fixture/property/model/adversarial harness | `acceptance-ready` |
 | `WP-GEN-001` | `PB-GEN-001`, `PB-FIX-001` + `PB-REV-001` / `PB-TST-001` sidecars | Reproducible derivative output custody and fixture inventory; no reverse edge | `block` |
 | `WP-DOC-001` | `PB-DOC-001` + `PB-REV-001` / `PB-TST-001` sidecars | Contract/trace documentation and REL no-output proof synchronized to accepted digests | `block` |
 | `WP-INT-001` | final fixed 12-boundary graph | Post-GEN/DOC source spine, support isolation, contract/invariant/hold transpose, forbidden-edge, HND no-emission, TERM finiteness, and REL no-output proof | `block` |
 
 Multiple semantic slices in one physical boundary are sequential WPs, not new
-packages or dependency edges. Splitting preliminary and final ECO prevents a
-package-level ECO/DEL cycle while preserving their single fixed contract.
+packages or dependency edges. The first WP that creates each Rust package also
+touches `PB-WS-001` solely to register that member; the exact forward/reverse
+transpose therefore contains 71 pairs. This membership integration creates no
+semantic or runtime edge and remains in the same accepted WP as the new member.
+Splitting preliminary and final ECO prevents a package-level ECO/DEL cycle
+while preserving their single fixed contract.
 
 ## 5. Stable bootstrap, producer, and integration DAG
 
@@ -239,13 +244,11 @@ quality, documentation, static, dependency/license/advisory, and regression;
 L2 is source-spine, all-contract, invariant/property, state/model,
 adversarial, hold, HND/TERM, REL, and final integration evidence.
 
-No workspace, toolchain, dependency manifest, executable target, accepted
-verification/validation plan, or concrete command exists. All L0/L1/L2 slots
-are `planned; unavailable`. `WP-VV-001` has product execution N/A and instead
-must close planning digest, 298-identity orphan/transpose, contradiction,
-method/command/evidence registry, and independent fixed-point checks. A future
-WP cannot enter with a placeholder or unavailable command. No command run or
-evidence result is claimed.
+The accepted empty workspace and pinned toolchain now exist. `WP-WS-001`
+commands and evidence are complete; command slots for every later WP remain
+unbound until that exact WP is accepted. `WP-VV-001` product execution was N/A
+and its planning checks are complete. A future WP cannot enter with a
+placeholder or unavailable command.
 
 ## 10. Branch, change, rollback, and integration discipline
 
@@ -284,8 +287,9 @@ present digest-bound evidence; all applicable parliament/domain/assurance
 lanes pass; independent review has no unresolved major/critical finding; trace
 transposes are zero-orphan; rollback is proven; and authority remains bounded.
 
-No implementation WP satisfies entry criterion 1. No hold is closed. No
-waiver is accepted.
+`WP-WS-001` satisfied its exact entry and exit criteria. `WP-REV-001` and
+`WP-TST-001` may now seek separate exact acceptance. No semantic hold is closed
+and no waiver is accepted.
 
 The section 3.3.2 transpose supplies the sole prospective bootstrap exception:
 WS has no TST relationship; REV and TST may carry the open TST pair only as a

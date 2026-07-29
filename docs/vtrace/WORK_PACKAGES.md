@@ -3,9 +3,11 @@
 ## 1. Register status
 
 This is an implementation-planning register, not implementation authority.
-`WP-VV-001` is planning-only `discovery`. Every other WP is `proposed;
-entry_blocked`. None is accepted; no code, workspace, dependency, method,
-command, fixture, or executed evidence exists.
+`WP-VV-001` planning and `WP-WS-001` execution are complete. The accepted
+empty Rust workspace exists with digest-bound evidence. `WP-REV-001` and
+`WP-TST-001` are acceptance-ready; every semantic producer remains
+`proposed; entry_blocked`. No hold closure, HND emission, release, official
+use, or public authority exists.
 
 `CTRL-HND-EMIT-001` is a deferred non-WP control. It cannot authorize work or
 appear as an accepted package. Any future emission requires a new assignment,
@@ -20,9 +22,9 @@ gates and exact aliases in
 | WP | Exact boundary/slice | Smallest coherent deliverable | Exact predecessors | Status |
 |---|---|---|---|---|
 | `WP-VV-001` | VTRACE planning only | Fixed VERIFICATION and VALIDATION plans and registries | frozen baseline | `discovery` |
-| `WP-WS-001` | `PB-WS-001` | Empty workspace policy skeleton | `WP-VV-001` | `proposed; entry_blocked` |
-| `WP-REV-001` | `PB-REV-001` | Empty review/evidence-state scaffold only | `WP-WS-001` | `proposed; entry_blocked` |
-| `WP-TST-001` | `PB-TST-001`, `PB-FIX-001` | Empty isolated harness and assigned fixture-custody scaffold only | `WP-WS-001` | `proposed; entry_blocked` |
+| `WP-WS-001` | `PB-WS-001` | Empty workspace policy skeleton | `WP-VV-001` | `complete; accepted` |
+| `WP-REV-001` | `PB-REV-001` plus `PB-WS-001` membership integration | Empty review/evidence-state scaffold only | `WP-WS-001` | `proposed; acceptance_ready` |
+| `WP-TST-001` | `PB-TST-001`, `PB-FIX-001` plus `PB-WS-001` membership integration | Empty isolated harness and assigned fixture-custody scaffold only | `WP-WS-001` | `proposed; acceptance_ready` |
 | `WP-CST-001` | `PB-CST-001` plus producer-owned `PB-REV-001` / `PB-TST-001` deltas | SOURCE/security/custody/re-admission gate | `WP-WS-001`, `WP-REV-001`, `WP-TST-001` | `proposed; entry_blocked` |
 | `WP-AUT-001` | `PB-AUT-001` plus producer-owned `PB-REV-001` / `PB-TST-001` deltas | Civilian mission/authority abstraction | `WP-CST-001` | `proposed; entry_blocked` |
 | `WP-ACQ-001` | ACQ slice of `PB-DOM-001` plus producer-owned `PB-REV-001` / `PB-TST-001` deltas | Acquisition/industrial-base facets | `WP-AUT-001` | `proposed; entry_blocked` |
@@ -213,8 +215,8 @@ by `CHG-BA-TST-BOOT-002`; every non-TST relationship is unchanged.
 | `CONTRACT-TRACE-001` | `WP-REV-001`, `WP-DOC-001`, `WP-INT-001` |
 ### 3.4.1 WP-to-boundary forward touch allocation
 
-A touch is an authored primary slice, producer-owned REV/TST sidecar delta, or
-fixed support/integration custody. Reading an accepted predecessor digest does
+A touch is an authored primary slice, first-member workspace integration,
+producer-owned REV/TST sidecar delta, or fixed support/integration custody. Reading an accepted predecessor digest does
 not by itself create a touch. `∅` is exact. Every `WP-SIDECAR-PRODUCERS`
 member has its product/support boundary plus both sidecars.
 
@@ -222,21 +224,21 @@ member has its product/support boundary plus both sidecars.
 |---|---|
 | `WP-VV-001` | `∅` |
 | `WP-WS-001` | `{PB-WS-001}` |
-| `WP-REV-001` | `{PB-REV-001}` |
-| `WP-TST-001` | `{PB-TST-001, PB-FIX-001}` |
-| `WP-CST-001` | `{PB-CST-001, PB-REV-001, PB-TST-001}` |
-| `WP-AUT-001` | `{PB-AUT-001, PB-REV-001, PB-TST-001}` |
-| `WP-ACQ-001` | `{PB-DOM-001, PB-REV-001, PB-TST-001}` |
+| `WP-REV-001` | `{PB-WS-001, PB-REV-001}` |
+| `WP-TST-001` | `{PB-WS-001, PB-TST-001, PB-FIX-001}` |
+| `WP-CST-001` | `{PB-WS-001, PB-CST-001, PB-REV-001, PB-TST-001}` |
+| `WP-AUT-001` | `{PB-WS-001, PB-AUT-001, PB-REV-001, PB-TST-001}` |
+| `WP-ACQ-001` | `{PB-WS-001, PB-DOM-001, PB-REV-001, PB-TST-001}` |
 | `WP-LOG-001` | `{PB-DOM-001, PB-REV-001, PB-TST-001}` |
 | `WP-ALLY-001` | `{PB-DOM-001, PB-REV-001, PB-TST-001}` |
 | `WP-RDY-001` | `{PB-DOM-001, PB-REV-001, PB-TST-001}` |
 | `WP-DST-001` | `{PB-DOM-001, PB-REV-001, PB-TST-001}` |
-| `WP-ECO-PRELIM-001` | `{PB-PTH-001, PB-REV-001, PB-TST-001}` |
+| `WP-ECO-PRELIM-001` | `{PB-WS-001, PB-PTH-001, PB-REV-001, PB-TST-001}` |
 | `WP-DEL-001` | `{PB-PTH-001, PB-REV-001, PB-TST-001}` |
 | `WP-ECO-FINAL-001` | `{PB-PTH-001, PB-REV-001, PB-TST-001}` |
 | `WP-ADP-001` | `{PB-PTH-001, PB-REV-001, PB-TST-001}` |
-| `WP-HND-001` | `{PB-HND-001, PB-REV-001, PB-TST-001}` |
-| `WP-RUN-001` | `{PB-HND-001, PB-RUN-001, PB-REV-001, PB-TST-001}` |
+| `WP-HND-001` | `{PB-WS-001, PB-HND-001, PB-REV-001, PB-TST-001}` |
+| `WP-RUN-001` | `{PB-WS-001, PB-HND-001, PB-RUN-001, PB-REV-001, PB-TST-001}` |
 | `WP-GEN-001` | `{PB-FIX-001, PB-GEN-001, PB-REV-001, PB-TST-001}` |
 | `WP-DOC-001` | `{PB-DOC-001, PB-REV-001, PB-TST-001}` |
 | `WP-INT-001` | `{PB-WS-001, PB-CST-001, PB-AUT-001, PB-DOM-001, PB-PTH-001, PB-REV-001, PB-HND-001, PB-RUN-001, PB-DOC-001, PB-TST-001, PB-FIX-001, PB-GEN-001}` |
@@ -245,7 +247,7 @@ member has its product/support boundary plus both sidecars.
 
 | Package boundary | Exact touching WP set |
 |---|---|
-| `PB-WS-001` | `{WP-WS-001, WP-INT-001}` |
+| `PB-WS-001` | `{WP-WS-001, WP-REV-001, WP-TST-001, WP-CST-001, WP-AUT-001, WP-ACQ-001, WP-ECO-PRELIM-001, WP-HND-001, WP-RUN-001, WP-INT-001}` |
 | `PB-CST-001` | `{WP-CST-001, WP-INT-001}` |
 | `PB-AUT-001` | `{WP-AUT-001, WP-INT-001}` |
 | `PB-DOM-001` | `WP-DOMAIN` + `{WP-INT-001}` |
@@ -259,7 +261,7 @@ member has its product/support boundary plus both sidecars.
 | `PB-GEN-001` | `{WP-GEN-001, WP-INT-001}` |
 
 The 20 forward rows and 12 reverse rows are authoritative exact set
-transposes: zero forward-only or reverse-only WP/PB touch pairs.
+transposes: 71 WP/PB touch pairs, zero forward-only or reverse-only pairs.
 
 ### 3.5 Exact 40 code-rigor dispositions
 
@@ -428,7 +430,7 @@ create authority.
 | Held specification identities | 13 | section 3.3; 134 blocker pairs and 10 proof-input pairs in exact forward/reverse equality; zero orphan; zero closed |
 | Design decisions | 14 | section 3.4; zero orphan |
 | Contracts | 13 | section 3.4; zero orphan; no fourteenth contract |
-| Package boundaries | 12 | section 3.4; 63 exact WP/PB touch pairs in forward/reverse equality; zero orphan; no new boundary |
+| Package boundaries | 12 | section 3.4; 71 exact WP/PB touch pairs in forward/reverse equality; zero orphan; no new boundary |
 | Code-rigor constraints | 40 | section 3.5; zero orphan |
 | **Controlled identities** | **298** | **298 allocated; zero orphan** |
 
