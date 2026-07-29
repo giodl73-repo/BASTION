@@ -1,4 +1,4 @@
-# WP-TST-001-R10 — phase-bound durable-observation boundary-test and fixture-custody bootstrap
+# WP-TST-001-R11 — origin-bound lifecycle-ledger boundary-test and fixture-custody bootstrap
 
 Status: `proposed; acceptance_candidate; not_accepted; not_entered`
 
@@ -10,14 +10,14 @@ configuration-only membership integration in `PB-WS-001`
 Logical WP predecessor: accepted `WP-WS-001` exit only. R1 commit
 `62116481b7b3e7d671517b6053c8cc3f20f93fce` and R2 commit
 `21c8066445c72358a444c0b506422ec3b9dc63e0` are retained governance history.
-After R10 acceptance, the entry commit and its direct implementation successor
+After R11 acceptance, the entry commit and its direct implementation successor
 must remain on the current governance/main lineage. Accepted REV is only a
 context co-member: workspace co-membership and Git ancestry are explicitly not
 WP-predecessor or dependency relationships.
 
 ## 1. Controlled baseline and custody
 
-The future acceptance commit must descend from R10 on current main; the entry
+The future acceptance commit must descend from R11 on current main; the entry
 commit must be its direct governance successor; and the one implementation
 commit must be the direct child of entry. Accepted `WP-WS-001` exit
 `cd1f1d75ec312789fed63a265219d8ad9069a17a` remains the sole logical WP
@@ -47,7 +47,10 @@ predecessor digest, or Cargo edge holds acceptance and entry.
 | Retained R9 governance commit (not accepted) | `69dc2f86783c3bf35cdc1367b2ed787c5da423a9` |
 | Retained R9 WP SHA-256 / blob | `402d4704b5cdc3de593039090478f12ec2ed2f93cf9ce8db222deed6309f82b4` / `1fbe238b42b56b0e3d87590f767e1ce02d89b0cf` |
 | Retained R9 pulse SHA-256 / blob | `5e7e69f2b9e22227336b60dbceeb8e3b76ed804bf28f849d11e522788299560a` / `a098cead061bce86ff28b33741d6dfe1fbb081ef` |
-| Current R10 governance-line base before acceptance | `69dc2f86783c3bf35cdc1367b2ed787c5da423a9` |
+| Retained R10 governance commit (not accepted) | `07cdba818ae4dc1120780104995b43143a6bee16` |
+| Retained R10 WP SHA-256 / blob | `6149e23aba203bb529d13936f872781f98202094984fac7a9c74e0279b700a1b` / `a6f74dcbc319921a128dda1562b821995b620735` |
+| Retained R10 pulse SHA-256 / blob | `e08e93750045e894dc976126d236849a10c37bbbfb2fc6dcc89594a0916b0da8` / `cabee5936027bc005b5bd58287f3939bab5f4e82` |
+| Current R11 governance-line base before acceptance | `07cdba818ae4dc1120780104995b43143a6bee16` |
 | Context-only accepted REV exit | `ab227cc06f15299b594cfe2be99915bd93c4c081` |
 | Context-only accepted REV implementation commit / SHA-256 | `5c4e96306d3c463a44be7621371759da8bca399b` / `c5c2df1178568cd49b5d721cd01cba7cce3371e049528e07bad30d6b3324ea72` |
 | Context-only accepted REV evidence-set SHA-256 / tree | `b95beff569794125018f2fde3d4d3317ed32278dfcfb1fc22a7d25cf51226bd9` / `d554c8c0c3d534aa96924f085a4dc007b25e3a3c` |
@@ -367,13 +370,55 @@ is exact per mode and ordered by first internal use:
 | `L2HoldClosure` | `[cargo]` |
 | `L2NoAuthority` | `[cargo]` |
 
-R10 uses an exact serial phase plan. Each closed `ExecutionPhase` has ordered
+R11 uses an exact serial phase plan. Each closed `ExecutionPhase` has ordered
 keys `phase_ordinal,phase_id,kind,tool_version_indices,argv,target_first,
 target_count`: ordinal is consecutive from 1; kind is `command|targets`;
 tool indices select the exact top-level tuples in use order; argv is a literal
 argv array for command or a literal expansion template for targets; and the
 target range is null/null for command or a contiguous allocation range for
 targets. Ranges partition all allocations once in section 7 order.
+
+`phase_id` is exactly `PHASE-<MODE>-NN`, with literal mode spelling and
+one-based two-digit ordinal. `tool_version_indices` are zero-based integers
+into that mode's `tool_versions`, in domain `0..length-1`, first-use ordered
+and unique. `target_first` is a zero-based `allocated_targets` index; ranges
+are contiguous, nonoverlapping, and cover `0..length-1`. Command phases use
+null/null. A targets-phase `argv` is exactly either the mode-map Cargo argv
+followed by `["<ASSERTION>","--","--exact","--test-threads=1","--nocapture"]`
+or `["pwsh","-NoLogo","-NoProfile","-NonInteractive","-File",
+"tools/test_gate.ps1","-AssertTarget","<ASSERTION>"]`. Expansion replaces
+the sole complete `<ASSERTION>` token with the allocation assertion; it never
+interpolates or splits a string.
+
+This is the exhaustive per-mode phase sequence. `CARGO` means the literal
+mode-map argv above, `CARGO[n]` its indexed argv, `CARGO-T` its literal target
+template, `TG-S` literal `pwsh -NoLogo -NoProfile -NonInteractive -File
+tools/test_gate.ps1 -AssertPhase assert-static-surface`, and `TG-T` the literal
+test-gate template. Each tuple is `ordinal,phase_id,kind,tool indices,argv,
+target_first,target_count`.
+The uppercase table symbols are specification aliases only and are never
+serialized: the canonical object expands each alias to the referenced literal
+JSON argv array before hashing or comparison. This expansion is total and
+admits no caller-selected value.
+
+| Mode | Exact phase tuples in ordinal order |
+|---|---|
+| `L0Format` | `1,PHASE-L0Format-01,command,[0,1],CARGO,null,null` |
+| `L0Check` | `1,PHASE-L0Check-01,command,[0],CARGO,null,null` |
+| `L0FocusedTest` | `1,PHASE-L0FocusedTest-01,command,[0],CARGO,null,null` |
+| `L1WorkspaceCheck` | `1,PHASE-L1WorkspaceCheck-01,command,[0],CARGO,null,null` |
+| `L1Clippy` | `1,PHASE-L1Clippy-01,command,[0,1],CARGO,null,null` |
+| `L1Test` | `1,PHASE-L1Test-01,command,[0],CARGO,null,null` |
+| `L1Doc` | `1,PHASE-L1Doc-01,command,[0],CARGO[0],null,null`; `2,PHASE-L1Doc-02,command,[0],CARGO[1],null,null` |
+| `L1Static` | `1,PHASE-L1Static-01,targets,[0],CARGO-T,0,8`; `2,PHASE-L1Static-02,command,[1],TG-S,null,null` |
+| `L1SupplyChain` | `1,PHASE-L1SupplyChain-01,command,[0],CARGO,null,null`; `2,PHASE-L1SupplyChain-02,targets,[1],TG-T,0,3` |
+| `L2SourceSpine` | `1,PHASE-L2SourceSpine-01,targets,[0],CARGO-T,0,29` |
+| `L2Contract` | `1,PHASE-L2Contract-01,targets,[0],CARGO-T,0,12` |
+| `L2Property` | `1,PHASE-L2Property-01,targets,[0],CARGO-T,0,16` |
+| `L2Model` | `1,PHASE-L2Model-01,targets,[0],CARGO-T,0,14` |
+| `L2Adversarial` | `1,PHASE-L2Adversarial-01,targets,[0],CARGO-T,0,19` |
+| `L2HoldClosure` | `1,PHASE-L2HoldClosure-01,targets,[0],CARGO-T,0,19` |
+| `L2NoAuthority` | `1,PHASE-L2NoAuthority-01,targets,[0],CARGO-T,0,28` |
 
 Every ordinary allocated Cargo-test mode has one targets phase whose children
 insert exact assertion before `-- --exact --test-threads=1 --nocapture`.
@@ -389,58 +434,128 @@ tuple. The flattened actual child argv in phase/target order is top-level
 `exact_argv`; every argv's tools are selected by its phase.
 
 The ledger root is exact
-`context/waves/2026-07-28-bastion-foundation/evidence/wp-tst-001/ledger/<mode>/vNNNN/run-aAAAA/`,
-where NNNN is evidence version and AAAAA is the next unused positive run
-attempt `00001..99999`, allocated by create-new directory. Every record
-filename is `rRRRR-<kind>.json`, where RRRR begins `0000` and increments by one
-in durable chain order. Kinds are exactly `run-start`, `phase-NN-start`,
-`phase-NN-completion|phase-NN-recovery`, `target-MMM-start`,
-`target-MMM-completion|target-MMM-recovery`, and final
+`context/waves/2026-07-28-bastion-foundation/evidence/wp-tst-001/ledger/<mode>/vEEEE/run-aAAAA/`,
+where EEEE is immutable `execution_evidence_version`, not mutable review
+`evidence_version`, and AAAAA is the next unused positive run attempt
+`00001..99999`, allocated by create-new directory. `execution_id` is exact
+`EXEC-WP-TST-001-<mode>-vEEEE`; `run_id` is exact
+`RUN-WP-TST-001-<mode>-vEEEE-aAAAA`. Every review successor retains the same
+execution ID, execution version, execution origin, and ledger binding
+byte-identically; review version advancement never changes a ledger formula.
+
+Every record filename is `rRRRR-<kind>.json`, where RRRR begins `0000` and
+increments by one in durable chain order. Kinds are exactly `run-start`,
+`phase-NN-start`, `phase-NN-completion|phase-NN-recovery`,
+`target-MMM-start`, `target-MMM-completion|target-MMM-recovery`, and final
 `run-completion|run-recovery`; NN is two-digit phase ordinal and MMM is
-three-digit global allocation ordinal. Completion/recovery uses the next RRRR,
+three-digit one-based mode-allocation ordinal. Completion/recovery uses the next RRRR,
 not its start's RRRR. No other entry, sequence gap, duplicate, alternate width,
-temp remnant, or filename is legal. Bytewise filename order is therefore exact
-chain order.
+temp remnant, or filename is legal. Bytewise filename order is chain order.
 
-Every ledger object begins with exact keys
-`schema,wp_id,wp_digest,acceptance_commit,entry_commit,implementation_commit,
-mode,evidence_version,run_attempt,run_id,record_kind,ordinal,predecessor_digest`
-and ends `record_digest`. Run ID is
-`RUN-WP-TST-001-<mode>-vNNNN-aAAAA`; bindings equal the enclosing evidence;
-predecessor is null only for run-start and otherwise hashes the immediately
-previous ledger record. Start records then add `phase_id,controlled_id,
-assertion,argv,start_utc` with nulls where inapplicable. Completion records add
-`phase_id,controlled_id,assertion,argv,exit,state,reason,stdout_sha256,
-stderr_sha256,end_utc`; recovery records add the same fields plus
-`unpaired_start_digest,termination_kind,recovery_utc`. Record digest hashes
-canonical complete bytes omitting only itself. Types/enums reuse section 8;
-argv and identities equal the phase plan/allocation.
+Ledger schema is literal `test-gate-ledger.v2`. Every variant has exact ordered
+common prefix `schema,record_kind,wp_id,wp_digest,acceptance_commit,
+entry_commit,implementation_commit,mode,execution_id,
+execution_evidence_version,run_attempt,run_id,ordinal,predecessor_digest` and
+final key `record_digest`. The digest hashes canonical complete bytes omitting
+only that final key and its preceding comma. Predecessor is null only for
+`RunStart`; otherwise it hashes the immediately prior durable record. No
+variant admits another variant's keys or placeholder null fields.
 
-Schema is literal `test-gate-ledger.v1`; record kind equals the filename kind;
-ordinal is RRRR as uint; run attempt is uint `1..99999`; all IDs/digests/times
-use section 8 primitives. Run-start uses null predecessor and null phase/
-target fields with argv `[]`. Phase records require phase ID/argv and null
-target fields. Target records require all phase/target/argv fields. Run terminal
-records use null phase/target fields and argv `[]`. Exit is `0..255|null`, state
-is `passed|failed|held|not_run|null`, reason is the exact target/terminal enum
-or null, and stream hashes are `DIGEST|null`; start records require all result
-fields null. Completion requires non-null exit/state/stream hashes and null
-recovery fields. Recovery requires failed state, exact termination kind/time,
-the paired start digest, and stream/exit values nullable only when the killed
-or lost process made them unobservable. These are the only null combinations.
+| Variant / exact `record_kind` | Exact ordered suffix before `record_digest` |
+|---|---|
+| `RunStart` / `run-start` | `start_utc` |
+| `PhaseStart(command)` / `phase-NN-start` | `phase_ordinal,phase_id,phase_kind,argv,process_id,process_creation_utc,job_id,start_utc` |
+| `PhaseStart(targets)` / `phase-NN-start` | `phase_ordinal,phase_id,phase_kind,argv,start_utc` |
+| `TargetStart` / `target-MMM-start` | `phase_ordinal,phase_id,target_ordinal,controlled_id,assertion,argv,process_id,process_creation_utc,job_id,start_utc` |
+| `TargetCompletion` / `target-MMM-completion` | `phase_ordinal,phase_id,target_ordinal,controlled_id,assertion,argv,paired_start_digest,native_exit_u32,portable_exit,state,reason,stdout_sha256,stderr_sha256,end_utc` |
+| `TargetRecovery` / `target-MMM-recovery` | `phase_ordinal,phase_id,target_ordinal,controlled_id,assertion,argv,paired_start_digest,termination_observation,native_exit_u32,portable_exit,state,reason,stdout_sha256,stderr_sha256,recovery_utc` |
+| `PhaseCompletion` / `phase-NN-completion` | `phase_ordinal,phase_id,phase_kind,argv,paired_start_digest,native_exit_u32,portable_exit,state,reason,end_utc` |
+| `PhaseRecovery` / `phase-NN-recovery` | `phase_ordinal,phase_id,phase_kind,argv,paired_start_digest,termination_observation,native_exit_u32,portable_exit,state,reason,recovery_utc` |
+| `RunCompletion` / `run-completion` | `paired_start_digest,native_exit_u32,portable_exit,state,reason,end_utc` |
+| `RunRecovery` / `run-recovery` | `paired_start_digest,termination_observation,native_exit_u32,portable_exit,state,reason,recovery_utc` |
 
-Each file is opened create-new, written completely, flushed with
-`FlushFileBuffers`, closed, and its parent directory handle flushed before any
-child launch or next record. Exactly one child runs at a time. A completion or
-recovery binds its start; the next record binds it. Normal completion and
-recovery are mutually exclusive. On startup the supervisor scans bytewise
-filenames and validates the complete digest chain. The only recoverable suffix
-is one final start lacking its completion/recovery; recovery first proves the
-recorded process/Job is absent or terminates it, writes the paired recovery,
-marks that phase/target terminal failed, marks every later phase/target not-run,
-writes run recovery, and never launches/retries. Any other incomplete shape,
-live ambiguity, extra file, broken chain, or record after terminal rejects and
-requires a new run attempt.
+Record `ordinal` is uint equal to filename RRRR; run attempt is uint
+`1..99999`; phase ordinal is uint `1..2` equal to NN; target ordinal is uint
+`1..148` equal to MMM and the one-based index of that mode allocation. Times
+are `UTC`; all IDs/digests use section 8 primitives.
+
+All identity and argv values equal their exact phase/allocation. The
+`phase_kind` discriminant selects exactly one PhaseStart key set; a command
+phase launches its sole child and therefore carries the same non-null process
+identity triple required of TargetStart, while a targets phase launches no
+child at phase start and admits none of those keys. Each
+completion/recovery's `paired_start_digest` names its unique earlier unpaired
+start at the same scope; no start is paired twice. Start process ID is uint
+`1..4294967295`, process creation time is `UTC`, and Job ID is uint
+`1..18446744073709551615`; the triple is captured after assignment to the new
+Job and before child release. Completion native exit is uint `0..4294967295`;
+portable exit is `0..255` and equals native exit when at most 255, otherwise
+255. State is `passed|failed|held`; reason is the scope's closed terminal enum.
+Target completion stream hashes are `DIGEST`.
+
+Target completion reason is exactly `assertion-passed|assertion-failed|
+target-held|unexpected-exit`; target recovery reason is exactly
+`timeout|wall-limit|memory-limit|output-limit|bound-kill|crash|
+unexpected-exit|supervisor-loss|ledger-corruption` and equals observation
+kind. Phase completion reason is exactly `all-children-passed|command-passed|
+child-failed|child-held|command-failed`; phase recovery reason is the same
+closed recovery enum and equals observation kind. Run completion reason is
+exactly `all-phases-passed|phase-failed|phase-held`; run recovery reason is the
+same closed recovery enum and equals observation kind. State/reason pairs not
+named by these mappings reject.
+
+`TerminationObservation` has exact ordered keys
+`kind,worker_started,process_id,process_creation_utc,job_id,
+identity_match,job_active_count_before,termination_action,
+job_active_count_after,native_exit_u32,observed_utc,event_digest`. Kind is
+exactly `timeout|wall-limit|memory-limit|output-limit|bound-kill|crash|
+unexpected-exit|supervisor-loss|ledger-corruption`; action is
+`none|terminate-job|already-absent`; identity match is bool and both active
+counts are uint `0..4294967295`. For a recorded child, PID, creation time, and
+Job ID equal its start and identity must match before any termination; mismatch
+rejects recovery. `already-absent` requires before/after zero; `terminate-job`
+requires positive before, successful Job termination, and after zero; `none`
+is permitted only for an independently observed crash/exit and after zero.
+When no worker started, the three identity values and native exit are null,
+identity match is false, counts are zero, and kind is
+`supervisor-loss|ledger-corruption`. Otherwise identity values are non-null;
+native exit is non-null iff independently observed, and portable exit follows
+the same mapping or is null. Stream hashes are non-null exactly when complete
+streams were independently observed. These are the only null combinations.
+
+Each file is create-new, completely written, `FlushFileBuffers`-flushed,
+closed, and followed by a parent-directory handle flush before child launch or
+the next record. Exactly one child runs. Normal completion and recovery are
+exclusive. A phase completion's predecessor is its last child terminal while
+its paired digest binds its own phase start; a run completion's predecessor is
+the last phase terminal while its paired digest binds its own run start.
+Phase state/exit/reason is the closed aggregation of its ordered child or sole
+command terminal: the first child with state not passed or native exit nonzero
+wins and supplies both exits/state plus `child-failed|child-held`; otherwise
+zero/passed/`all-children-passed`. A command phase maps its sole command to
+zero/passed/`command-passed` or its exact nonzero/failed/`command-failed`.
+Run aggregation applies the same ordered rule to phases, yielding
+`all-phases-passed|phase-failed|phase-held`. Recovery values instead derive
+only from the frozen termination observation and never from missing children.
+
+Startup scans bytewise filenames and validates the full chain. The only
+recoverable prefixes have unique properly nested open ancestors and exactly
+one of four final records: (1) an unpaired target/command-phase start, (2) a
+paired target terminal with its phase/run open, (3) a paired phase terminal
+with its run open, or (4) run start before any phase. Every earlier sibling is
+paired and no unrelated start is open. Case 1 proves absence or terminates the
+exact PID+creation-time+Job identity and freezes that observation. Cases 2–4
+freeze `supervisor-loss,false,null,null,null,false,0,already-absent,0,null,
+<observed UTC>,<event digest>` because the prior child terminal is already
+durable or no child began. Case 1 target unwind is exactly target recovery ->
+phase recovery -> run recovery; case 1 command phase and cases 2 unwind phase
+recovery -> run recovery; cases 3–4 write run recovery. Each predecessor names
+the immediately prior terminal/recovery, each recovery pairs its own scope's
+start, and all levels in one unwind retain the identical observation. Later
+scopes derive not-run without fabricated ledger records. Recovery never
+launches/retries. Any other incomplete shape, live ambiguity, extra file,
+broken chain, or record after a run terminal rejects and requires a new run
+attempt.
 
 `target_results` derives only from this ledger. A phase failure before its
 target range makes that range and all later ranges not-run. A unique target
@@ -464,7 +579,10 @@ run with exact environment additions `GIT_CONFIG_NOSYSTEM=1`,
 `GIT_CONFIG_SYSTEM=NUL`, `GIT_CONFIG_GLOBAL=NUL`, and
 `GIT_ATTR_NOSYSTEM=1`, `GIT_OPTIONAL_LOCKS=0`,
 `GIT_NO_REPLACE_OBJECTS=1`; the otherwise sanitized environment contains no other
-`GIT_*` variable. All invocations fix the same configuration in the same order.
+`GIT_*` variable. The config/diff/status/tree/blob semantic invocations fix the
+same configuration in the same order. Root/git/common/index discovery and
+replace-ref enumeration use their literal arrays without `-c`; they are bound
+by the same environment and perform only path resolution or disabled-ref listing.
 The local configuration cannot be disabled by Git and therefore is captured
 byte-for-byte before and after the observations; named semantic controls are
 overridden on the command line and every remaining local setting is exactly
@@ -474,7 +592,7 @@ neutralized by the two `NUL` values. Rename detection is enabled,
 unlimited, Myers-based, and exact-content-only (`100%`); no Git default may
 alter it.
 
-The common command-line configuration is additionally exact
+The common semantic-command configuration is additionally exact
 `status.relativePaths=false`, `core.precomposeUnicode=false`,
 `core.ignoreCase=false`, and `submodule.recurse=false`. Every command that
 accepts a pathspec ends with the one literal top-root pathspec
@@ -540,7 +658,7 @@ one implementation commit, implementation/test/fixture-manifest/WP/
 acceptance/runner/root-manifest/lock/WS predecessor digest, exact argv,
 sanitized-environment digest, start/end/duration, bounds, per-command exit and
 stream hashes/bytes, combined bytes, assertions, executed case target, and
-result in canonical `test-gate-evidence.v7` JSON. All 16 modes must pass at
+result in canonical `test-gate-evidence.v8` JSON. All 16 modes must pass at
 one identical binding. A zero-test target, skipped target, missing field,
 mutation during a run, mismatched digest, or output after supervisor failure
 is a failure.
@@ -1017,10 +1135,11 @@ must recompute from the named bytes; merely matching `DIGEST` syntax is not
 sufficient. No unstated coercion, default, additional property, alternate
 encoding, or nullable value exists.
 
-### 8.2 Closed `test-gate-evidence.v7` mode schema
+### 8.2 Closed `test-gate-evidence.v8` mode schema
 
 The exact ordered top-level keys are:
-`schema,evidence_id,mode,evidence_version,evidence_path,wp_id,
+`schema,evidence_id,mode,evidence_version,evidence_path,execution_id,
+execution_evidence_version,execution_origin,wp_id,
 wp_artifact_digest,acceptance_binding,entry_binding,implementation_binding,
 logical_predecessor_commit,context_rev_binding,identity_registry,candidate_author_ids,artifact_digests,
 trace_manifest_digest,allocated_targets,execution_phases,target_results,ledger_binding,post_execution_custody,fixture_bindings,command_identity,
@@ -1032,13 +1151,16 @@ predecessor_evidence,history,evidence_digest`.
 
 | Ordered field | Exact rule |
 |---|---|
-| `schema` | string literal `test-gate-evidence.v7` |
+| `schema` | string literal `test-gate-evidence.v8` |
 | `evidence_id` | string exactly `EVID-WP-TST-001-<mode>-vNNNN` |
 | `mode` | `MODE` |
 | `evidence_version` | `VERSION` |
 | `evidence_path` | string exactly `context/waves/2026-07-28-bastion-foundation/evidence/wp-tst-001/runs/<mode>/<evidence_id>.json` |
+| `execution_id` | string exactly `EXEC-WP-TST-001-<mode>-vEEEE` |
+| `execution_evidence_version` | `VERSION`; fixed when execution begins and immutable across every review successor |
+| `execution_origin` | closed immutable `ExecutionOrigin` below; independently binds this execution and ledger without any review-record digest |
 | `wp_id` | string literal `WP-TST-001` |
-| `wp_artifact_digest` | `DIGEST` of independently accepted R10 bytes |
+| `wp_artifact_digest` | `DIGEST` of independently accepted R11 bytes |
 | `acceptance_binding` | closed `AcceptanceBinding` below |
 | `entry_binding` | closed `EntryBinding` below |
 | `implementation_binding` | closed `ImplementationBinding` below |
@@ -1051,7 +1173,7 @@ predecessor_evidence,history,evidence_digest`.
 | `allocated_targets` | immutable `0..148` closed `AllocatedTarget` objects in exact section 7 allocation order for `mode`; empty exactly when that mode has no edge |
 | `execution_phases` | exact closed section 6 phase plan, `1..2` objects in ordinal order |
 | `target_results` | exactly one closed `TargetResult` per allocated target in identical order and identity; states/reasons/pointers and prefix rule below |
-| `ledger_binding` | closed object `run_id,root_path,run_attempt,first_record_digest,last_record_digest,record_count,aggregate_digest`; ID/root/attempt use exact section 6 formulas; first/last are `DIGEST`; record count is exact uint `2..302`; aggregate hashes `<filename><TAB><record_digest><LF>` in filename order and values bind the complete validated chain |
+| `ledger_binding` | closed object `execution_id,execution_evidence_version,run_id,root_path,run_attempt,first_record_digest,last_record_digest,record_count,aggregate_digest`; execution fields equal the top level; ID/root/attempt use exact section 6 formulas; first/last are `DIGEST`; record count is exact uint `2..302`; aggregate hashes `<filename><TAB><record_digest><LF>` in filename order and values bind the complete validated chain |
 | `post_execution_custody` | closed post-run repository/root nonmutation object defined below |
 | `fixture_bindings` | exactly four closed `FixtureBinding` objects in ascending `fixture_id` order; exactly the current rows in section 5 |
 | `command_identity` | exact section 6 `CMD-*` identity selected by `mode` |
@@ -1082,31 +1204,38 @@ predecessor_evidence,history,evidence_digest`.
 The following nested objects are independently closed. Key order is the order
 shown; all members are non-null unless stated otherwise:
 
+At the execution-origin record, `execution_evidence_version` equals
+`evidence_version`. A review-only successor increments only
+`evidence_version`; the execution version remains the origin value. Ledger
+records never contain review `evidence_version`, and review evidence never
+derives ledger paths from its mutable version.
+
 | Type | Ordered members and exact rules |
 |---|---|
-| `AcceptanceBinding` | `commit:GIT_ID,pulse_digest:DIGEST`; commit is the committed R10 acceptance pulse and that pulse hashes R10 and earlier inputs, never its own commit |
+| `ExecutionOrigin` | exact keys `execution_id,execution_evidence_version,implementation_commit,run_id,ledger_root,ledger_aggregate_digest`; values equal the top level, implementation binding, and ledger binding; it contains no evidence ID/version/path/digest and is byte-identical in every review successor |
+| `AcceptanceBinding` | `commit:GIT_ID,pulse_digest:DIGEST`; commit is the committed R11 acceptance pulse and that pulse hashes R11 and earlier inputs, never its own commit |
 | `EntryBinding` | `commit:GIT_ID,pulse_digest:DIGEST,tree_digest:GIT_ID`; commit is the direct governance child of acceptance and its pulse binds acceptance, never its own commit |
 | `ImplementationBinding` | exact ordered keys `commit,tree_digest,first_parent,allowed_paths,observed_preflight`; commit/tree/parent use the prior constraints; allowed paths are the exact 18 section 3 paths in bytewise order; preflight is the closed object below |
 | `ContextRevBinding` | `exit_commit:GIT_ID,implementation_digest:DIGEST,evidence_set_digest:DIGEST,evidence_tree_digest:GIT_ID,unchanged_result_digest:DIGEST`; values are exactly `ab227cc06f15299b594cfe2be99915bd93c4c081`,`c5c2df1178568cd49b5d721cd01cba7cce3371e049528e07bad30d6b3324ea72`,`b95beff569794125018f2fde3d4d3317ed32278dfcfb1fc22a7d25cf51226bd9`,`d554c8c0c3d534aa96924f085a4dc007b25e3a3c`,`f0a15398cc87614cc904cbaa28459ef65ebc267ed70349e46f86f743ebd708c6`; the last hashes exact UTF-8 `rev_unchanged=true<LF>` and proves context only |
 | `AuthorBinding` | exact ordered keys `source_kind,source_ref,source_digest,author_id,controller_id,binding_digest`; kind is `wp_candidate|acceptance_pulse|entry_pulse|implementation_commit|mode_evidence|set_evidence` in that order; IDs are `REVIEWER_ID`; binding digest hashes canonical preceding fields and never an enclosing evidence/set digest |
 | `ArtifactBinding` | `path:REL_PATH,expected_sha256:DIGEST|null,actual_sha256:DIGEST|null,reason:null|enum(missing,deleted,renamed,substituted,unreadable)`; when a same-path row exists the digests/reason equal it; total read/Git failure permits both null with unreadable; reason is null iff both digests are non-null and equal |
 | `AllocatedTarget` | exact ordered keys `controlled_id,assertion`; pair must be one exact section 7 edge assigned to this mode; lane strings are admitted only where section 7 uses them |
-| `TargetResult` | exact ordered keys `controlled_id,assertion,attempt_ordinal,attempt_argv,start_record_digest,completion_record_digest,recovery_record_digest,state,reason,output_pointer`; identity/ordinal/argv equal same-index allocation and section 6 serial expansion; all three record digests are null for not-run; normal attempts have start/completion non-null and recovery null; only a supervisor-loss terminal has start/recovery non-null and completion null, with recovery binding that start; state/reason/pointer obey the exhaustive target table below |
+| `TargetResult` | exact ordered keys `controlled_id,assertion,attempt_ordinal,attempt_argv,start_record_digest,completion_record_digest,recovery_record_digest,state,reason,output_pointer`; identity/ordinal/argv equal same-index allocation and section 6 serial expansion; all three record digests are null for not-run; normal attempts have start/completion non-null and recovery null; every exact recovery-kind terminal has start/recovery non-null and completion null, with recovery binding that start; state/reason/pointer obey the exhaustive target table below |
 | `FixtureBinding` | `fixture_id:SAFE_ID,version:VERSION,source_id:SAFE_ID,source_digest:DIGEST,custody_id:SAFE_ID,custody_digest:DIGEST,input_digest:DIGEST,supersession_state:enum(current,superseded)`; values equal one current section 5 row, so all four are `current` in an executable set |
 | `ToolVersion` | exact ordered keys `tool,version,digest_source,digest_preimage,digest`; tool/version/source/digest equal the selected section 6 tuple; source enum `version-preimage|artifact-bytes`; preimage is the exact printable string with literal `<LF>` tokens for version-preimage or literal `tools/test_gate.ps1:raw-bytes` for artifact-bytes; digest recomputes from the described bytes |
 | `ResourceBounds` | `wall_seconds:60,process_tree_bytes:1073741824,combined_stream_bytes:10485760`; all JSON integers |
 | `DeterminismControls` | `order:"bytewise",seed:"disabled",clock:"disabled",locale:"disabled",retry:"disabled"` |
-| `ExpectedResult` | `exit:0,result:"passed",posture:"promotable",reason:"expected-outcome"` |
-| `ActualResult` | `exit:integer 0..255|null,result:enum(passed,failed,not-run),posture:enum(promotable,non-promotable),reason:enum(expected-outcome,preflight-failed,command-not-started,target-held,unexpected-exit,assertion-failure,bound-exceeded,binding-mismatch,conflict),start_utc:UTC,end_utc:UTC,duration_ms:integer 0..60000`; end is not earlier than start and duration equals their millisecond difference; exit is null iff no internal argv began |
+| `ExpectedResult` | `native_exit_u32:0,portable_exit:0,result:"passed",posture:"promotable",reason:"expected-outcome"` |
+| `ActualResult` | `native_exit_u32:integer 0..4294967295|null,portable_exit:integer 0..255|null,result:enum(passed,failed,not-run),posture:enum(promotable,non-promotable),reason:enum(expected-outcome,preflight-failed,command-not-started,target-held,unexpected-exit,assertion-failure,bound-exceeded,binding-mismatch,conflict),start_utc:UTC,end_utc:UTC,duration_ms:integer 0..60000`; end is not earlier than start and duration equals their millisecond difference; exits are null together iff no internal argv began; otherwise portable equals native when at most 255 and 255 when larger |
 | `EvidenceBinding` | `evidence_id:string,evidence_path:string,evidence_version:VERSION,evidence_digest:DIGEST`; ID/path use the same mode and bound version formulas and digest hashes that immutable predecessor |
 
 Identity extraction is literal and total. `wp_candidate` hashes committed
-`pulse-22-wp-tst-001-r10-candidate.md` bytes and extracts its sole fenced
-`vtrace-author-custody.v1` block with exact LF rows `subject=WP-TST-001-R10`,
+`pulse-23-wp-tst-001-r11-candidate.md` bytes and extracts its sole fenced
+`vtrace-author-custody.v1` block with exact LF rows `subject=WP-TST-001-R11`,
 `author_id=REV-TST-WP-AUTHOR`, `controller_id=REV-TST-GOVERNANCE-CONTROLLER`,
 `subject_digest=<wp_artifact_digest>`. `acceptance_pulse` and `entry_pulse`
-similarly use future committed pulses 23 and 24, subjects
-`WP-TST-001-R10-ACCEPTANCE` and `WP-TST-001-R10-ENTRY`, authors
+similarly use future committed pulses 24 and 25, subjects
+`WP-TST-001-R11-ACCEPTANCE` and `WP-TST-001-R11-ENTRY`, authors
 `REV-TST-ACCEPTANCE-AUTHOR` and `REV-TST-ENTRY-AUTHOR`, governance controller,
 and subject digests respectively equal to the WP and acceptance-pulse digests.
 Their source digests hash complete raw pulse bytes.
@@ -1122,7 +1251,7 @@ canonical LF rows `schema=vtrace-evidence-custody.v1`, `scope=<mode-or-SET>`,
 working-tree substitution, caller identity, digest mismatch, or any author/
 controller not projected into `candidate_author_ids` rejects. Thus no candidate
 author can be omitted from independence checks.
-Source refs are respectively the committed R10 candidate, acceptance, entry,
+Source refs are respectively the committed R11 candidate, acceptance, entry,
 and implementation commit IDs, the initial mode evidence ID, and the initial
 set evidence ID; each must resolve to the exact source just described.
 
@@ -1132,12 +1261,13 @@ Target-result optionality is exact:
 |---|---|---|
 | `passed` | null | `/observed_outputs/structured/content` |
 | `held` | `expected-hold|dependency-hold` | `/observed_outputs/structured/content` |
-| `failed` | `assertion-failed|timeout|bound-kill|crash|supervisor-loss|unexpected-exit` | one `OUTPUT_POINTER` |
+| `failed` | `assertion-failed|timeout|wall-limit|memory-limit|output-limit|bound-kill|crash|supervisor-loss|ledger-corruption|unexpected-exit` | one `OUTPUT_POINTER` |
 | `not_run` | `preflight-failed|command-not-started|after-terminal` | null |
 
 `target_results` always has allocation cardinality; an attempted prefix is
 represented by states, never by truncation or omission. The first
-`timeout|bound-kill|crash|supervisor-loss|unexpected-exit` is terminal. If it occurs while a
+`timeout|wall-limit|memory-limit|output-limit|bound-kill|crash|supervisor-loss|ledger-corruption|unexpected-exit`
+is terminal. If it occurs while a
 target is active, that target is failed with the terminal reason; every later
 allocation is `not_run/after-terminal/null`. If termination occurs before or
 between targets, the completed prefix is retained and every remaining target
@@ -1165,7 +1295,7 @@ applicable terminal/preflight/command/assertion/binding reason in observed order
 state cannot rewrite target state, counts, or command actuals.
 
 `ObservedPreflight` has exact ordered keys
-`status,git_observations,repository_inputs,rows,missing_paths,extra_paths,dirty_paths,staged_paths,
+`status,git_observations,repository_inputs,generated_paths,rows,missing_paths,extra_paths,dirty_paths,staged_paths,
 untracked_paths,ignored_paths,expected_manifest_digest,actual_manifest_digest,
 failure_reasons,preflight_digest`. Status is `pass|failure`.
 
@@ -1177,11 +1307,13 @@ tree-inventory object in emission order, then `porcelain_state_after,
 replace_refs_after,local_config_after`. Thus no
 Git invocation is aggregated away or omitted.
 Each has ordered keys
-`command_id,argv,exit,stdout_byte_count,stdout_sha256,stderr_byte_count,
+`command_id,argv,native_exit_u32,portable_exit,stdout_byte_count,stdout_sha256,stderr_byte_count,
 stderr_sha256,parse_status,reason`; argv equals the literal command after exact
-ID substitution; exit is uint `0..255|null`; byte counts are uint64 and hashes
+ID substitution; native exit is uint `0..4294967295|null`, portable exit is
+`0..255|null`, both are null together before launch, and otherwise portable
+equals native when at most 255 or 255 when larger; byte counts are uint64 and hashes
 cover raw complete streams; parse status is `complete|terminal`; reason is null
-iff exit is 0 and parsing is complete, otherwise
+iff native and portable exits are 0 and parsing is complete, otherwise
 `command-failed|malformed-output|stream-bound|count-overflow`. Each
 `blob_bytes` object retains its substituted object ID in argv and its own raw
 stdout/stderr byte counts and hashes. The before/after local-config observations
@@ -1207,6 +1339,29 @@ must be byte-identical, as must raw stdout/stderr for the two porcelain and two
 local-config observations. This is the before/after nonmutation custody for the
 index and worktree view; a change is terminal failure. System/global inputs
 remain disabled and all remaining repository-local inputs are bound.
+
+`generated_paths` has exact ordered keys `root,items,total_count,
+manifest_digest`. Root is literal
+`context/waves/2026-07-28-bastion-foundation/evidence/wp-tst-001/`; items are
+raw-path-byte-sorted unique objects with exact keys
+`path,kind,porcelain_tag,sha256`, kind
+`ledger-record|mode-evidence|set-evidence` and tag `?|!`. A decoded path is admitted only by
+one complete anchored grammar:
+`ledger/<MODE>/vEEEE/run-aAAAA/rRRRR-<closed-ledger-kind>.json`,
+`runs/<MODE>/EVID-WP-TST-001-<MODE>-vNNNN.json`, or
+`sets/EVID-WP-TST-001-SET-vNNNN.json`. Numeric widths, MODEs, record kinds, and
+version/run/ordinal relationships are exactly those closed in this WP. SHA-256
+hashes exact bytes; total count equals item count; manifest digest hashes each
+canonical complete item plus LF in item order. Before each mode this object
+must enumerate every prior retained ledger, mode/set evidence, and review
+successor artifact and nothing else, and each item must validate its own
+schema, digest, and predecessor chain. A malformed path, unknown file, wrong
+hash, stale chain, omitted retained item, or substitution fails preflight.
+Generated items are explicitly excluded from `rows`, both 18-path manifest
+preimages, and missing/extra classification because those derive only from the
+entry-to-implementation committed delta; their sole porcelain custody is the
+exact untracked/ignored projection below. They can never satisfy an expected
+implementation row or conceal a dirty/staged implementation path.
 
 `rows`, `missing_paths`, `extra_paths`, `dirty_paths`, `staged_paths`,
 `untracked_paths`, and `ignored_paths` are closed `TotalList` objects with exact
@@ -1275,10 +1430,12 @@ Preflight is pass iff every required Git observation is complete/zero/null-reaso
 the two local-config streams, two porcelain streams, index bindings, and
 repository-input snapshots are byte-identical;
 all seven lists have exact count state; rows contain exactly 18 matched allowed
-paths with required A/M status; every other list is empty; both manifest
+paths with required A/M status; missing/extra/dirty/staged are empty;
+untracked and ignored are exactly the `generated_paths` projections selected
+by `porcelain_tag`, with no path in both, and contain no other item; both manifest
 digests are non-null/equal; and the 18 artifact bindings equal the allowed-row
 projection. Every other honest shape is failure, carries every applicable
-reason, makes actual `not-run` with null exit/reason `preflight-failed`, and
+reason, makes actual `not-run` with both exits null/reason `preflight-failed`, and
 requires a `preflight-failed` FailureRecord; it is schema-valid but never
 promotable. Negative cases cover partial/missing/extra/nonallowlisted/D/R/
 substituted rows, every porcelain class, Git/parse/stream failure,
@@ -1292,26 +1449,47 @@ ordered keys `status,root_observation,git_dir_observation,common_dir_observation
 effective_config_observation,index_binding,porcelain_observation,
 replace_refs_observation,common_inputs,implementation_tree_digest,
 allowed_new_paths,custody_digest`. Every Git observation is the exact section 6
-argv/environment with command ID suffixed `_post`, retaining exit and raw
+argv/environment with command ID suffixed `_post`, retaining native/portable exits and raw
 stdout/stderr counts/digests. Root/git/common outputs, effective config, index,
 replace refs, common inputs (including grafts), and implementation tree must be
 byte-identical to preflight.
 
+Postrun invocation order and mapping are literal:
+`root_discovery_post=root_discovery`, `git_dir_post=git_dir`,
+`common_dir_post=common_dir`, `index_path_post=index_path`,
+`replace_refs_post=replace_refs_before`,
+`local_config_post=local_config_before`,
+`porcelain_state_post=porcelain_state_before`,
+`tree_inventory_post=tree_inventory`, followed by one
+`blob_bytes_post=blob_bytes` per implementation-tree object in emission order.
+The right side names the exact complete argv array in section 6; `_post`
+changes only retained command ID, never argv. Substitutions remain the same
+absolute root and implementation/object IDs. Root/git/common/index discovery
+and replace-ref arrays intentionally carry no `-c` entries because they only
+resolve paths/list disabled replacement refs; all config-, diff-, status-,
+tree-, and blob-semantic arrays carry the complete common `-c` sequence exactly
+as printed in section 6. No invocation may inherit or synthesize that sequence.
+The post tree inventory plus per-object blob reads recompute the exact
+implementation tree binding and must equal both the preflight value and
+`implementation_binding.tree_digest`; a merely clean worktree is insufficient.
+
 `allowed_new_paths` is the exact raw-byte-sorted `RawGitPath` projection of
-only the current ledger root/files; porcelain may add only those exact paths or
+the preflight `generated_paths` plus only the current ledger root/files;
+porcelain may add only the newly created current-ledger paths or
 an emitted directory ancestor whose decoded bytes are an exact prefix ending
-`/` of that root. All pre-existing porcelain entries remain byte-identical and
+`/` of that root. Prior generated entries retain the exact preflight tag and
+hash. All other pre-existing porcelain entries remain byte-identical and
 no other entry may appear, disappear, or change class. Status is pass iff those
 equalities hold and every post command is zero/complete. The final evidence
 file is create-new published only after this pass, so it is not an exception.
 Any root/index/worktree/config/replace/graft/tree drift is retained as
 non-promotable `binding-mismatch`; review cannot rewrite it.
 
-`actual.result="passed"` iff exit is 0, posture is `promotable`, reason is
+`actual.result="passed"` iff both exits are 0, posture is `promotable`, reason is
 `expected-outcome`, `failure_records`, `counterexamples`, and `conflicts` are
 empty, preflight status is pass, and every allocated target passed. Preflight
 failure, command-not-started, or an otherwise nonfailed held/not-run allocation
-derive `not-run` with the exact exit/reason mapping above. Otherwise result is `failed`, posture
+derive `not-run` with the exact exit-pair/reason mapping above. Otherwise result is `failed`, posture
 is `non-promotable`, and reason identifies the highest-precedence cause:
 `bound-exceeded`, `binding-mismatch`, `conflict`, `unexpected-exit`, then
 `assertion-failure`. Top-level
@@ -1339,18 +1517,19 @@ empty content and SHA-256
 `structured` is the closed object `encoding,content,byte_count,sha256`.
 Encoding is literal `canonical-json`. Across modes and sets, content has one and
 only one literal `StructuredResult` schema with ordered keys
-`schema,scope,command_identity,exit,result,posture,reason,counts`. Schema is
-literal `test-gate-structured-result.v1`; scope is a `MODE` for a mode record or
-literal `SET` for a set; command equals the enclosing command; exit/result/
+`schema,scope,command_identity,native_exit_u32,portable_exit,result,posture,reason,counts`. Schema is
+literal `test-gate-structured-result.v2`; scope is a `MODE` for a mode record or
+literal `SET` for a set; command equals the enclosing command; exit pair/result/
 posture/reason equal its closed actual/result values; and `counts` is exactly
 `attempted,passed,failed,held,not_run`, each integer `0..148`, with attempted
 equal to passed plus failed plus held and attempted plus not-run equal to the
 allocation cardinality. For a mode these are the exact `target_results` state
-projections; a preflight not-run variant has null exit, attempted/passed/
+projections; a preflight not-run variant has both exits null, attempted/passed/
 failed/held zero, and not-run equal to allocation cardinality. Held and not-run
 are zero for a passed result. For a set, the allocation cardinality is 16 modes
-and the five counts project their immutable actuals as specified below. Exit is
-`integer 0..255|null`, result is `passed|failed|not-run|held`, posture is
+and the five counts project their immutable actuals as specified below. Native
+exit is `integer 0..4294967295|null`; portable exit is `0..255|null` under the
+lossless mapping above; result is `passed|failed|not-run|held`, posture is
 `promotable|non-promotable|held`, and reason uses the enclosing closed mapping.
 Byte count is
 integer `2..1048576` equal to canonical content bytes without LF; SHA-256 hashes
@@ -1542,7 +1721,7 @@ enclosing record or pointer, so the preimage is acyclic.
 Version-1 command execution has 22 null slots. A one-lane mode successor opens
 only the next unused evidence version and changes exactly one slot. Every
 non-derived field is byte-identical to the immediate predecessor, specifically
-`schema,mode,wp_id,wp_artifact_digest,acceptance_binding,entry_binding,
+`schema,mode,execution_id,execution_evidence_version,execution_origin,wp_id,wp_artifact_digest,acceptance_binding,entry_binding,
 implementation_binding,logical_predecessor_commit,context_rev_binding,
 identity_registry,candidate_author_ids,artifact_digests,trace_manifest_digest,allocated_targets,
 execution_phases,target_results,ledger_binding,post_execution_custody,fixture_bindings,
@@ -1568,7 +1747,7 @@ assurance lanes are `pass`, all predecessors/digests/versions verify, and zero
 current critical/major finding, open defer, open dissent conflict, or evidence
 conflict is mandatory.
 
-### 8.6 Independently closed `test-gate-evidence-set.v6` schema
+### 8.6 Independently closed `test-gate-evidence-set.v7` schema
 
 A set uses section 8.1 canonical encoding and these exact ordered keys:
 `schema,set_id,set_version,set_path,wp_id,wp_artifact_digest,
@@ -1577,7 +1756,7 @@ aggregate_digest,observed_outputs,required_review_lanes,reviewer_decisions,
 findings,defers,dissent,conflicts,status,review_completeness,rollback_plan,reproduction_plan,
 predecessor_set,history,invalidation_triggers,set_digest`.
 
-`schema` is literal `test-gate-evidence-set.v6`; set version is `VERSION`; ID is
+`schema` is literal `test-gate-evidence-set.v7`; set version is `VERSION`; ID is
 exactly `EVID-WP-TST-001-SET-vNNNN`; path is exactly
 `context/waves/2026-07-28-bastion-foundation/evidence/wp-tst-001/sets/<set_id>.json`;
 WP ID is literal `WP-TST-001`; WP digest and the three binding objects use the
@@ -1618,12 +1797,12 @@ or selected non-passed mode exists; otherwise `full` iff all 22 set decisions
 and all 22 decisions in every selected mode are non-null, current,
 predecessor-complete passes; otherwise `partial`.
 
-| Exact set status | Structured exit | result | posture | reason |
+| Exact set status | Structured native / portable exit | result | posture | reason |
 |---|---:|---|---|---|
-| `partial` | `3` | `held` | `held` | `review-incomplete` |
-| `conflicted` | `4` | `held` | `held` | `review-conflicted` |
-| `failed` | `5` | `failed` | `non-promotable` | `set-failed` |
-| `full` | `0` | `passed` | `promotable` | `expected-outcome` |
+| `partial` | `3 / 3` | `held` | `held` | `review-incomplete` |
+| `conflicted` | `4 / 4` | `held` | `held` | `review-conflicted` |
+| `failed` | `5 / 5` | `failed` | `non-promotable` | `set-failed` |
+| `full` | `0 / 0` | `passed` | `promotable` | `expected-outcome` |
 
 No alternate tuple is valid, including a pass-shaped partial set or a
 review-shaped change to counts. `review_completeness` is `partial|full` and is
@@ -1679,7 +1858,7 @@ quarantined, or hidden.
 ## 9. Entry, stop, exit, and authority
 
 Acceptance of this candidate, if it occurs, authorizes only a later separate
-entry decision. The acceptance pulse binds the R10 artifact digest and all prior
+entry decision. The acceptance pulse binds the R11 artifact digest and all prior
 governance inputs, but never its own future commit. After it is committed, the
 entry pulse binds that acceptance commit and pulse digest, but never its own
 future commit. After entry is committed, evidence binds the resulting entry
