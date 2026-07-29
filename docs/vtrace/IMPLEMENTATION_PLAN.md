@@ -124,7 +124,9 @@ The proposed topological order is:
    digest-bound evidence satisfy its exact closure.
 4. `WP-CST-001`, including its producer-owned REV/TST sidecar deltas.
 5. `WP-AUT-001`.
-6. `WP-ACQ-001`, `WP-LOG-001`, and `WP-ALLY-001` after exact gates.
+6. `WP-ACQ-001` after its exact gates; it deterministically creates and
+   registers `PB-DOM-001`. Only then may `WP-LOG-001` and `WP-ALLY-001` enter
+   independently after their remaining exact gates.
 7. `WP-RDY-001` after AUTH and LOG; `WP-DST-001` after ACQ, LOG, and ALLY.
 8. `WP-ECO-PRELIM-001` after RDY, ACQ, LOG, ALLY, and DST.
 9. `WP-DEL-001` after accepted preliminary ECO.
@@ -299,15 +301,13 @@ not provide exit evidence in advance.
 
 ## 12. Readiness conclusion
 
-The bootstrap-successor decomposition is review-ready planning and eligible
-only for an independent planning fixed-point decision. It contains one
-discovery WP and 19 proposed,
-entry-blocked current implementation/support/integration WPs. Future HND
+The bootstrap-successor decomposition contains completed planning and WS
+baselines, two acceptance-ready bootstrap WPs, and 16 blocked later WPs. Future HND
 emission is not a WP and remains deferred behind new authority and all 12
 applicable non-release holds. `TBD-REL-001` remains separately release-blocking
 and is never an HND-emission prerequisite.
 
-Implementation readiness is wholly `blocked`. All 13 holds remain open; all
+Semantic implementation readiness is `blocked`. All 13 holds remain open; all
 methods, commands, evidence, tools, bounds, and fixtures remain absent. HND
 emits nothing, TERM is finite and non-product, REL emits nothing, Taxlane is
 external, and BASTION gains no operational, force, procurement, budget,

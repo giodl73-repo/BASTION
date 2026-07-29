@@ -15,9 +15,9 @@ release, official use, procurement, allocation, rate, or implementation
 authority.
 
 Accepted planning fixed points for this document and companion
-`VALIDATION.md` may make later acceptance review of `WP-WS-001`, `WP-REV-001`,
-and `WP-TST-001` scaffolding plans eligible. They do not accept those WPs or
-make any semantic producer WP eligible.
+`VALIDATION.md` enabled the now-complete `WP-WS-001`. Its accepted exit makes
+separate acceptance review of `WP-REV-001` and `WP-TST-001` eligible. Neither
+bootstrap WP nor any semantic producer is accepted by this plan.
 
 ## 2. Controlled baseline
 
@@ -416,8 +416,8 @@ gates. `L0/L1/L2` means required future evidence; `N/A-P` is planning-only.
 
 | WP | Planned levels | Primary verification / evidence destination | Current gate |
 |---|---|---|---|
-| `WP-VV-001` | `N/A-P` | 298-source and all-set transpose, contradiction, registry and independent plan review | discovery only |
-| `WP-WS-001` | L0, L1; reasoned L2 fixed-edge proof | empty membership, policy, no-semantics and rollback evidence | unaccepted; blocked |
+| `WP-VV-001` | `N/A-P` | 298-source and all-set transpose, contradiction, registry and independent plan review | complete; accepted planning fixed point |
+| `WP-WS-001` | L0, L1; reasoned L2 fixed-edge proof | empty membership, policy, no-semantics and rollback evidence | complete; accepted EVT-A at `cd1f1d75ec312789fed63a265219d8ad9069a17a` |
 | `WP-REV-001` | L0, L1, bootstrap L2 | evidence-state, independence, conflict, dissent and immutable-history scaffold only | unaccepted; blocked |
 | `WP-TST-001` | L0, L1, bootstrap L2 | safe harness isolation, fixture custody and command registry scaffold only | unaccepted; blocked |
 | `WP-CST-001` | L0, L1, L2 | SOURCE/security/custody/re-admission plus producer sidecars | unaccepted; blocked |

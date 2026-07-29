@@ -17,5 +17,7 @@ lifecycle cost, transition risk, and auditability together.
 
 ## Current boundary
 
-Planning and role governance only. No force plan, operational recommendation,
-official request, savings estimate, Taxlane admission, rate change, or release.
+The accepted empty Rust workspace contains no product semantics. Review and
+isolated-test scaffolds are acceptance-ready; semantic implementation remains
+gated. No force plan, operational recommendation, official request, savings
+estimate, Taxlane admission, allocation, rate change, or release.

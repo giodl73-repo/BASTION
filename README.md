@@ -12,5 +12,6 @@ BASTION is an internal foundation-stage research/tooling repository. It performs
 no targeting, operational planning, vulnerability exploitation, force-employment
 recommendation, official scoring, or public release.
 
-Current status: governance and VTRACE mission fixed point only. No Rust
-implementation or public aggregate corpus has been accepted.
+Current status: governance/VTRACE planning and the deterministic empty Rust
+workspace baseline are accepted. The review and isolated-test scaffolds are
+next; no semantic product crate or public aggregate corpus is accepted.

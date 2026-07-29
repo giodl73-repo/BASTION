@@ -253,7 +253,8 @@ command here does not authorize running implementation work now.
 
 | Boundary set | Planned rigor profile | Planned L0 | Planned L1 | Planned L2 | Current posture |
 |---|---|---|---|---|---|
-| `PB-WS-001`, all Rust product and runner boundaries | Rust workspace/product | `cargo fmt --all --check` | `cargo clippy --workspace --all-targets -- -D warnings` | `cargo test --workspace --all-targets` | unavailable; unexecuted; no Cargo workspace or Rust files exist. |
+| `PB-WS-001` | Rust workspace coordination | accepted WP-WS format/N/A execution | accepted WP-WS workspace/static/supply-chain execution | accepted fixed-edge/no-semantics model and adversarial execution | present; accepted empty membership; no product crate or semantics. |
+| All Rust product and runner boundaries | Rust product | `cargo fmt --all --check` | `cargo clippy --workspace --all-targets -- -D warnings` | `cargo test --workspace --all-targets` | unavailable; unexecuted; no product or runner crate exists. |
 | `PB-TST-001` | Rust test-only | `cargo fmt --all --check` | `cargo test -p bastion-boundary-tests --no-run` | `cargo test -p bastion-boundary-tests` | unavailable; unexecuted; test package does not exist. |
 | `PB-DOC-001` | docs/trace/role governance | `git diff --check` | `cargo test -p bastion-boundary-tests --test docs_contracts` | `cargo test -p bastion-boundary-tests --test trace_and_role_coverage` | planned profile unavailable as accepted evidence and unexecuted; later test targets do not exist. |
 | `PB-FIX-001` | controlled test fixtures | `cargo test -p bastion-boundary-tests --test fixture_inventory --no-run` | `cargo test -p bastion-boundary-tests --test fixture_inventory` | `cargo test -p bastion-boundary-tests --test negative_and_invariant_fixtures` | unavailable; unexecuted; fixture inventory and tests do not exist. |

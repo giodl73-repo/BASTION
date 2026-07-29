@@ -28,8 +28,8 @@ gates and exact aliases in
 | `WP-CST-001` | `PB-CST-001` plus producer-owned `PB-REV-001` / `PB-TST-001` deltas | SOURCE/security/custody/re-admission gate | `WP-WS-001`, `WP-REV-001`, `WP-TST-001` | `proposed; entry_blocked` |
 | `WP-AUT-001` | `PB-AUT-001` plus producer-owned `PB-REV-001` / `PB-TST-001` deltas | Civilian mission/authority abstraction | `WP-CST-001` | `proposed; entry_blocked` |
 | `WP-ACQ-001` | ACQ slice of `PB-DOM-001` plus producer-owned `PB-REV-001` / `PB-TST-001` deltas | Acquisition/industrial-base facets | `WP-AUT-001` | `proposed; entry_blocked` |
-| `WP-LOG-001` | LOG slice of `PB-DOM-001` plus producer-owned `PB-REV-001` / `PB-TST-001` deltas | Logistics/sustainment lifecycle and tails | `WP-AUT-001` | `proposed; entry_blocked` |
-| `WP-ALLY-001` | ALLY slice of `PB-DOM-001` plus producer-owned `PB-REV-001` / `PB-TST-001` deltas | Alliance/interoperability and separated burden | `WP-AUT-001` | `proposed; entry_blocked` |
+| `WP-LOG-001` | LOG slice of `PB-DOM-001` plus producer-owned `PB-REV-001` / `PB-TST-001` deltas | Logistics/sustainment lifecycle and tails | `WP-AUT-001`, `WP-ACQ-001` (ACQ creates/registers `PB-DOM-001`) | `proposed; entry_blocked` |
+| `WP-ALLY-001` | ALLY slice of `PB-DOM-001` plus producer-owned `PB-REV-001` / `PB-TST-001` deltas | Alliance/interoperability and separated burden | `WP-AUT-001`, `WP-ACQ-001` (ACQ creates/registers `PB-DOM-001`) | `proposed; entry_blocked` |
 | `WP-RDY-001` | RDY slice of `PB-DOM-001` plus producer-owned `PB-REV-001` / `PB-TST-001` deltas | Readiness/safety/resilience facets and floors | `WP-AUT-001`, `WP-LOG-001` | `proposed; entry_blocked` |
 | `WP-DST-001` | DST slice of `PB-DOM-001` plus producer-owned `PB-REV-001` / `PB-TST-001` deltas | Stakeholder distributions, incidence, burdens, tails | `WP-ACQ-001`, `WP-LOG-001`, `WP-ALLY-001` | `proposed; entry_blocked` |
 | `WP-ECO-PRELIM-001` | preliminary ECO slice of `PB-PTH-001` plus producer-owned `PB-REV-001` / `PB-TST-001` deltas | Preliminary six-pathway economic envelope | `WP-RDY-001`, `WP-ACQ-001`, `WP-LOG-001`, `WP-ALLY-001`, `WP-DST-001` | `proposed; entry_blocked` |
@@ -47,13 +47,11 @@ evidence. Each semantic producer later owns its exact sidecar delta inside its
 own WP. GEN and DOC precede INT. `CTRL-HND-EMIT-001` is outside this DAG and is
 not counted as a WP.
 
-Under prospective `CHG-BA-TST-BOOT-002`, future eligibility is strictly:
-independently fixed V&V successors; separate acceptance/entry/exit of empty
-`WP-WS-001`; then separate acceptance/entry of pure `WP-REV-001` and
-`WP-TST-001` bootstrap. The TST held pair is a proof input only for those two
-bootstrap WPs and closes only through their later executed, independently
-accepted evidence. This register records no such acceptance, entry, exit,
-evidence, or closure; CST and every semantic WP remain blocked.
+The V&V planning successors and `WP-WS-001` are complete. Separate acceptance
+and entry of pure `WP-REV-001` and `WP-TST-001` bootstrap are now eligible. The
+TST held pair is a proof input only for those two bootstrap WPs and closes only
+through their later executed, independently accepted evidence. No such REV/TST
+acceptance or TST closure exists yet; CST and every semantic WP remain blocked.
 
 ## 3. Exact controlled-source disposition
 
@@ -301,12 +299,13 @@ later own their exact evidence deltas.
 
 ## 4. Per-WP ten-area V-closure matrix
 
-Every row dispositions `VCL-ALL`; no evidence is present.
+Every row dispositions `VCL-ALL`; accepted evidence is present only for
+`WP-VV-001` planning and `WP-WS-001` execution.
 
 | WP | Exact closure | WP-specific focus | Current disposition |
 |---|---|---|---|
-| `WP-VV-001` | `VCL-ALL` planning methods/owners only; product execution N/A | 298-identity transpose, methods, commands, evidence and decision schemas | `pending`; both plans absent |
-| `WP-WS-001` | `VCL-ALL`; product-only cases require reasoned N/A | empty membership, fixed edges, no semantics | `pending` |
+| `WP-VV-001` | `VCL-ALL` planning methods/owners only; product execution N/A | 298-identity transpose, methods, commands, evidence and decision schemas | `complete; accepted planning fixed point` |
+| `WP-WS-001` | `VCL-ALL`; product-only cases reasoned N/A | empty membership, fixed edges, no semantics | `complete; accepted EVT-A` |
 | `WP-CST-001` | `VCL-ALL` | SOURCE/security/custody/re-admission, safe failure | `pending` |
 | `WP-REV-001` | `VCL-ALL` bootstrap scope only | independence, digest, findings/dissent/evidence state; no producer pass | `pending` |
 | `WP-TST-001` | `VCL-ALL` bootstrap scope only | isolation, safe corpus, harness controls; no producer evidence | `pending` |
@@ -328,13 +327,14 @@ Every row dispositions `VCL-ALL`; no evidence is present.
 
 ## 5. Per-WP parliament, domain, and assurance matrix
 
-`R/P` means required and pending; `N/A` requires the stated fixed reason. Each
+`R/P` means required and pending; `PASS` means completed at the accepted exact
+WP digest; `N/A` requires the stated fixed reason. Each
 `PAR-ALL` cell expands to all eight exact parliament lanes.
 
 | WP | Eight parliament lanes | Exact domain concurrence | Classification & Operational Security | Civilian Control/Law/Safety/Readiness |
 |---|---|---|---|---|
-| `WP-VV-001` | `PAR-ALL R/P` | all fixed semantic owners R/P | R/P | R/P |
-| `WP-WS-001` | `PAR-ALL N/A`: empty coordination only | Maintainer/Scope/Review R/P | N/A: no content | N/A: no semantics |
+| `WP-VV-001` | `PAR-ALL PASS` | all required planning owners PASS | PASS | PASS |
+| `WP-WS-001` | `PAR-ALL N/A`: empty coordination only | Maintainer/Scope/independent Review PASS | N/A: no content | N/A: no semantics |
 | `WP-CST-001` | `PAR-ALL R/P` | Source/security owners R/P | R/P | R/P |
 | `WP-REV-001` | `PAR-ALL R/P` | Review/Test owners R/P | R/P | R/P |
 | `WP-TST-001` | `PAR-ALL R/P` | Independent Test/Methodology R/P | R/P | R/P |
@@ -358,12 +358,13 @@ No lane may compensate for another. Bootstrap review cannot approve a producer.
 
 ## 6. Per-WP L0/L1/L2 posture
 
-All command slots are symbolic and unavailable pending `WP-VV-001`.
+`WP-WS-001` command execution is complete. Command slots for every later WP
+remain symbolic and unavailable until that exact WP is accepted.
 
 | WP | L0 | L1 | L2 |
 |---|---|---|---|
 | `WP-VV-001` | product execution N/A | product execution N/A | product execution N/A; planning digest/orphan/contradiction/independent review only |
-| `WP-WS-001` | required; pending | required; pending | fixed-edge/no-semantics proof required; pending |
+| `WP-WS-001` | complete; accepted | complete; accepted | fixed-edge/no-semantics proof complete; accepted |
 | `WP-CST-001` | required; pending | required; pending | SOURCE/security/contract/adversarial closure required; pending |
 | `WP-REV-001` | required; pending | required; pending | bootstrap independence/evidence-state only; pending |
 | `WP-TST-001` | required; pending | required; pending | bootstrap isolation/safe-corpus only; pending |
@@ -436,7 +437,7 @@ create authority.
 
 All 25 invariants and 18 transitions close through their exact CR allocation,
 producer-owned deltas, and final INT evidence; none is assumed. The register
-contains exactly 20 WPs: one discovery and 19 proposed, entry-blocked current
-WPs. Future HND emission remains non-WP deferred control. There are zero
-accepted WPs, waivers, commands, runs, evidence results, or hold closures.
-Planning is review-ready; implementation remains wholly blocked.
+contains exactly 20 WPs: completed planning and WS baselines, two
+acceptance-ready bootstrap WPs, and 16 blocked later WPs. Future HND emission
+remains non-WP deferred control. There are zero accepted waivers or hold
+closures. Semantic implementation remains wholly blocked.

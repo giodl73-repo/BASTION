@@ -329,8 +329,8 @@ the exact sets fixed in `VERIFICATION.md`; validation changes no source meaning.
 
 | WP | Required validation identities | Planned actor/scenario focus | Current result |
 |---|---|---|---|
-| `WP-VV-001` | all five `VAL-*` planning definitions | plan completeness, exact transposes, actor/authority review | planning only; pending |
-| `WP-WS-001` | `VAL-SCOPE`, `VAL-ASSURANCE` | empty coordination/no semantics; Scope and review | absent; blocked |
+| `WP-VV-001` | all five `VAL-*` planning definitions | plan completeness, exact transposes, actor/authority review | complete; accepted planning fixed point |
+| `WP-WS-001` | `VAL-SCOPE`, `VAL-ASSURANCE` | empty coordination/no semantics; Scope and review | complete; accepted empty coordination/no-semantics evidence |
 | `WP-REV-001` | `VAL-SCOPE`, `VAL-ASSURANCE` | independent evidence-state scaffold; `ACT-TST` | absent; blocked |
 | `WP-TST-001` | `VAL-SCOPE`, `VAL-ASSURANCE` | isolated safe harness scaffold; `ACT-TST`, `ACT-SRC` | absent; blocked |
 | `WP-CST-001` | `VAL-SCOPE`, `VAL-SEM`, `VAL-ASSURANCE` | `VAL-SCN-001`, prohibited-content cases | absent; blocked |
@@ -392,15 +392,13 @@ expected outcome, WP, predecessor, evidence, assurance or authority boundary
 invalidates affected validation and requires a retained successor plus new
 independent review.
 
-This validation plan is review-ready as a governance-only fixed-point
-candidate. No scenario has run and no validation result exists. All 13 holds,
-including `TBD-TST-001` / `SPEC-UNK-TST-001`, remain open. No WP is accepted.
+The validation planning fixed point and `WP-WS-001` scope/assurance validation
+are accepted. No semantic scenario has run. All 13 holds, including
+`TBD-TST-001` / `SPEC-UNK-TST-001`, remain open. No semantic WP is accepted.
 
-Under prospective `CHG-BA-TST-BOOT-002`, after both V&V plans receive
-independent fixed-point decisions, a separate
-decision may accept and admit only the empty `WP-WS-001` scaffold. Only after
-accepted WS exit evidence may separate decisions accept and admit pure
-`WP-REV-001` and `WP-TST-001` bootstrap scaffolds. In that bootstrap slice
+Under accepted `CHG-BA-TST-BOOT-002`, both V&V plans and the separately
+accepted empty `WP-WS-001` scaffold are complete. Separate decisions may now
+accept and admit pure `WP-REV-001` and `WP-TST-001` bootstrap scaffolds. In that bootstrap slice
 only, the open TST held pair is an exact fail-closed proof input rather than a
 semantic favorable input: the independent scaffolds must expose its absence,
 exercise the accepted safe fixtures, and may claim no producer result.
