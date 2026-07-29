@@ -1,5 +1,5 @@
 [workspace]
-members = []
+members = ["crates/bastion-review"]
 resolver = "3"
 
 [workspace.package]
