@@ -1,4 +1,4 @@
-# Pulse 17 — WP-TST-001 retained R4 acceptance candidate
+# Pulse 17 — WP-TST-001 retained R5 acceptance candidate
 
 Date: 2026-07-29
 
@@ -19,12 +19,15 @@ Status: `proposed; acceptance_candidate; not_accepted; not_entered`
 | Retained R3 governance commit | `ae64448e98744668e3b80e3411255503bfbdd4ae` |
 | Retained R3 candidate SHA-256 / blob | `76f259e3189cbb53be5e88b84dc922a13673ec52572efbe842f55fe85a67c2ae` / `655f38734b4f52ed7ff740fd2117c3cd5916f977` |
 | Retained R3 pulse SHA-256 / blob | `954e17de5d0833d98f0a44c932476af60c0163b126c50e1be741646ee8d65bc4` / `4730684c910689009d2b81604c021b91862264ae` |
-| R4 candidate | `docs/vtrace/WP_TST_001.md` / `WP-TST-001-R4` |
-| R4 candidate SHA-256 | `eaff0bd15d34afb533306ab5a4a967cb672149422e14b634ae263fea512f4f70` |
-| R4 candidate Git blob | `18e616868d9f94b97264e4b744961d85b6442f3d` |
+| Retained R4 governance commit | `b919512fb73472149afea5a55d1a022bf6aec8da` |
+| Retained R4 candidate SHA-256 / blob | `eaff0bd15d34afb533306ab5a4a967cb672149422e14b634ae263fea512f4f70` / `18e616868d9f94b97264e4b744961d85b6442f3d` |
+| Retained R4 pulse SHA-256 / blob | `42416f3d638d06e4930413f7e3ed5ef211143f6de19ee6f31cf4eb70d3ac434d` / `2d211769e4adfb4d9d0b6171909cdeb947d76492` |
+| R5 candidate | `docs/vtrace/WP_TST_001.md` / `WP-TST-001-R5` |
+| R5 candidate SHA-256 | `c618af6d61d05c51fe689a791f7a8bc9f2ed908c4c42e7e48dd07badec2a633d` |
+| R5 candidate Git blob | `42f8ff4bd0e9350ac269b0a3a137209b1be1f120` |
 
-R1, R2, and R3 are immutable, were not accepted, and remain recoverable at the
-exact commits, digests, and blobs above. R4 is their proposed successor, not an
+R1 through R4 are immutable, were not accepted, and remain recoverable at the
+exact commits, digests, and blobs above. R5 is their proposed successor, not an
 in-place finding erasure.
 
 ## Retained R1 finding disposition
@@ -51,6 +54,13 @@ in-place finding erasure.
 | `BA-TST-R3-M01` | retained major; R3 not accepted | exact closed `test-gate-evidence.v2` and set schemas define ordered keys, types, cardinalities, enums, nullability, path/ID/mode/version equality, duplicate/extra/missing rejection, non-self-referential acceptance/entry sequencing, initially empty/partial review decisions, create-new review successors, and digest-field-omitted mode/set custody. |
 | `BA-TST-R3-M02` | retained major; R3 not accepted | all 38 CR identities are remapped from their exact `CODE_RIGOR.md` obligation to 63 actually executed static, supply-chain, contract, property, model, adversarial, hold, no-authority, or source-spine assertions; the exact 148 forward/reverse edges and per-mode target lists replace count alternation. |
 
+## Retained R4 finding disposition
+
+| Finding | R4 disposition | R5 remediation |
+|---|---|---|
+| `BA-TST-R4-M01` | retained major; R4 not accepted | each mode JSON embeds the only three bounded observed-output fragments plus closed rollback/reproduction plans; fixed RFC 6901 pointers resolve only to fragment content, hashes bind decoded/canonical bytes, and external/self/ancestor/future/unknown pointers and raw rejected bytes reject. |
+| `BA-TST-R4-M02` | retained major; R4 not accepted | exactly 22 indexed decision slots hold null or closed digest-field-omitted immutable decision records with per-lane predecessor chains; a successor changes exactly one slot, retains 21, and can close finding/defer only by a later bound `pass`/`remediated` record; set successors use the same nested preimage. |
+
 ## Candidate boundary
 
 The exact candidate limits future work to `PB-TST-001`, assigned
@@ -62,15 +72,15 @@ the separately retained 16-mode evidence set.
 It fixes the future path allowlist, package graph, fixture representation and
 bounds, all three L0, six L1, and seven L2 commands, runner bounds, bounded
 source-spine/contract/property/model/adversarial/hold-non-closure/
-no-authority cases, exact 123-identity/148-edge trace transpose and closed
-mode/set evidence schema, append-only
+no-authority cases, unchanged exact 123-identity/148-edge trace transpose and
+closed embedded mode/set evidence schema, append-only
 custody, required roles, stop condition, exit
 criteria, and rollback. It pre-claims no implementation or result.
 
 ## Required independent review
 
 Acceptance remains pending. Every required decision must bind the exact
-R4 candidate digest above. Review must include all eight parliament lanes,
+R5 candidate digest above. Review must include all eight parliament lanes,
 Independent Test & Oversight, Methodology Panel, Role review, Citation, Scope,
 Numeracy, all seven stakeholder lenses, Classification & Operational Security,
 and Civilian Control/Law/Safety/Readiness. Any changed digest, unresolved
@@ -86,6 +96,6 @@ pair; accept product evidence; authorize a semantic producer; emit HND, TERM,
 REL, or Taxlane state; support operational, force, procurement, budget,
 allocation, or rate action; authorize official use; publish; push; or release.
 
-Disposition: **R1/R2/R3 findings retained and remediated only in proposed R4;
+Disposition: **R1/R2/R3/R4 findings retained and remediated only in proposed R5;
 independent acceptance review required;
 not accepted; not entered**.
