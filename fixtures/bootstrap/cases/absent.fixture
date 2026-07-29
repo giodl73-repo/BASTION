@@ -1,0 +1,12 @@
+fixture_id=FIX-TST-BOOT-002
+version=1
+predecessor_id=none
+predecessor_digest=0000000000000000000000000000000000000000000000000000000000000000
+predecessor_version=0
+supersession_state=current
+class=explicit-absence
+source_posture=synthetic-inert
+custody_id=CUSTODY-TST-002
+purpose_id=PURPOSE-TST-ABSENCE-001
+expected_reason_id=REASON-SRC-ABSENT-001
+token=SYNTHETIC_ABSENT_001

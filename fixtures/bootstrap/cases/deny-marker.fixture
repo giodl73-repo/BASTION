@@ -1,0 +1,12 @@
+fixture_id=FIX-TST-BOOT-004
+version=1
+predecessor_id=none
+predecessor_digest=0000000000000000000000000000000000000000000000000000000000000000
+predecessor_version=0
+supersession_state=current
+class=safe-denial-marker
+source_posture=synthetic-inert
+custody_id=CUSTODY-TST-004
+purpose_id=PURPOSE-TST-DENY-001
+expected_reason_id=REASON-SEC-DENY-001
+token=SYNTHETIC_DENY_001

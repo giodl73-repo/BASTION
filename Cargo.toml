@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/bastion-review"]
+members = ["crates/bastion-boundary-tests", "crates/bastion-review"]
 resolver = "3"
 
 [workspace.package]

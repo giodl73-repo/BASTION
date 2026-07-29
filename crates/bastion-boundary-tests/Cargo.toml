@@ -1,0 +1,42 @@
+[package]
+name = "bastion-boundary-tests"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+autotests = false
+
+[lints]
+workspace = true
+
+[[test]]
+name = "source_spine"
+path = "tests/source_spine.rs"
+
+[[test]]
+name = "contract_matrix"
+path = "tests/contract_matrix.rs"
+
+[[test]]
+name = "property_cases"
+path = "tests/property_cases.rs"
+
+[[test]]
+name = "model_cases"
+path = "tests/model_cases.rs"
+
+[[test]]
+name = "adversarial_cases"
+path = "tests/adversarial_cases.rs"
+
+[[test]]
+name = "hold_closure"
+path = "tests/hold_closure.rs"
+
+[[test]]
+name = "no_authority_surface"
+path = "tests/no_authority_surface.rs"
+
+[[test]]
+name = "static_surface"
+path = "tests/static_surface.rs"

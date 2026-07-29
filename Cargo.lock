@@ -3,5 +3,9 @@
 version = 4
 
 [[package]]
+name = "bastion-boundary-tests"
+version = "0.1.0"
+
+[[package]]
 name = "bastion-review"
 version = "0.1.0"

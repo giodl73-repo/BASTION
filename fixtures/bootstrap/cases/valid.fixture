@@ -1,0 +1,12 @@
+fixture_id=FIX-TST-BOOT-001
+version=1
+predecessor_id=none
+predecessor_digest=0000000000000000000000000000000000000000000000000000000000000000
+predecessor_version=0
+supersession_state=current
+class=valid-custody
+source_posture=synthetic-inert
+custody_id=CUSTODY-TST-001
+purpose_id=PURPOSE-TST-CUSTODY-001
+expected_reason_id=REASON-TST-HARNESS-ONLY-001
+token=SYNTHETIC_VALID_001
