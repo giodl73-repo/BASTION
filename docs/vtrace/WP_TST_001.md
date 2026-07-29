@@ -1,4 +1,4 @@
-# WP-TST-001-R5 — embedded-evidence boundary-test and fixture-custody bootstrap
+# WP-TST-001-R6 — closed-schema boundary-test and fixture-custody bootstrap
 
 Status: `proposed; acceptance_candidate; not_accepted; not_entered`
 
@@ -10,14 +10,14 @@ configuration-only membership integration in `PB-WS-001`
 Logical WP predecessor: accepted `WP-WS-001` exit only. R1 commit
 `62116481b7b3e7d671517b6053c8cc3f20f93fce` and R2 commit
 `21c8066445c72358a444c0b506422ec3b9dc63e0` are retained governance history.
-After R5 acceptance, the entry commit and its direct implementation successor
+After R6 acceptance, the entry commit and its direct implementation successor
 must remain on the current governance/main lineage. Accepted REV is only a
 context co-member: workspace co-membership and Git ancestry are explicitly not
 WP-predecessor or dependency relationships.
 
 ## 1. Controlled baseline and custody
 
-The future acceptance commit must descend from R5 on current main; the entry
+The future acceptance commit must descend from R6 on current main; the entry
 commit must be its direct governance successor; and the one implementation
 commit must be the direct child of entry. Accepted `WP-WS-001` exit
 `cd1f1d75ec312789fed63a265219d8ad9069a17a` remains the sole logical WP
@@ -35,7 +35,9 @@ predecessor digest, or Cargo edge holds acceptance and entry.
 | Retained R3 WP SHA-256 / blob | `76f259e3189cbb53be5e88b84dc922a13673ec52572efbe842f55fe85a67c2ae` / `655f38734b4f52ed7ff740fd2117c3cd5916f977` |
 | Retained R4 governance commit (not accepted) | `b919512fb73472149afea5a55d1a022bf6aec8da` |
 | Retained R4 WP SHA-256 / blob | `eaff0bd15d34afb533306ab5a4a967cb672149422e14b634ae263fea512f4f70` / `18e616868d9f94b97264e4b744961d85b6442f3d` |
-| Current R5 governance-line base before acceptance | `b919512fb73472149afea5a55d1a022bf6aec8da` |
+| Retained R5 governance commit (not accepted) | `77e0abb94a427a1f824e4f5659e580b1aae74137` |
+| Retained R5 WP SHA-256 / blob | `c618af6d61d05c51fe689a791f7a8bc9f2ed908c4c42e7e48dd07badec2a633d` / `42f8ff4bd0e9350ac269b0a3a137209b1be1f120` |
+| Current R6 governance-line base before acceptance | `77e0abb94a427a1f824e4f5659e580b1aae74137` |
 | Context-only accepted REV exit | `ab227cc06f15299b594cfe2be99915bd93c4c081` |
 | Context-only accepted REV implementation commit / SHA-256 | `5c4e96306d3c463a44be7621371759da8bca399b` / `c5c2df1178568cd49b5d721cd01cba7cce3371e049528e07bad30d6b3324ea72` |
 | Context-only accepted REV evidence-set SHA-256 / tree | `b95beff569794125018f2fde3d4d3317ed32278dfcfb1fc22a7d25cf51226bd9` / `d554c8c0c3d534aa96924f085a4dc007b25e3a3c` |
@@ -288,6 +290,12 @@ across the complete mode.
 | `CMD-L2-HOLD-CLOSURE` | `L2HoldClosure` | `cargo +1.95.0 test -p bastion-boundary-tests --locked --offline --test hold_closure` |
 | `CMD-L2-NO-EMISSION` | `L2NoAuthority` | `cargo +1.95.0 test -p bastion-boundary-tests --locked --offline --test no_authority_surface` |
 
+After all 16 mode records exist, the supervisor's non-mode set-assembly command
+is identity `CMD-TST-EVIDENCE-SET` with exact argv
+`pwsh -NoLogo -NoProfile -NonInteractive -File tools/test_gate.ps1 -AssembleSet`.
+It executes no Cargo target and only validates, projects, hashes, and creates the
+next unused set record under the same wall/memory/combined-stream bounds.
+
 Every mode has a 60-second wall limit, 1 GiB process-tree memory limit, and
 10 MiB combined stdout/stderr limit. The runner itself performs no network
 access and all Cargo commands are `--locked --offline`. It binds and verifies
@@ -295,7 +303,7 @@ one implementation commit, implementation/test/fixture-manifest/WP/
 acceptance/runner/root-manifest/lock/WS predecessor digest, exact argv,
 sanitized-environment digest, start/end/duration, bounds, per-command exit and
 stream hashes/bytes, combined bytes, assertions, executed case target, and
-result in canonical `test-gate-evidence.v2` JSON. All 16 modes must pass at
+result in canonical `test-gate-evidence.v3` JSON. All 16 modes must pass at
 one identical binding. A zero-test target, skipped target, missing field,
 mutation during a run, mismatched digest, or output after supervisor failure
 is a failure.
@@ -734,118 +742,214 @@ a missing or extra key, wrong type/cardinality/order/enum/null posture, invalid
 UTF-8, BOM, CR, trailing whitespace, path mismatch, or digest mismatch is
 invalid and non-promotable.
 
-### 8.1 Canonical `test-gate-evidence.v2` mode schema
+### 8.1 Canonical encoding and closed primitive types
 
-Every mode record is one UTF-8, no-BOM JSON object serialized on one line with
-no insignificant whitespace and one final LF. Object keys occur exactly in the
-table order below; nested-object keys occur in their stated order; arrays use
-the stated order. Integers are unsigned base-10 JSON numbers without leading
-zeroes. Strings use shortest valid JSON escaping and contain no control or
-non-ASCII byte. Digests are exactly 64 lowercase hex; commits/trees are exactly
-40 lowercase hex. The canonical payload digest is SHA-256 over the complete
-canonical bytes with the final `evidence_digest` key/value and its preceding
-comma omitted.
+Every record is one UTF-8, no-BOM JSON object on one line with no insignificant
+whitespace and one final LF. Objects use only the stated keys in the stated
+order. Arrays use only the stated order. Integers are unsigned base-10 JSON
+numbers with no leading zero, decimal point, exponent, sign, or negative zero.
+Booleans and JSON null occur only where explicitly required. Strings use
+shortest JSON escaping and contain printable ASCII bytes `0x20..0x7e` only.
+Unless a literal, enum, regex, or smaller bound is stated, every string is
+`1..128` bytes. These named types are exact and normative wherever cited:
 
-| Ordered key | Exact JSON type, cardinality, enum, and nullability |
+| Type | Exact domain |
 |---|---|
-| `schema` | string literal `test-gate-evidence.v2`; non-null |
-| `evidence_id` | string exactly `EVID-WP-TST-001-<mode>-vNNNN`; non-null |
-| `mode` | string, exactly one of the 16 MODE values in section 6; non-null |
-| `evidence_version` | integer `1..9999`; its four-digit form is `NNNN`; non-null |
-| `evidence_path` | string exactly `context/waves/2026-07-28-bastion-foundation/evidence/wp-tst-001/runs/<mode>/<evidence_id>.json`; non-null |
-| `wp_id` | string literal `WP-TST-001`; non-null |
-| `wp_artifact_digest` | digest of the independently accepted R5 bytes; non-null |
-| `acceptance_binding` | object keys `commit,pulse_digest`; both non-null; the acceptance pulse binds R5 and prior inputs only, never its own commit |
-| `entry_binding` | object keys `commit,pulse_digest,tree_digest`; all non-null; the entry pulse binds acceptance only, never its own commit |
-| `implementation_binding` | object keys `commit,tree_digest,first_parent,delta_digest,delta_paths`; first parent equals entry commit; `delta_paths` is a bytewise-sorted array of exactly the changed allowlisted paths |
-| `logical_predecessor_commit` | string literal `cd1f1d75ec312789fed63a265219d8ad9069a17a`; non-null |
-| `context_rev_binding` | object keys `exit_commit,implementation_digest,evidence_set_digest,evidence_tree_digest,unchanged_result_digest`; all non-null and context-only |
-| `artifact_digests` | bytewise path-sorted array of exactly 18 objects with keys `path,sha256`; the exact section 3 runner/root manifest/lock/package/test/support/fixture/manifest inputs; non-null |
-| `trace_manifest_digest` | digest of the accepted 123-identity/148-edge manifest; non-null |
-| `executed_targets` | bytewise-sorted array of `0..148` objects `controlled_id,assertion`; exact edges allocated to this mode in section 7; empty exactly for L0 and the four L1 modes with no section 7 edge |
-| `fixture_bindings` | fixture-ID-sorted array of exactly 4 objects `fixture_id,version,source_id,source_digest,custody_id,custody_digest,input_digest,supersession_state`; no null member |
-| `command_identity` | exact `CMD-*` string for `mode`; non-null |
-| `exact_argv` | non-empty ordered string array exactly matching section 6; non-null |
-| `tool_versions` | bytewise tool-name-sorted non-empty array of objects `tool,version,digest`; non-null |
-| `environment_digest` | digest of the exact sanitized name/value sequence; non-null |
-| `resource_bounds` | object keys `wall_seconds,process_tree_bytes,combined_stream_bytes` with exact integers `60,1073741824,10485760` |
-| `determinism_controls` | object keys `order,seed,clock,locale,retry`; values exactly `bytewise,disabled,disabled,disabled,disabled` |
-| `expected` | object keys `exit,result,posture,reason`; all typed non-null pre-run values |
-| `actual` | object keys `exit,result,posture,reason,start_utc,end_utc,duration_ms`; all non-null; duration `0..60000` |
-| `observed_outputs` | closed object with exactly the three ordered keys `stdout,stderr,structured` and the exact embedded fragments in section 8.2; non-null |
-| `rollback_plan` | closed embedded object keys `content,digest`; exact fragment and preimage in section 8.2; non-null |
-| `reproduction_plan` | closed embedded object keys `content,digest`; exact fragment and preimage in section 8.2; non-null |
-| `failure_records` | bytewise-ID-sorted array `0..128` of objects `id,code,assertion,output_pointer,disposition,digest`; pointer uses only the three fixed observed-output pointers; digest is last |
-| `counterexamples` | bytewise-ID-sorted array `0..128` of objects `id,assertion,input_digest,reproduction_plan_digest,output_pointer,digest`; pointer uses only the three fixed observed-output pointers |
-| `required_review_lanes` | exact bytewise-sorted array of the 22 lane identities listed below; immutable and non-null |
-| `reviewer_decisions` | array of exactly 22 canonical-lane slots; each is null or the closed immutable decision object in section 8.3; array order equals `required_review_lanes` |
-| `findings` | bytewise-ID-sorted array `0..128`, objects `id,severity,claim_digest,evidence_pointer,owner,destination,closure,disposition`; severity enum `critical|major|minor|note`; pointer uses only the three fixed observed-output pointers |
-| `dissent` | bytewise-ID-sorted array `0..128`, objects `id,lane,claim_digest,record_digest,disposition` |
-| `conflicts` | bytewise-ID-sorted array `0..128`, objects `id,left_digest,right_digest,owner,disposition` |
-| `status` | enum `planned|absent|failed|stale|conflicted|passed|superseded`; non-null |
-| `invalidation_triggers` | bytewise-sorted non-empty string array; non-null |
-| `predecessor_evidence` | null only for version 1; otherwise object `evidence_id,evidence_path,evidence_version,evidence_digest` naming the immediately preceding same-mode record |
-| `history` | ordered array of exactly `evidence_version - 1` predecessor objects oldest-to-newest; empty only for version 1 |
-| `evidence_digest` | non-null payload digest computed by the omission rule above; last key |
+| `DIGEST` | string matching `^[0-9a-f]{64}$` |
+| `GIT_ID` | string matching `^[0-9a-f]{40}$` |
+| `VERSION` | integer `1..9999`; `NNNN` is its zero-padded four-digit spelling |
+| `MODE` | one of the 16 exact MODE strings in section 6 |
+| `SAFE_ID` | string matching `^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*$`, `1..128` bytes |
+| `ASSERTION` | string matching `^[a-z][a-z0-9_]*::[a-z][a-z0-9_]*$`, `3..128` bytes |
+| `REL_PATH` | string `1..240` bytes, forward slashes, no empty/`.`/`..` segment, no leading slash, drive prefix, backslash, colon, URI scheme, percent escape, NUL, or symlink resolution; bytewise equal to an allowlisted section 3 path |
+| `UTC` | string matching `^20[0-9]{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]\.[0-9]{3}Z$`, a valid Gregorian instant |
+| `LANE` | one exact lane string at the index table in section 8.5 |
+| `REVIEWER_ID` | string matching `^REV-[A-Z0-9][A-Z0-9-]{0,59}$`; unique natural person or separately authorized agent identity across the 22 current slots |
+| `OUTPUT_POINTER` | exactly one of the three literal pointers in section 8.3 |
 
-The three equality constraints are conjunctive: `mode` selects one command;
-`evidence_version` supplies its exact `NNNN`; and `evidence_id`,
-`evidence_path`, mode directory, filename mode, and filename version must all
-match byte for byte. The supervisor opens only the next unused version using
-create-new semantics. Version exhaustion, a gap, duplicate, predecessor
-mismatch, history mismatch, retry, correction, failure, conflict, reproduction,
-or review update cannot reuse a prior path.
+Every array forbids duplicate complete elements; arrays identified as sorted
+are strictly increasing by unsigned UTF-8 byte comparison of the named key.
+Every equality is byte equality after canonical decoding. A referenced digest
+must recompute from the named bytes; merely matching `DIGEST` syntax is not
+sufficient. No unstated coercion, default, additional property, alternate
+encoding, or nullable value exists.
 
-The acceptance pulse is committed before its commit is knowable and therefore
-binds only the R5 digest and prior inputs. The later entry pulse binds the
-already existing acceptance commit/pulse, but not its own future commit. After
-entry is committed, mode evidence binds the acceptance commit/pulse and entry
-commit/pulse/tree. This sequence has no self-referential commit field.
+### 8.2 Closed `test-gate-evidence.v3` mode schema
 
-### 8.2 Closed embedded output and plan fragments
+The exact ordered top-level keys are:
+`schema,evidence_id,mode,evidence_version,evidence_path,wp_id,
+wp_artifact_digest,acceptance_binding,entry_binding,implementation_binding,
+logical_predecessor_commit,context_rev_binding,artifact_digests,
+trace_manifest_digest,executed_targets,fixture_bindings,command_identity,
+exact_argv,tool_versions,environment_digest,resource_bounds,
+determinism_controls,expected,actual,observed_outputs,rollback_plan,
+reproduction_plan,failure_records,counterexamples,required_review_lanes,
+reviewer_decisions,findings,dissent,conflicts,status,invalidation_triggers,
+predecessor_evidence,history,evidence_digest`.
 
-`observed_outputs` has no path, URI, or filesystem member. `stdout` and
-`stderr` each have exactly ordered keys
-`encoding,content_base64,decoded_byte_count,decoded_sha256`.
-`encoding` is literal `base64`; `content_base64` is canonical padded RFC 4648
-base64 using only its standard alphabet; `decoded_byte_count` is `0..10485760`;
-and `decoded_sha256` hashes exactly the decoded bytes. Their decoded counts sum
-to at most `10485760`. Empty bytes use empty base64 and SHA-256
+| Ordered field | Exact rule |
+|---|---|
+| `schema` | string literal `test-gate-evidence.v3` |
+| `evidence_id` | string exactly `EVID-WP-TST-001-<mode>-vNNNN` |
+| `mode` | `MODE` |
+| `evidence_version` | `VERSION` |
+| `evidence_path` | string exactly `context/waves/2026-07-28-bastion-foundation/evidence/wp-tst-001/runs/<mode>/<evidence_id>.json` |
+| `wp_id` | string literal `WP-TST-001` |
+| `wp_artifact_digest` | `DIGEST` of independently accepted R6 bytes |
+| `acceptance_binding` | closed `AcceptanceBinding` below |
+| `entry_binding` | closed `EntryBinding` below |
+| `implementation_binding` | closed `ImplementationBinding` below |
+| `logical_predecessor_commit` | literal `cd1f1d75ec312789fed63a265219d8ad9069a17a` |
+| `context_rev_binding` | closed `ContextRevBinding` below |
+| `artifact_digests` | exactly 18 closed `ArtifactDigest` objects, strictly sorted and unique by `path`, one for every section 3 root manifest, lockfile, runner, package, test, support, fixture, and fixture-manifest input; no omission or other path |
+| `trace_manifest_digest` | `DIGEST` of the accepted exact 123-identity/148-edge manifest |
+| `executed_targets` | `0..148` closed `ExecutedTarget` objects, strictly sorted and unique by tuple `(controlled_id,assertion)`; exactly the section 7 edges assigned to `mode`, and empty exactly when its section 7 target list is empty |
+| `fixture_bindings` | exactly four closed `FixtureBinding` objects in ascending `fixture_id` order; exactly the current rows in section 5 |
+| `command_identity` | exact section 6 `CMD-*` identity selected by `mode` |
+| `exact_argv` | array `1..16` of strings `1..128` bytes, in execution order, byte-for-byte the selected section 6 argv; duplicates allowed only where section 6 literally repeats an argument |
+| `tool_versions` | `1..32` closed `ToolVersion` objects strictly sorted and unique by `tool` |
+| `environment_digest` | `DIGEST` of the bytewise-name-sorted sanitized `<name><TAB><value><LF>` sequence; names match `^[A-Z][A-Z0-9_]{0,63}$`, values are `0..128` printable-ASCII bytes, and duplicate names reject |
+| `resource_bounds` | closed `ResourceBounds` below |
+| `determinism_controls` | closed `DeterminismControls` below |
+| `expected` | closed `ExpectedResult` below |
+| `actual` | closed `ActualResult` below |
+| `observed_outputs` | closed `ObservedOutputs` in section 8.3 |
+| `rollback_plan` | closed `PlanWrapper<RollbackPlan>` in section 8.4 |
+| `reproduction_plan` | closed `PlanWrapper<ReproductionPlan>` in section 8.4 |
+| `failure_records` | `0..128` closed `FailureRecord` objects strictly sorted and unique by `id` |
+| `counterexamples` | `0..128` closed `Counterexample` objects strictly sorted and unique by `id` |
+| `required_review_lanes` | the exact 22 strings in section 8.5 index order |
+| `reviewer_decisions` | exactly 22 slots in that same order; each null or one closed `DecisionRecord<mode,index>` |
+| `findings` | the exact strictly `id`-sorted projection of every non-null current decision's `findings`; `0..2816` unique `Finding` objects |
+| `dissent` | the exact strictly `id`-sorted projection of every non-null current decision's `dissent`; `0..2816` unique `Dissent` objects |
+| `conflicts` | the exact strictly `id`-sorted projection of every non-null current decision's `conflicts`; `0..2816` unique `Conflict` objects |
+| `status` | derived enum `failed|stale|conflicted|passed` under the precedence rule below |
+| `invalidation_triggers` | exactly the strictly bytewise-sorted unique non-empty array of the literals `artifact_digest_change,binding_change,command_change,environment_change,fixture_change,review_change,schema_change,trace_change`; no other value |
+| `predecessor_evidence` | null iff version 1; otherwise one closed `EvidenceBinding` naming version `evidence_version-1` of the same mode |
+| `history` | exactly `evidence_version-1` closed `EvidenceBinding` objects in ascending consecutive version order, beginning at 1; last equals `predecessor_evidence`; empty iff version 1 |
+| `evidence_digest` | `DIGEST`, last; SHA-256 of the canonical complete object with only its preceding comma and this key/value omitted |
+
+The following nested objects are independently closed. Key order is the order
+shown; all members are non-null unless stated otherwise:
+
+| Type | Ordered members and exact rules |
+|---|---|
+| `AcceptanceBinding` | `commit:GIT_ID,pulse_digest:DIGEST`; commit is the committed R6 acceptance pulse and that pulse hashes R6 and earlier inputs, never its own commit |
+| `EntryBinding` | `commit:GIT_ID,pulse_digest:DIGEST,tree_digest:GIT_ID`; commit is the direct governance child of acceptance and its pulse binds acceptance, never its own commit |
+| `ImplementationBinding` | `commit:GIT_ID,tree_digest:GIT_ID,first_parent:GIT_ID,delta_digest:DIGEST,delta_paths:array`; `first_parent=entry_binding.commit`; `commit` is its non-merge direct child; `delta_paths` has `1..18` distinct `REL_PATH` values strictly bytewise sorted and equals the complete Git changed-path set; `delta_digest` hashes `<path><TAB><blob-sha256><LF>` for those paths in that order |
+| `ContextRevBinding` | `exit_commit:GIT_ID,implementation_digest:DIGEST,evidence_set_digest:DIGEST,evidence_tree_digest:GIT_ID,unchanged_result_digest:DIGEST`; values are exactly `ab227cc06f15299b594cfe2be99915bd93c4c081`,`c5c2df1178568cd49b5d721cd01cba7cce3371e049528e07bad30d6b3324ea72`,`b95beff569794125018f2fde3d4d3317ed32278dfcfb1fc22a7d25cf51226bd9`,`d554c8c0c3d534aa96924f085a4dc007b25e3a3c`,`f0a15398cc87614cc904cbaa28459ef65ebc267ed70349e46f86f743ebd708c6`; the last hashes exact UTF-8 `rev_unchanged=true<LF>` and proves context only |
+| `ArtifactDigest` | `path:REL_PATH,sha256:DIGEST`; digest hashes exact file bytes |
+| `ExecutedTarget` | `controlled_id:SAFE_ID-or-LANE,assertion:ASSERTION`; pair must be one exact section 7 edge; lane strings are admitted only where section 7 uses them |
+| `FixtureBinding` | `fixture_id:SAFE_ID,version:VERSION,source_id:SAFE_ID,source_digest:DIGEST,custody_id:SAFE_ID,custody_digest:DIGEST,input_digest:DIGEST,supersession_state:enum(current,superseded)`; values equal one current section 5 row, so all four are `current` in an executable set |
+| `ToolVersion` | `tool:string,version:string,digest:DIGEST`; tool matches `^[a-z][a-z0-9_-]{0,31}$`; version matches `^[0-9A-Za-z][0-9A-Za-z.+_-]{0,63}$` |
+| `ResourceBounds` | `wall_seconds:60,process_tree_bytes:1073741824,combined_stream_bytes:10485760`; all JSON integers |
+| `DeterminismControls` | `order:"bytewise",seed:"disabled",clock:"disabled",locale:"disabled",retry:"disabled"` |
+| `ExpectedResult` | `exit:0,result:"passed",posture:"promotable",reason:"expected-outcome"` |
+| `ActualResult` | `exit:integer 0..255,result:enum(passed,failed),posture:enum(promotable,non-promotable),reason:enum(expected-outcome,unexpected-exit,assertion-failure,bound-exceeded,binding-mismatch,conflict),start_utc:UTC,end_utc:UTC,duration_ms:integer 0..60000`; end is not earlier than start and duration equals their millisecond difference |
+| `EvidenceBinding` | `evidence_id:string,evidence_path:string,evidence_version:VERSION,evidence_digest:DIGEST`; ID/path use the same mode and bound version formulas and digest hashes that immutable predecessor |
+
+`actual.result="passed"` iff exit is 0, posture is `promotable`, reason is
+`expected-outcome`, `failure_records`, `counterexamples`, and `conflicts` are
+empty, and the structured result reports zero failed and held assertions.
+Otherwise result is `failed`, posture is `non-promotable`, and reason identifies
+the highest-precedence cause: `bound-exceeded`, `binding-mismatch`, `conflict`,
+`unexpected-exit`, then `assertion-failure`. Top-level `status` is `stale` on a
+binding/digest/history mismatch; else `conflicted` when `conflicts` is non-empty,
+any current decision is conflicted, any open dissent exists, or any open defer
+exists; else `failed` when actual failed, failures/counterexamples exist, an
+assurance is failed, or a critical/major finding is open; else `passed`. No
+latest exit candidate may be stale, conflicted, or failed. An older immutable
+record remains byte-identical and is known to be superseded only from a later
+record's history; its stored status is never rewritten.
+
+### 8.3 Closed observed-output and result fragments
+
+`ObservedOutputs` has exactly `stdout,stderr,structured`. `stdout` and `stderr`
+are closed `ByteStream` objects with ordered keys
+`encoding,content_base64,decoded_byte_count,decoded_sha256`: encoding is literal
+`base64`; content is canonical padded RFC 4648 using `A-Z a-z 0-9 + /` and
+terminal `=` only, decodes without error, and is `0..13981016` characters;
+decoded count is integer `0..10485760` equal to its byte length; digest is
+`DIGEST` of decoded bytes. Counts sum to at most `10485760`. Empty bytes use
+empty content and SHA-256
 `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`.
 
-`structured` has exactly ordered keys `encoding,content,byte_count,sha256`.
-`encoding` is literal `canonical-json`; `content` is a closed JSON value using
-the mode-record canonical rules; `byte_count` is `0..1048576`; and `sha256`
-hashes the canonical UTF-8 bytes of `content` alone, without a trailing LF.
-The three and only three allowed evidence pointers are the plain RFC 6901 JSON
-Pointers `/observed_outputs/stdout/content_base64`,
+`structured` is the closed object `encoding,content,byte_count,sha256`.
+Encoding is literal `canonical-json`. Across modes and sets, content has one and
+only one literal `StructuredResult` schema with ordered keys
+`schema,scope,command_identity,exit,result,posture,reason,counts`. Schema is
+literal `test-gate-structured-result.v1`; scope is a `MODE` for a mode record or
+literal `SET` for a set; command equals the enclosing command; exit/result/
+posture/reason equal its closed actual/result values; and `counts` is exactly
+`attempted,passed,failed,held`, each integer `0..148`, with attempted equal to
+passed plus failed plus held. For a mode, attempted equals its number of
+executed targets and held is zero for a passed result. For a set, attempted is
+16 and counts the selected modes; held is zero for a full result. Byte count is
+integer `2..1048576` equal to canonical content bytes without LF; SHA-256 hashes
+those bytes.
+
+The only `OUTPUT_POINTER` values are literal
+`/observed_outputs/stdout/content_base64`,
 `/observed_outputs/stderr/content_base64`, and
-`/observed_outputs/structured/content`. Resolution hashes decoded stdout/stderr
-bytes or canonical structured-fragment bytes, never the JSON string spelling.
+`/observed_outputs/structured/content`. Resolution hashes decoded stream bytes
+or canonical structured content bytes. Reject every other spelling, including
+empty/root/self/enclosing/ancestor/future/external/absolute/URI/symlink/unknown,
+percent-encoded, `~0`/`~1` escaped, relative, fragment, and array-index forms.
+No pointer addresses a plan, decision, digest, or enclosing object. No output
+contains raw rejected fixture bytes, enough content to reconstruct them, or an
+unbounded echo.
 
-`rollback_plan.content` has exactly ordered keys
-`plan_id,steps,bounds,expected_state`; `reproduction_plan.content` has exactly
-ordered keys `plan_id,command_identity,exact_argv,input_digests,controls,
-expected_result`. Each plan is closed, bounded by 128 steps/items and 128 bytes
-per scalar, contains no external path or URI, and its sibling `digest` is
-SHA-256 over the canonical UTF-8 bytes of `content` alone without final LF.
-The top-level plan wrapper is not included in that nested preimage.
+### 8.4 Closed plan and diagnostic records
 
-Every failure, counterexample, and finding pointer must equal one of the three
-allowed output pointers. No other RFC 6901 spelling is accepted: reject empty,
-root, self, enclosing, ancestor, future, external, absolute, URI, symlink,
-unknown, percent-encoded, `~0`/`~1`-escaped, relative, fragment-form, and array-
-index pointers. No pointer may address either plan, a decision, the evidence
-digest, or an enclosing object. No output or plan embeds raw rejected fixture
-bytes, reconstructive content, or an unbounded echo.
+Each plan wrapper has exactly `content,digest`; digest is `DIGEST` of canonical
+content bytes without LF. `RollbackPlan` content has exactly
+`plan_id,steps,bounds,expected_state`: plan ID is literal
+`PLAN-WP-TST-001-ROLLBACK`; steps is exactly
+`["remove-tst-package","restore-entry-cargo-toml","restore-entry-cargo-lock",
+"verify-rev-unchanged","retain-evidence"]`; bounds is exactly the closed object
+`max_steps:5,max_wall_seconds:60,max_changed_paths:18`; expected state is exactly
+the closed object `entry_tree:GIT_ID,rev_unchanged:true,evidence_retained:true`
+where entry tree equals `entry_binding.tree_digest`.
 
-Each failure or counterexample `digest` is last in its closed object and hashes
-that canonical object with only its digest key/value and preceding comma
-omitted. Top-level and decision-embedded finding objects contain no self digest;
-their complete canonical bytes are covered by the enclosing evidence or
-decision-record digest.
+`ReproductionPlan` content has exactly
+`plan_id,command_identity,exact_argv,input_digests,controls,expected_result`.
+Plan ID is exactly `PLAN-WP-TST-001-REPRO-<mode>`; command and argv equal the
+top-level values; `input_digests` is exactly 18 closed `ArtifactDigest` objects
+equal to top-level `artifact_digests`; controls equal top-level
+`DeterminismControls`; expected result equals top-level `ExpectedResult`.
+Plan strings never contain an external/absolute path, URI, symlink, secret, raw
+fixture byte, or reconstructive content.
 
-### 8.3 Review successors and exact lanes
+The following diagnostic objects are closed; keys are exactly ordered as shown:
+
+| Type | Ordered members and exact rules |
+|---|---|
+| `FailureRecord` | `id,code,assertion,output_pointer,disposition,digest`; id exactly `FAIL-<mode>-vNNNN-NNN` with ordinal `001..128`; code enum `unexpected-exit|assertion-failure|bound-exceeded|binding-mismatch|conflict`; assertion is an `ASSERTION` executed by this mode or literal `supervisor::preflight`; pointer is `OUTPUT_POINTER`; disposition enum `open|retained|remediated`; digest is last and hashes this object with only preceding comma plus digest member omitted |
+| `Counterexample` | `id,assertion,input_digest,reproduction_plan_digest,output_pointer,disposition,digest`; ID exactly `CEX-<mode>-vNNNN-NNN`; assertion as above; input digest is `DIGEST` of a bounded non-reconstructive canonical synthetic descriptor; reproduction digest equals top-level reproduction-plan digest; pointer is `OUTPUT_POINTER`; disposition enum `open|retained|remediated`; digest uses the same omission rule |
+| `Finding` | `id,severity,claim_digest,evidence_pointer,owner,destination,closure,disposition`; ID exactly `FND-<scope>-Lii-vNNNN-NNN`; scope is mode or `SET`, lane index and decision version equal the enclosing decision, ordinal `001..128`; severity enum `critical|major|minor|note`; claim digest is `DIGEST`; pointer is `OUTPUT_POINTER` resolving only inside the enclosing mode/set observed outputs; owner is `REVIEWER_ID`; destination is one `LANE`; closure enum `open|remediated|not-applicable`; disposition enum `hold|accept|defer` |
+| `Dissent` | `id,lane,claim_digest,record_digest,disposition`; ID exactly `DIS-<scope>-Lii-vNNNN-NNN`; lane equals enclosing decision lane; both digests are `DIGEST`, with record digest binding the cited prior evidence or decision, never the enclosing decision; disposition enum `open|retained|resolved` |
+| `Conflict` | `id,lane,left_digest,right_digest,owner,disposition`; ID exactly `CON-<scope>-Lii-vNNNN-NNN`; lane equals enclosing decision lane; digests are distinct `DIGEST` values; owner is `REVIEWER_ID`; disposition enum `open|retained|resolved` |
+
+Within each diagnostic/decision array of cardinality N, ordinals are exactly
+`001..N` without a gap; IDs are unique across their entire containing top-level
+projection. An open critical/major finding, dissent, conflict, or diagnostic
+makes promotion fail.
+For a finding, `open` permits only disposition `hold|defer`, `remediated`
+requires `accept`, and `not-applicable` requires severity `note` and disposition
+`accept`. Dissent/conflict disposition `resolved` is the only non-open state;
+`retained` remains open and blocking. A diagnostic disposition `remediated`
+retains history but cannot make the command's immutable failed actual pass.
+
+All nested digest dependencies are acyclic: output digests hash only their
+content; plan digests hash only plan content; diagnostic digests omit only
+themselves; decision digests omit only themselves; mode/set digests omit only
+themselves. `claim_digest`, `record_digest`, `left_digest`, `right_digest`, and
+`input_digest` may bind only a pre-existing controlled artifact, an embedded
+output-fragment digest, or an immutable predecessor evidence/decision digest.
+They may never equal or depend on the enclosing decision, mode, or set digest,
+nor any future commit, pulse, path, record, or digest.
+
+### 8.5 Review records, exact lanes, and successor transition
 
 `required_review_lanes` is exactly the bytewise-sorted set of: the eight
 Parliament file identities; `.roles/panel-reviewer/panel.md`; `Role review
@@ -882,31 +986,70 @@ same index in `required_review_lanes`.
 | `20` | `.roles/stakeholders/taxpayer-oversight.md` |
 | `21` | `Role review steward` |
 
-A non-null slot is one closed object with keys in this exact order:
+A non-null slot is one closed object with exact ordered keys
 `decision_id,decision_version,predecessor_decision_id,
 predecessor_decision_digest,predecessor_decision_version,lane,status,
-reviewer_id,independence,assurance,findings,defer,dissent,closure,
-decision_record_digest`. Version is `1..9999`. On a lane's first decision its
-three predecessor values are `null,null,0`; otherwise they exactly bind the
-prior decision for that lane and version increases. `lane` equals the indexed
-required lane; `status` is `pass|finding|defer`; `independence` is
-`independent|conflicted`; and `assurance` is `pass|fail|not_applicable`.
-`findings` is a bytewise-ID-sorted `0..128` array of closed finding objects with
-only the three permitted output pointers. `defer` is null unless status is
-`defer`, otherwise the closed object `owner,destination,closure_condition,
-hold_behavior`. `dissent` is a bytewise-ID-sorted `0..128` array of closed
-objects `id,claim_digest,disposition`. `closure` is
-`open|remediated|not_applicable`; a pass following a finding/defer uses
-`remediated` and binds that predecessor.
+reviewer_id,independence,assurance,findings,defer,dissent,conflicts,closure,
+decision_record_digest`. For scope `<scope>` equal to enclosing mode or `SET`
+and index `ii` zero-padded to two digits, decision ID is exactly
+`DEC-WP-TST-001-<scope>-Lii-vNNNN`, where `NNNN` is `decision_version`.
+Decision IDs and digests are unique across the complete lane history.
 
-`decision_record_digest` is last and hashes the canonical decision-object bytes
-with only that key/value and its preceding comma omitted. It never hashes the
-enclosing mode record or its slot pointer. The initial execution record has 22
-null slots. A review successor may add or update exactly one canonical slot,
-retains the other 21 slots and all execution/output/plan fragments byte for
-byte, and binds the immediately prior mode record. Prior decision objects stay
-immutable in predecessor mode records. Thus a finding/defer closes only through
-a later `pass`/`remediated` lane successor, never by rewriting or removing it.
+Decision version is `VERSION` and equals 1 for a null-slot predecessor;
+otherwise it equals prior same-lane decision version plus 1. On version 1 the
+predecessor fields are exactly `null,null,0`; otherwise predecessor ID/digest/
+version are non-null and equal the immediately prior same-scope, same-index
+decision. Lane equals the indexed lane. Reviewer ID is `REVIEWER_ID`; it differs
+from every finding/conflict owner assigned to adjudicate that decision and may
+occupy only one current lane unless an explicit conflict is recorded.
+Independence is `independent|conflicted`. Assurance is `pass|fail|
+not-applicable`: indexes 0 and 1 require pass or fail, all other indexes require
+not-applicable. Findings, dissent, and conflicts are respectively `0..128`
+strictly ID-sorted unique closed objects from section 8.4, with matching scope,
+index, version, lane, and owner constraints.
+
+`defer` is null unless status is `defer`; then it is exactly the closed object
+`owner,destination,closure_condition,hold_behavior`. Owner is `REVIEWER_ID`;
+destination is `LANE`; closure condition is a `1..128` printable-ASCII string
+matching `^[A-Za-z0-9][A-Za-z0-9 ._:-]{0,127}$`; hold behavior is literal
+`block-promotion`. Status is `pass|finding|defer`; closure is
+`open|remediated|not-applicable`. Coherence is exact: `pass` requires
+independent, null defer, no open finding/dissent/conflict, the assurance value
+required above, and closure `not-applicable` for a first pass or `remediated`
+when its bound predecessor was finding/defer; `finding` requires at least one
+open finding, null defer, and closure `open`; `defer` requires non-null defer and
+closure `open`; conflicted independence requires status defer and at least one
+open conflict. Failed assurance requires status finding and at least one open
+critical or major finding. No finding/defer can disappear from custody: a later
+remediated pass binds it; the prior decision and its finding digests remain
+immutable in predecessor evidence, while any closure objects in the new
+decision use new formula-bound IDs and cite the prior claim digests.
+
+`decision_record_digest` is `DIGEST`, last, and hashes canonical decision bytes
+with only the preceding comma and that member omitted. It does not hash its
+enclosing record or pointer, so the preimage is acyclic.
+
+Version-1 command execution has 22 null slots. A one-lane mode successor opens
+only the next unused evidence version and changes exactly one slot. Every
+non-derived field is byte-identical to the immediate predecessor, specifically
+`schema,mode,wp_id,wp_artifact_digest,acceptance_binding,entry_binding,
+implementation_binding,logical_predecessor_commit,context_rev_binding,
+artifact_digests,trace_manifest_digest,executed_targets,fixture_bindings,
+command_identity,exact_argv,tool_versions,environment_digest,resource_bounds,
+determinism_controls,expected,actual,observed_outputs,rollback_plan,
+reproduction_plan,failure_records,counterexamples,required_review_lanes,
+invalidation_triggers`; the other 21 slots are also byte-identical.
+
+The complete and only synchronized derived delta is: increment
+`evidence_version` by 1; regenerate `evidence_id` and `evidence_path`; bind the
+immediate predecessor in `predecessor_evidence`; append exactly that binding to
+`history`; replace exactly the indexed decision slot with its formula-bound
+next decision; recompute `findings`, `dissent`, and `conflicts` as exact sorted
+projections of all 22 current slots; recompute `status` by section 8.2; and
+recompute `evidence_digest`. No other byte may change. The changed decision's
+three arrays remove their prior projected contributions and add their new
+contributions; the 21 retained decisions' contributions remain byte-identical.
+This reconciliation is exact, not a merge, patch, or reviewer-selected summary.
 
 Only the latest successor with all 22 non-null current lanes may be
 `fully_reviewed` or contribute to exit. Every lane is independent, both
@@ -914,48 +1057,95 @@ assurance lanes are `pass`, all predecessors/digests/versions verify, and zero
 current critical/major finding, open defer, open dissent conflict, or evidence
 conflict is mandatory.
 
-### 8.4 Closed `test-gate-evidence-set.v1` schema
+### 8.6 Independently closed `test-gate-evidence-set.v2` schema
 
-A set is also one-line canonical UTF-8/no-BOM JSON plus final LF, using the same
-string/integer/digest rules. Its exact ordered keys are
-`schema,set_id,set_version,set_path,wp_id,wp_artifact_digest,acceptance_binding,
-entry_binding,implementation_binding,mode_records,aggregate_digest,
-required_review_lanes,reviewer_decisions,review_completeness,rollback_plan,
-reproduction_plan,predecessor_set,history,invalidation_triggers,set_digest`.
-`schema` is literal `test-gate-evidence-set.v1`; version is `1..9999`;
-ID is exactly `EVID-WP-TST-001-SET-vNNNN`; path is exactly the section 3 set
-path using that ID/version. `mode_records` contains exactly 16 objects
-`mode,evidence_id,evidence_version,evidence_path,evidence_digest` in section 6
-MODE order, all at the identical WP/acceptance/entry/implementation binding.
-`aggregate_digest` is SHA-256 over each
-`<relative-path><TAB><sha256><LF>` in bytewise path order.
-`required_review_lanes` is the same exact 22-lane array.
-`reviewer_decisions` is the same exact 22-slot array and uses the identical
-closed decision-object key order, enums, predecessor rules, and nested
-`decision_record_digest` omission preimage from section 8.3. A set successor
-may add or update exactly one lane slot and must retain the other 21 byte for
-byte. `rollback_plan` and `reproduction_plan` are embedded closed fragments
-with the identical bounded content/digest preimages from section 8.2; the set
-contains no external output, plan, finding, or decision pointer target.
-`review_completeness` is `partial|full`; `full` requires every selected
-mode successor and the set's own decision array to contain all 22 current,
-valid, predecessor-complete decisions; only `full` may support exit.
-`predecessor_set` is null only for version 1, otherwise
-`set_id,set_path,set_version,set_digest`; `history` contains exactly all
-prior set bindings oldest-to-newest. Remaining binding and trigger fields have
-the identical types above.
+A set uses section 8.1 canonical encoding and these exact ordered keys:
+`schema,set_id,set_version,set_path,wp_id,wp_artifact_digest,
+acceptance_binding,entry_binding,implementation_binding,mode_records,
+aggregate_digest,observed_outputs,required_review_lanes,reviewer_decisions,
+findings,dissent,conflicts,status,review_completeness,rollback_plan,reproduction_plan,
+predecessor_set,history,invalidation_triggers,set_digest`.
 
-`set_digest` is the last key and equals SHA-256 over the complete canonical
-set bytes with only the final `set_digest` key/value and preceding comma
-omitted. The supervisor creates only the next unused set path after the 16
-selected mode successors exist. Review changes first create affected mode
-successors and then a set successor. Neither mode nor set history is mutated,
-deleted, overwritten, quarantined, or hidden.
+`schema` is literal `test-gate-evidence-set.v2`; set version is `VERSION`; ID is
+exactly `EVID-WP-TST-001-SET-vNNNN`; path is exactly
+`context/waves/2026-07-28-bastion-foundation/evidence/wp-tst-001/sets/<set_id>.json`;
+WP ID is literal `WP-TST-001`; WP digest and the three binding objects use the
+fully closed definitions and equalities in section 8.2. `mode_records` is
+exactly 16 closed objects with ordered keys
+`mode,evidence_id,evidence_version,evidence_path,evidence_digest`, in section 6
+MODE order; each field uses the mode formulas/types in section 8.2, each digest
+recomputes, and all selected records have identical WP/acceptance/entry/
+implementation bindings. `aggregate_digest` is `DIGEST` over each selected
+`<evidence_path><TAB><evidence_digest><LF>` in strict bytewise path order.
+
+`observed_outputs` is a closed section 8.3 `ObservedOutputs`: stdout/stderr use
+the identical bounded `ByteStream`; structured content uses the identical one
+literal `StructuredResult` schema with scope `SET`, command literal
+`CMD-TST-EVIDENCE-SET`, attempted 16, and passed/failed/held counts of the
+selected modes' immutable command `actual.result` values, not their later review
+status. A full candidate has exit 0, passed 16, failed 0, held 0, result passed,
+posture promotable, and reason expected-outcome. Byte count and SHA-256 use the
+same exact section 8.3 rules.
+
+Required lanes are the exact 22-index array. Decisions are exactly 22 null or
+closed `DecisionRecord<SET,index>` values under every section 8.5 constraint.
+Top-level findings, dissent, and conflicts are `0..2816` unique objects and are
+the exact strictly ID-sorted projections of those current set decisions; set
+finding evidence pointers are `OUTPUT_POINTER` values resolving only within the
+set's embedded observed outputs. Status is enum
+`partial|conflicted|failed|full`: `conflicted` iff an open conflict/dissent or
+conflicted reviewer exists; else `failed` iff an open critical/major finding,
+failed assurance, or selected non-passed mode exists; else `full` iff all 22 set
+decisions and all 22 decisions in every selected mode are non-null, current,
+predecessor-complete passes and every selected mode is passed; otherwise
+`partial`. `review_completeness` is `partial|full` and equals `full` iff status
+is full. Only full supports exit.
+
+The set rollback wrapper is exactly the section 8.4 rollback wrapper. The set
+reproduction wrapper uses the same exact `content,digest` order and digest
+preimage, but its closed content is exactly
+`plan_id,command_identity,exact_argv,input_digests,controls,expected_result`:
+plan ID literal `PLAN-WP-TST-001-REPRO-SET`; command identity literal
+`CMD-TST-EVIDENCE-SET`; argv is exactly
+`["pwsh","-NoLogo","-NoProfile","-NonInteractive","-File","tools/test_gate.ps1","-AssembleSet"]`;
+input digests are exactly two objects `name,sha256` in this order,
+with names `wp-artifact` and `implementation-delta` and digests equal to
+`wp_artifact_digest` and `implementation_binding.delta_digest`; controls are
+exactly section 8.2 `DeterminismControls`; expected result is exactly section
+8.2 `ExpectedResult`. No external pointer target exists.
+`predecessor_set` is null iff version 1; otherwise it is the closed
+object `set_id,set_path,set_version,set_digest`, with same set formulas, version
+equal to current minus 1, and digest recomputed. `history` has exactly
+`set_version-1` such objects in consecutive ascending order from 1; last equals
+predecessor. `invalidation_triggers` is exactly the same eight-literal array as
+mode records. `set_digest` is `DIGEST`, last, hashing the complete canonical set
+with only its preceding comma and member omitted.
+
+A one-lane set successor changes exactly one decision slot. Every non-derived
+field is byte-identical to its immediate predecessor: `schema,wp_id,
+wp_artifact_digest,acceptance_binding,entry_binding,implementation_binding,
+observed_outputs,required_review_lanes,rollback_plan,reproduction_plan,
+invalidation_triggers`; the other 21 slots are byte-identical.
+The complete and only derived delta is: set version plus 1; regenerated set ID
+and path; immediate `predecessor_set`; history append of exactly that binding;
+replace all 16 `mode_records` entries with their just-created one-lane mode
+successors for that same lane and no other mode successors, then recompute
+`aggregate_digest`; place the formula-bound next set decision in the same lane
+slot; exactly project findings, dissent, and conflicts from that changed
+decision while retaining the other 21 contributions; recompute status and
+review completeness; and recompute set digest. No other byte changes.
+
+Review changes first create the 16 same-lane mode successors and then the
+corresponding set one-lane successor; each set decision binds its own prior set
+decision and its finding claims bind the selected mode successor digest. No
+mode/set/decision preimage includes its own digest, enclosing digest, future
+commit, or future pulse. Neither history is mutated, deleted, overwritten,
+quarantined, or hidden.
 
 ## 9. Entry, stop, exit, and authority
 
 Acceptance of this candidate, if it occurs, authorizes only a later separate
-entry decision. The acceptance pulse binds the R5 artifact digest and all prior
+entry decision. The acceptance pulse binds the R6 artifact digest and all prior
 governance inputs, but never its own future commit. After it is committed, the
 entry pulse binds that acceptance commit and pulse digest, but never its own
 future commit. After entry is committed, evidence binds the resulting entry
