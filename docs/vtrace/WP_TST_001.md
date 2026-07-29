@@ -1,4 +1,4 @@
-# WP-TST-001-R14 — completion-proven job-wide bounded immutable-execution bootstrap
+# WP-TST-001-R15 — corrective implementation-lineage amendment
 
 Status: `proposed; acceptance_candidate; not_accepted; not_entered`
 
@@ -10,16 +10,19 @@ configuration-only membership integration in `PB-WS-001`
 Logical WP predecessor: accepted `WP-WS-001` exit only. R1 commit
 `62116481b7b3e7d671517b6053c8cc3f20f93fce` and R2 commit
 `21c8066445c72358a444c0b506422ec3b9dc63e0` are retained governance history.
-After R14 acceptance, the entry commit and its direct implementation successor
-must remain on the current governance/main lineage. Accepted REV is only a
+R14 was accepted and entered, but its direct implementation child failed
+independent implementation review. R15 retains that failure and authorizes one
+separately accepted corrective entry and implementation successor on the same
+linear lineage. Accepted REV is only a
 context co-member: workspace co-membership and Git ancestry are explicitly not
 WP-predecessor or dependency relationships.
 
 ## 1. Controlled baseline and custody
 
-The future acceptance commit must descend from R14 on current main; the entry
-commit must be its direct governance successor; and the one implementation
-commit must be the direct child of entry. Accepted `WP-WS-001` exit
+The R15 acceptance commit must descend from the retained failed R14
+implementation on the current line; the R15 entry commit must be its later
+direct governance successor; and the corrective implementation commit must be
+the direct child of that R15 entry. Accepted `WP-WS-001` exit
 `cd1f1d75ec312789fed63a265219d8ad9069a17a` remains the sole logical WP
 predecessor. Any nonlinear implementation ancestry, dirty unrelated path,
 predecessor digest, or Cargo edge holds acceptance and entry.
@@ -66,7 +69,11 @@ predecessor digest, or Cargo edge holds acceptance and entry.
 | Retained R13 WP SHA-256 / blob (not accepted) | `6bebe5ec95924acbc02f90d14869695ea8d7bc19b331c16c7a34a27b0cbca5a9` / `677191e393d275ddb1044ccb7369e667f44b22cb` |
 | Retained R13 pulse SHA-256 / blob | `47a1fb382babd7872b7394660bb1d12dd530995f9eab9ff20808b501407d5d9c` / `536b759b15254c8b79143e4319b0922df4885a22` |
 | Retained R13 governance commit (not accepted) | `3166b0cf86af45f3fd04454ff1c9734cac37843d` |
-| Current R14 governance-line base before acceptance | `3166b0cf86af45f3fd04454ff1c9734cac37843d` |
+| Accepted R14 candidate commit / WP SHA-256 / blob | `0705a2b42228e865c92a2da7ea2bfc82489bf49e` / `0c909cb0aab010d4b936c93ae770ebf98fdabc421b5c4883ba967ef6a5c6955b` / `182b36ffba985c7e8d432bb5a3b18aa0b76a557a` |
+| R14 acceptance commit / Pulse 27 SHA-256 | `8bb1140925688f32a4997926567919997e9bf3f9` / `2624c41bc933753f303c845061d177ed79ab9398d3d3d85e5c7a8f78a0709d8f` |
+| R14 entry commit / Pulse 28 SHA-256 | `6354f5184b97923571dcd397ac9871167833e86e` / `84bdc53fed341919db253d2799a2d7119a965fce5b505dd28df0fec840f5c035` |
+| Retained failed R14 implementation commit / tree | `7e4591838dfffdc8d1fc35f0e97e77133a56490b` / `53b06c8c083c6f2cf4a3a1bf5320b7a819bca76f` |
+| Failed implementation disposition | independent audit: four critical and two major findings; no promotable evidence; no exit |
 | Context-only accepted REV exit | `ab227cc06f15299b594cfe2be99915bd93c4c081` |
 | Context-only accepted REV implementation commit / SHA-256 | `5c4e96306d3c463a44be7621371759da8bca399b` / `c5c2df1178568cd49b5d721cd01cba7cce3371e049528e07bad30d6b3324ea72` |
 | Context-only accepted REV evidence-set SHA-256 / tree | `b95beff569794125018f2fde3d4d3317ed32278dfcfb1fc22a7d25cf51226bd9` / `d554c8c0c3d534aa96924f085a4dc007b25e3a3c` |
@@ -163,8 +170,34 @@ context/waves/2026-07-28-bastion-foundation/evidence/wp-tst-001/sets/EVID-WP-TST
 
 No other crate, source, fixture, generated, documentation, role, wave,
 TRACKER, submodule, CI, release, or configuration path is permitted. The
-implementation commit is one atomic commit directly after the accepted entry
-commit. Evidence is a separate later commit.
+original R14 implementation commit is retained as a failed direct child of the
+R14 entry and is never an implementation result or evidence base. A later R15
+acceptance and entry authorize exactly one corrective implementation commit as
+the direct non-merge child of the R15 entry. That corrective commit may change
+only the same 18 paths above.
+
+Two deltas are mandatory and distinct:
+
+1. `complete_implementation_delta` is computed from the original R14 entry
+   `6354f5184b97923571dcd397ac9871167833e86e` to the corrective implementation
+   commit. It must contain exactly the same 18-path A/M inventory fixed by R14
+   and supplies the implementation tree/content binding used by every mode.
+2. `corrective_delta` is computed from the separately accepted R15 entry to
+   its direct corrective child. It may contain any nonempty subset of those 18
+   paths, with no other path, and proves what corrected the retained failed
+   attempt.
+
+The evidence schemas' former `implementation_delta_base` is interpreted by
+R15 as `complete_implementation_delta_base` and equals the original R14 entry
+above. `corrective_entry_commit`, `corrective_entry_pulse_digest`,
+`failed_implementation_commit`, `failed_implementation_tree`, and
+`corrective_delta` are additional required bindings in every mode, review,
+execution-successor, receipt/finalization, author-custody, and set record.
+Their scalar/digest/canonical rules are identical to the corresponding closed
+R14 commit, digest, raw-delta, ordering, and omission rules. This amendment
+changes lineage custody only; every R14 path, schema, command, fixture, bound,
+trace, review, evidence, exit, rollback, and authority rule is otherwise
+normative. Evidence remains a separate later commit.
 
 ## 4. Exact package and dependency shape
 
@@ -2332,14 +2365,18 @@ revision's bytes.
 ## 9. Entry, stop, exit, and authority
 
 Acceptance of this candidate, if it occurs, authorizes only a later separate
-entry decision. The acceptance pulse binds the R14 artifact digest and all prior
+R15 corrective-entry decision. The acceptance pulse binds the R15 artifact
+digest, accepted R14 custody, the retained failed implementation, and all prior
 governance inputs, but never its own future commit. After it is committed, the
 entry pulse binds that acceptance commit and pulse digest, but never its own
-future commit. After entry is committed, evidence binds the resulting entry
-commit, entry-pulse digest, and entry tree. A clean isolated worktree starts at
-that entry commit, and the one atomic implementation commit is its first-parent,
-non-merge direct child. The exact allowlist, unchanged REV bytes, and no
-unrelated change are mandatory. WS remains
+future commit. After corrective entry is committed, evidence binds both the
+original R14 entry and the R15 corrective entry, both entry-pulse digests, the
+failed implementation identity, and the corrective implementation tree. A
+clean isolated worktree starts at the R15 entry commit, and the corrective
+implementation commit is its first-parent, non-merge direct child. Its complete
+implementation delta is still measured from the original R14 entry exactly as
+section 3 fixes. The exact allowlist, unchanged REV bytes, and no unrelated
+change are mandatory. WS remains
 the sole logical WP predecessor; current-main ancestry and co-membership do not
 create another WP predecessor.
 
@@ -2377,5 +2414,6 @@ evidence schema/destination, reviewer set, stop/exit rule, or rollback. After
 entry, any such change requires stop, retained evidence, and a separately
 accepted successor; it is not an implementation detail.
 
-Disposition: **exact WP candidate for independent review only; not accepted;
-not entered; no implementation or authority**.
+Disposition: **corrective lineage amendment candidate for independent review
+only; not accepted; not entered; retained failed implementation creates no
+evidence or authority**.
