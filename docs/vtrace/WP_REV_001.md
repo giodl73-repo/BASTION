@@ -79,9 +79,12 @@ All public types are non-operational, domain-neutral review-control types:
   successor never overwrites or reuses its predecessor identity. The digest
   domain is the externally canonical record payload excluding this binding, so
   it is not a self-referential hash; the crate validates and carries the bond.
-- `ReviewPolicy`: its own `RecordBinding`, exact bytewise-sorted required role
-  IDs, exact required assurance-gate IDs, and role-corpus version, frozen
-  independently before packet assembly.
+- `RequiredSet`: its own `RecordBinding` plus an exact bytewise-sorted unique
+  ID set. Separate sets exist for roles, assurance gates, evidence methods,
+  derivations, negative cases, unresolved questions, and trace links.
+- `ReviewPolicy`: its own `RecordBinding`, the seven exact `RequiredSet`
+  bindings above, and role-corpus version, frozen independently before packet
+  assembly.
 - `FrozenSubject`: subject ID, producer ID, subject digest, context digest,
   security-admission digest, review generation, admitted posture ID, and exact
   review-policy ID/digest/version.
@@ -92,35 +95,45 @@ All public types are non-operational, domain-neutral review-control types:
 - `Severity`: `Critical`, `Major`, `Minor`, or `Editorial`.
 - `FindingDisposition`: `Open`, `Remediated`, `Deferred`, `AcceptedRisk`, or
   `Rejected`.
-- `Finding`: `RecordBinding`, reviewed digest, role, severity, affected claim,
-  evidence IDs, disposition, owner, destination, controlled closure-condition
-  ID, independence, and retained dissent IDs. Closure content stays in the
-  external controlled corpus and cannot enter this crate.
+- `Finding`: `RecordBinding`, frozen subject ID/digest/context/admission/
+  generation, policy digest, role, severity, affected claim, evidence IDs,
+  disposition, owner, destination, controlled closure-condition ID,
+  independence, and retained dissent IDs. Closure content stays external.
 - `RoleDecision` and `AssuranceDecision`: their own `RecordBinding`, stable
-  role/gate ID, independent reviewer ID, policy digest, exact subject digests,
-  and `Pass`, `Hold`, or `Reject` disposition.
+  role/gate ID, independent reviewer ID, policy digest, frozen subject
+  ID/digest/context/admission/generation, and `Pass`, `Hold`, or `Reject`.
 - `EvidenceConflict`: `RecordBinding`, both evidence IDs/digests, highest plausible
   severity, owner, controlled resolution-trigger ID, and open/resolved state.
   Trigger content remains external and unrepresentable here.
 - `TraceLink`: `RecordBinding`, parent/child IDs and digests, owning stage, gate posture,
   evidence state, invalidation/supersession relation, and explicit next-stage
   non-authorizations; no domain value.
-- `FixedPointState`: `Candidate`, `Held`, `Passed`, `Rejected`, or
-  `Superseded`; only an exact accepted successor may supersede a prior state.
+- `ReviewDisposition`: `PassRecommended`, `Hold`, or `Reject`. It is a review
+  result only and is never a fixed-point or authority state.
+- `AcceptanceReceipt`: input-only external stage-governance record containing
+  its own `RecordBinding`, exact accepted review-decision binding, stage-
+  controller role ID, and governance-only acceptance posture. The evaluator
+  validates a supplied bond but cannot create one.
+- `PriorReviewSnapshot`: complete immutable prior decision binding and
+  disposition, subject/context/admission/policy bonds, external
+  `AcceptanceReceipt` when accepted, and exact retained prior finding, defer,
+  dissent, negative-evidence, conflict, and trace bindings.
 - `ReviewPacket`: its own `RecordBinding`, frozen subject, independently frozen
   `ReviewPolicy`, derivation record bindings, negative-case record bindings,
   unresolved-question record bindings, evidence, conflicts, findings, trace
-  links, role decisions, assurance decisions, dissent record bindings, current
-  fixed-point state, and optional prior review-decision binding. Required sets
-  come only from the policy, not caller-selected packet lists.
+  links, role decisions, assurance decisions, dissent record bindings, and
+  optional `PriorReviewSnapshot`. Every controlled packet list must equal its
+  separately digest-bound `RequiredSet`; caller-selected lists cannot narrow
+  or widen applicability.
 - `BlockerCode`: exhaustive stable reasons including digest/admission mismatch,
   self-approval, reviewer conflict, missing role/assurance/trace, failed gate,
   evidence-free pass, absent/failed/stale/conflicted evidence, incomplete
   finding/defer, orphan/duplicate trace, open conflict, open critical/major,
   false approval, invalid bound, and prohibited input surface.
 - `ReviewDecision`: its own caller-supplied prospective `RecordBinding`,
-  `Pass`, `Hold`, or `Reject`, fixed-point state, unchanged subject/context/
-  admission/policy digests, optional exact predecessor decision binding, and
+  `ReviewDisposition`, unchanged subject/context/admission/policy digests,
+  optional exact predecessor acceptance binding without a supersession claim,
+  and
   deterministically sorted blocker, finding, conflict, trace, and dissent
   bindings. The crate validates and carries external content digests; it does
   not generate or claim to cryptographically verify them.
@@ -129,8 +142,8 @@ The evaluator borrows immutable input, creates a new decision, performs no
 I/O, reads no ambient state, and exposes no producer mutation. `Pass` requires
 current passed evidence, exact subject/context/security-admission/policy
 agreement, distinct producer/reviewer identities, exact equality between the
-independently frozen policy sets and supplied role/assurance decisions, and
-every required trace link, zero failed gate or open conflict, zero incomplete
+  independently frozen policy sets and all seven supplied controlled sets,
+zero failed gate or open conflict, zero incomplete
 defer, and zero unresolved critical/major finding. Minor/editorial findings remain visible and
 explicitly dispositioned. The model has no free-form text, content, product,
 HND/terminal/release-request, or authority-effect field. Identifiers are opaque
@@ -140,10 +153,14 @@ references whose external meaning is never interpreted as evidence or authority.
 
 Constructors enforce before allocation-dependent work:
 
+The same per-class maxima apply separately to the current packet and its one
+optional immutable prior snapshot; deeper history is represented by digest
+links and is not recursively loaded.
+
 - at most 1,024 evidence rows, 1,024 findings, 1,024 trace links, 1,024 dissent
-  IDs, 256 conflicts, 128 required roles, 128 role decisions, 32 assurance
-  gates, 32 assurance decisions, and 128 evidence/dissent references per
-  finding;
+  IDs, 1,024 derivations, 1,024 negative cases, 1,024 unresolved questions,
+  256 conflicts, 128 required roles, 128 role decisions, 32 assurance gates,
+  32 assurance decisions, and 128 evidence/dissent references per finding;
 - each identifier at most 128 bytes; there is no free-form text or payload
   field, and closure/trigger content is referenced only by `Identifier`;
 - generation is `u64` and never incremented inside review;
@@ -180,8 +197,8 @@ Its SHA-256 is fixed at implementation review before evidence runs. Invocation:
 | `CMD-L1-DOC` | `L1Doc` | `cargo +1.95.0 doc --workspace --locked --offline --no-deps`, then `cargo +1.95.0 test -p bastion-review --doc --locked --offline` |
 | `CMD-L1-STATIC` | `L1Static` | fail on unsafe/FFI, panic escapes, unwrap/expect/todo/unimplemented, recursion, I/O, ambient state, any free-form/content/product/authority-effect field, forbidden paths, or producer dependency on `bastion-review` |
 | `CMD-L1-SUPPLY-CHAIN` | `L1SupplyChain` | Cargo metadata/lock assertion: one workspace package, zero external/transitive dependency, feature, build, proc-macro, native, registry, git, or path dependency |
-| `CMD-L2-CONTRACT-MATRIX` | `L2Contract` | execute every required TEST/TRACE identity/digest/version/policy/fixed-point bootstrap partition |
-| `CMD-L2-MODEL` | `L2Model` | exhaustive bounded state/trace/fixed-point/successor cases, append preservation, and deterministic permutation equality |
+| `CMD-L2-CONTRACT-MATRIX` | `L2Contract` | execute every required TEST/TRACE identity/digest/version/policy/acceptance-separation bootstrap partition |
+| `CMD-L2-MODEL` | `L2Model` | exhaustive bounded review-disposition/trace/successor cases, external-acceptance separation, append preservation, and deterministic permutation equality |
 | `CMD-L2-ADVERSARIAL` | `L2Adversarial` | stale/mismatch, self-approval, conflict, missing role/gate/trace, false-pass, duplicate/oversize, advocacy/classified-appeal substitution, dissent/defer attacks |
 | `CMD-L2-NO-EMISSION` | `L2NoAuthority` | prove no free-form or product payload, I/O, HND/TERM/REL/Taxlane output/request, product value, or authority-returning surface |
 
@@ -194,25 +211,30 @@ hashes, assertions, and negative cases.
 
 Positive cases: complete frozen security-admitted packet with derivations,
 negative cases, and unresolved questions; independently frozen applicability
-policy; exact role/assurance-set equality; both assurance gates; current passed
+policy; exact equality for all seven policy-bound sets; both assurance gates; current passed
 evidence; exact trace; explicitly
 dispositioned minor/editorial item; retained negative result and dissent;
-resolved conflict with retained predecessor; accepted successor and replay of
-prior current state; append-preserved prior finding/defer/dissent/negative
+resolved conflict with retained predecessor; successor recommendation with an
+exact externally accepted prior snapshot and replay of prior current state;
+append-preserved prior finding/defer/dissent/negative
 evidence; deterministic permutation; immutable repeat evaluation; valid
 Identifier and Digest256 lower/upper constructor boundaries.
 
 Fail-closed cases: subject/context/admission mismatch; zero or non-current
-evidence; missing derivation/negative-case/unresolved-question set;
+evidence; omitted or extra member in each evidence/derivation/negative-case/
+unresolved-question/trace/role/assurance set; required-set binding or digest
+substitution; each derivation/negative-case/unresolved-question bound plus one;
 self-approval/conflict; missing/duplicate role; missing/failed gate;
-policy ID/digest/version mismatch; omitted/extra applicable role or gate;
+policy ID/digest/version mismatch; context/admission-only substitution in
+evidence, finding, role, or assurance records;
 record ID/content-digest/version/predecessor substitution; non-monotone/broken
-successor; false supersession; illegal fixed-point transition;
+successor; missing/mismatched/forged external acceptance receipt; attempted
+caller assertion of accepted/superseded state (structurally absent);
 incomplete finding/defer; open conflict; open critical/major; orphan/duplicate/
 stale trace; planned-as-executed evidence; false approval; duplicate ID; every
 bound plus one; empty/oversize/non-ASCII/whitespace/control/illegal-character
 Identifier; short/long/uppercase/non-hex Digest256; erased or rewritten
-historical finding/defer/dissent/negative result; advocacy, credentials, or
+historical finding/defer/dissent/negative result or prior snapshot; advocacy, credentials, or
 inaccessible classified appeal represented as evidence; payload insertion
 through every identifier constructor; attempted HND/TERM/REL/Taxlane/
 official-use field or effect (structurally absent);
