@@ -1,4 +1,4 @@
-# WP-TST-001-R8 — total-observation boundary-test and fixture-custody bootstrap
+# WP-TST-001-R9 — lossless serial-observation boundary-test and fixture-custody bootstrap
 
 Status: `proposed; acceptance_candidate; not_accepted; not_entered`
 
@@ -10,14 +10,14 @@ configuration-only membership integration in `PB-WS-001`
 Logical WP predecessor: accepted `WP-WS-001` exit only. R1 commit
 `62116481b7b3e7d671517b6053c8cc3f20f93fce` and R2 commit
 `21c8066445c72358a444c0b506422ec3b9dc63e0` are retained governance history.
-After R8 acceptance, the entry commit and its direct implementation successor
+After R9 acceptance, the entry commit and its direct implementation successor
 must remain on the current governance/main lineage. Accepted REV is only a
 context co-member: workspace co-membership and Git ancestry are explicitly not
 WP-predecessor or dependency relationships.
 
 ## 1. Controlled baseline and custody
 
-The future acceptance commit must descend from R8 on current main; the entry
+The future acceptance commit must descend from R9 on current main; the entry
 commit must be its direct governance successor; and the one implementation
 commit must be the direct child of entry. Accepted `WP-WS-001` exit
 `cd1f1d75ec312789fed63a265219d8ad9069a17a` remains the sole logical WP
@@ -41,7 +41,10 @@ predecessor digest, or Cargo edge holds acceptance and entry.
 | Retained R6 WP SHA-256 / blob | `e155df20adac753a6b92cf2f36205233626c98551b0c7ac8459ff3a975dd0ced` / `34ba2c245c49478e32186fb5f7e4581e4a755847` |
 | Retained R7 governance commit (not accepted) | `3550c5deece2ec97207fbe8c1b4dda4c44d62a97` |
 | Retained R7 WP SHA-256 / blob | `e9b2c5e82a31eb6ee172f35fe06b2db46f3affcebae0f8b5391264cca59644ff` / `89ab301d7e3596fbb32678b84c1356a41b3f2bc0` |
-| Current R8 governance-line base before acceptance | `3550c5deece2ec97207fbe8c1b4dda4c44d62a97` |
+| Retained R8 governance commit (not accepted) | `264cff6959c74f4e9430fda3ca9e72b529da318a` |
+| Retained R8 WP SHA-256 / blob | `3165853787462ede6a39c154b060accd8d4ab43e83a36ea1373e5d01aaf86de7` / `41a279ad001ef327c8beb2b76d1ac5d2cb84e540` |
+| Retained R8 pulse SHA-256 / blob | `6e7344ec728788dd7df8289466a888ae4f545416fc18b09dd5d693578ce135fe` / `860d5da041418e08b79c4e6b33074f1fdc903292` |
+| Current R9 governance-line base before acceptance | `264cff6959c74f4e9430fda3ca9e72b529da318a` |
 | Context-only accepted REV exit | `ab227cc06f15299b594cfe2be99915bd93c4c081` |
 | Context-only accepted REV implementation commit / SHA-256 | `5c4e96306d3c463a44be7621371759da8bca399b` / `c5c2df1178568cd49b5d721cd01cba7cce3371e049528e07bad30d6b3324ea72` |
 | Context-only accepted REV evidence-set SHA-256 / tree | `b95beff569794125018f2fde3d4d3317ed32278dfcfb1fc22a7d25cf51226bd9` / `d554c8c0c3d534aa96924f085a4dc007b25e3a3c` |
@@ -361,11 +364,56 @@ is exact per mode and ordered by first internal use:
 | `L2HoldClosure` | `[cargo]` |
 | `L2NoAuthority` | `[cargo]` |
 
+R9 executes allocated targets only through the following serial protocol. The
+section 7 allocation order is immutable. The supervisor expands exactly one
+argv per allocation and never invokes libtest's default parallel scheduler or
+parses its human-readable summary. For Cargo-test modes the target argv is the
+mode's Cargo prefix through the exact `--test <test-binary>` pair, followed by
+the allocation's exact assertion string and then
+`-- --exact --test-threads=1 --nocapture`. `L1SupplyChain` instead uses exact
+argv `pwsh -NoLogo -NoProfile -NonInteractive -File tools/test_gate.ps1
+-AssertTarget <assertion>`. No shell joining or alternate filter is permitted.
+
+Immediately before each child launch the supervisor create-new writes and
+flushes one canonical `target-attempt.v1` start record with exact keys
+`mode,ordinal,controlled_id,assertion,argv,start_utc`; only after that durable
+write may it launch the child. It waits for that child to exit before starting
+the next allocation. On normal completion it create-new writes a canonical
+`target-completion.v1` record with exact keys
+`mode,ordinal,exit,state,reason,stdout_sha256,stderr_sha256,end_utc`. The
+completion record is never inferred from libtest text. A start without a
+completion proves the unique active target on timeout, bound kill, crash, or
+supervisor loss; no second start may exist until the first completion exists.
+On restart the supervisor scans the create-new ledger before any launch; an
+unpaired start is finalized only as the same target's terminal failed result by
+a new recovery record that binds the start digest and observed Job/process
+termination custody. It never overwrites the start or retries that target.
+The supervisor derives `target_results` solely from this start/completion
+ledger, and every later allocation is not-run after a terminal event.
+
+For a mode with allocations, section 6's JSON argv value is the normative
+command template, while evidence `exact_argv` is the complete allocation-order
+array of its expanded per-target argv arrays (`0..148`); a mode without an
+allocation retains the one template invocation. Every expanded argv and both
+ledger-record digests are independently retained in its same-index
+`TargetResult`. Reorder, duplicate start, completion without start, two active
+targets, aggregate test invocation, `--test-threads` other than `1`, missing
+`--exact`, or text-derived target state rejects.
+
+The runner derives its only repository root before any observation: it resolves
+the absolute raw filesystem path of its own `tools/test_gate.ps1`, removes the
+literal final `tools/test_gate.ps1`, then requires
+`git -C <candidate-root> rev-parse --show-toplevel` to return that same absolute
+path after Windows handle-based normalization. Different roots, symlink/junction
+redirection, relative cwd, drive-relative form, or a caller cwd rejects. Every
+child process receives that exact root as cwd and every Git argv contains
+`-C <absolute-repo-root>`.
+
 The preflight uses only the following literal Git argv arrays, substituting the
 already bound lowercase commit/object IDs as single arguments. All invocations
 run with exact environment additions `GIT_CONFIG_NOSYSTEM=1`,
 `GIT_CONFIG_SYSTEM=NUL`, `GIT_CONFIG_GLOBAL=NUL`, and
-`GIT_ATTR_NOSYSTEM=1`; the otherwise sanitized environment contains no other
+`GIT_ATTR_NOSYSTEM=1`, `GIT_OPTIONAL_LOCKS=0`; the otherwise sanitized environment contains no other
 `GIT_*` variable. All invocations fix the same configuration in the same order.
 The local configuration cannot be disabled by Git and therefore is captured
 byte-for-byte before and after the observations; named semantic controls are
@@ -376,15 +424,28 @@ neutralized by the two `NUL` values. Rename detection is enabled,
 unlimited, Myers-based, and exact-content-only (`100%`); no Git default may
 alter it.
 
+The common command-line configuration is additionally exact
+`status.relativePaths=false`, `core.precomposeUnicode=false`,
+`core.ignoreCase=false`, and `submodule.recurse=false`. Every command that
+accepts a pathspec ends with the one literal top-root pathspec
+`--`, `:(top,glob)**`; no implicit prefix, cwd-relative default, exclude magic,
+attribute-selected pathset, or caller pathspec is allowed. All commands are
+read-only under optional-lock suppression.
+
 ```json
 {
-  "local_config_before": ["git","-c","core.autocrlf=false","-c","core.safecrlf=false","-c","core.quotepath=false","-c","core.excludesFile=NUL","-c","core.attributesFile=NUL","-c","diff.renames=true","-c","status.renames=true","-c","diff.renameLimit=0","-c","diff.algorithm=myers","config","--local","--null","--list","--show-origin"],
-  "committed_status": ["git","-c","core.autocrlf=false","-c","core.safecrlf=false","-c","core.quotepath=false","-c","core.excludesFile=NUL","-c","core.attributesFile=NUL","-c","diff.renames=true","-c","status.renames=true","-c","diff.renameLimit=0","-c","diff.algorithm=myers","diff","--raw","-z","--no-abbrev","--full-index","--no-ext-diff","--find-renames=100%","--diff-filter=AMDR","<entry_commit>","<implementation_commit>","--"],
-  "porcelain_state": ["git","-c","core.autocrlf=false","-c","core.safecrlf=false","-c","core.quotepath=false","-c","core.excludesFile=NUL","-c","core.attributesFile=NUL","-c","diff.renames=true","-c","status.renames=true","-c","diff.renameLimit=0","-c","diff.algorithm=myers","status","--porcelain=v2","-z","--untracked-files=all","--ignored=matching","--find-renames=100%"],
-  "binary_diff": ["git","-c","core.autocrlf=false","-c","core.safecrlf=false","-c","core.quotepath=false","-c","core.excludesFile=NUL","-c","core.attributesFile=NUL","-c","diff.renames=true","-c","status.renames=true","-c","diff.renameLimit=0","-c","diff.algorithm=myers","diff","--binary","--full-index","--no-ext-diff","--find-renames=100%","<entry_commit>","<implementation_commit>","--"],
-  "tree_inventory": ["git","-c","core.autocrlf=false","-c","core.safecrlf=false","-c","core.quotepath=false","-c","core.excludesFile=NUL","-c","core.attributesFile=NUL","-c","diff.renames=true","-c","status.renames=true","-c","diff.renameLimit=0","-c","diff.algorithm=myers","ls-tree","-r","-z","--full-tree","<implementation_commit>","--"],
-  "blob_bytes": ["git","-c","core.autocrlf=false","-c","core.safecrlf=false","-c","core.quotepath=false","-c","core.excludesFile=NUL","-c","core.attributesFile=NUL","-c","diff.renames=true","-c","status.renames=true","-c","diff.renameLimit=0","-c","diff.algorithm=myers","cat-file","blob","<object-id>"],
-  "local_config_after": ["git","-c","core.autocrlf=false","-c","core.safecrlf=false","-c","core.quotepath=false","-c","core.excludesFile=NUL","-c","core.attributesFile=NUL","-c","diff.renames=true","-c","status.renames=true","-c","diff.renameLimit=0","-c","diff.algorithm=myers","config","--local","--null","--list","--show-origin"]
+  "root_discovery": ["git","-C","<candidate-root>","rev-parse","--show-toplevel"],
+  "git_dir": ["git","-C","<absolute-repo-root>","rev-parse","--path-format=absolute","--git-dir"],
+  "common_dir": ["git","-C","<absolute-repo-root>","rev-parse","--path-format=absolute","--git-common-dir"],
+  "index_path": ["git","-C","<absolute-repo-root>","rev-parse","--path-format=absolute","--git-path","index"],
+  "local_config_before": ["git","-C","<absolute-repo-root>","-c","core.autocrlf=false","-c","core.safecrlf=false","-c","core.quotepath=false","-c","core.excludesFile=NUL","-c","core.attributesFile=NUL","-c","diff.renames=true","-c","status.renames=true","-c","diff.renameLimit=0","-c","diff.algorithm=myers","-c","status.relativePaths=false","-c","core.precomposeUnicode=false","-c","core.ignoreCase=false","-c","submodule.recurse=false","config","--null","--list","--show-origin","--show-scope"],
+  "committed_status": ["git","-C","<absolute-repo-root>","-c","core.autocrlf=false","-c","core.safecrlf=false","-c","core.quotepath=false","-c","core.excludesFile=NUL","-c","core.attributesFile=NUL","-c","diff.renames=true","-c","status.renames=true","-c","diff.renameLimit=0","-c","diff.algorithm=myers","-c","status.relativePaths=false","-c","core.precomposeUnicode=false","-c","core.ignoreCase=false","-c","submodule.recurse=false","diff","--raw","-z","--no-abbrev","--full-index","--no-ext-diff","--find-renames=100%","--diff-filter=AMDR","<entry_commit>","<implementation_commit>","--",":(top,glob)**"],
+  "porcelain_state_before": ["git","-C","<absolute-repo-root>","-c","core.autocrlf=false","-c","core.safecrlf=false","-c","core.quotepath=false","-c","core.excludesFile=NUL","-c","core.attributesFile=NUL","-c","diff.renames=true","-c","status.renames=true","-c","diff.renameLimit=0","-c","diff.algorithm=myers","-c","status.relativePaths=false","-c","core.precomposeUnicode=false","-c","core.ignoreCase=false","-c","submodule.recurse=false","status","--porcelain=v2","-z","--untracked-files=all","--ignored=matching","--find-renames=100%","--",":(top,glob)**"],
+  "binary_diff": ["git","-C","<absolute-repo-root>","-c","core.autocrlf=false","-c","core.safecrlf=false","-c","core.quotepath=false","-c","core.excludesFile=NUL","-c","core.attributesFile=NUL","-c","diff.renames=true","-c","status.renames=true","-c","diff.renameLimit=0","-c","diff.algorithm=myers","-c","status.relativePaths=false","-c","core.precomposeUnicode=false","-c","core.ignoreCase=false","-c","submodule.recurse=false","diff","--binary","--full-index","--no-ext-diff","--find-renames=100%","<entry_commit>","<implementation_commit>","--",":(top,glob)**"],
+  "tree_inventory": ["git","-C","<absolute-repo-root>","-c","core.autocrlf=false","-c","core.safecrlf=false","-c","core.quotepath=false","-c","core.excludesFile=NUL","-c","core.attributesFile=NUL","-c","diff.renames=true","-c","status.renames=true","-c","diff.renameLimit=0","-c","diff.algorithm=myers","-c","status.relativePaths=false","-c","core.precomposeUnicode=false","-c","core.ignoreCase=false","-c","submodule.recurse=false","ls-tree","-r","-z","--full-tree","<implementation_commit>","--",":(top,glob)**"],
+  "blob_bytes": ["git","-C","<absolute-repo-root>","-c","core.autocrlf=false","-c","core.safecrlf=false","-c","core.quotepath=false","-c","core.excludesFile=NUL","-c","core.attributesFile=NUL","-c","diff.renames=true","-c","status.renames=true","-c","diff.renameLimit=0","-c","diff.algorithm=myers","-c","status.relativePaths=false","-c","core.precomposeUnicode=false","-c","core.ignoreCase=false","-c","submodule.recurse=false","cat-file","blob","<object-id>"],
+  "porcelain_state_after": ["git","-C","<absolute-repo-root>","-c","core.autocrlf=false","-c","core.safecrlf=false","-c","core.quotepath=false","-c","core.excludesFile=NUL","-c","core.attributesFile=NUL","-c","diff.renames=true","-c","status.renames=true","-c","diff.renameLimit=0","-c","diff.algorithm=myers","-c","status.relativePaths=false","-c","core.precomposeUnicode=false","-c","core.ignoreCase=false","-c","submodule.recurse=false","status","--porcelain=v2","-z","--untracked-files=all","--ignored=matching","--find-renames=100%","--",":(top,glob)**"],
+  "local_config_after": ["git","-C","<absolute-repo-root>","-c","core.autocrlf=false","-c","core.safecrlf=false","-c","core.quotepath=false","-c","core.excludesFile=NUL","-c","core.attributesFile=NUL","-c","diff.renames=true","-c","status.renames=true","-c","diff.renameLimit=0","-c","diff.algorithm=myers","-c","status.relativePaths=false","-c","core.precomposeUnicode=false","-c","core.ignoreCase=false","-c","submodule.recurse=false","config","--null","--list","--show-origin","--show-scope"]
 }
 ```
 
@@ -395,10 +456,11 @@ by `OLD_PATH NUL NEW_PATH NUL`; modes are six octal digits and object IDs are
 40 lowercase hex digits. Any other status/score, field arity, delimiter,
 object width, or path count rejects. `tree_inventory` accepts only
 `MODE SP TYPE SP OBJECT TAB PATH NUL`, with six-octal-digit mode, literal type
-`blob`, 40-lowercase-hex object ID, and one safe path. The local-config and
+`blob`, 40-lowercase-hex object ID, and one raw path token retained as
+`RawGitPath`. The local-config and
 binary-diff streams are retained raw and not text-parsed; every blob stream is
 retained as opaque object bytes.
-`porcelain_state` accepts only NUL-terminated records with these exact
+Both `porcelain_state_before` and `porcelain_state_after` accept only NUL-terminated records with these exact
 space-delimited prefixes and arities (the final path is the uninterpreted
 remainder and may contain spaces): `1 XY SUB mH mI mW hH hI PATH`; `2 XY SUB mH
 mI mW hH hI XNNN PATH`, immediately followed by one `ORIG_PATH` NUL token;
@@ -426,7 +488,7 @@ one implementation commit, implementation/test/fixture-manifest/WP/
 acceptance/runner/root-manifest/lock/WS predecessor digest, exact argv,
 sanitized-environment digest, start/end/duration, bounds, per-command exit and
 stream hashes/bytes, combined bytes, assertions, executed case target, and
-result in canonical `test-gate-evidence.v5` JSON. All 16 modes must pass at
+result in canonical `test-gate-evidence.v6` JSON. All 16 modes must pass at
 one identical binding. A zero-test target, skipped target, missing field,
 mutation during a run, mismatched digest, or output after supervisor failure
 is a failure.
@@ -867,7 +929,7 @@ invalid and non-promotable.
 
 Section 7 is retained byte-identically from R7. Its legacy phrase
 `executed_targets evidence field` names the allocation association only; in
-the R8 schema that association is represented without ambiguity by immutable
+the R9 schema that association is represented without ambiguity by immutable
 `allocated_targets` plus same-cardinality observed `target_results`.
 
 ### 8.1 Canonical encoding and closed primitive types
@@ -890,7 +952,7 @@ Unless a literal, enum, regex, or smaller bound is stated, every string is
 | `SAFE_ID` | string matching `^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*$`, `1..128` bytes |
 | `ASSERTION` | string matching `^[a-z][a-z0-9_]*::[a-z][a-z0-9_]*$`, `3..128` bytes |
 | `REL_PATH` | string `1..240` bytes, forward slashes, no empty/`.`/`..` segment, no leading slash, drive prefix, backslash, colon, URI scheme, percent escape, NUL, or symlink resolution; bytewise equal to an allowlisted section 3 path |
-| `OBS_PATH` | same lexical/path-safety constraints as `REL_PATH` but need not be allowlisted; used only to retain an observed extra, nonallowlisted, rename-source, untracked, or ignored path |
+| `RawGitPath` | closed object with exact keys `encoding,content,decoded_byte_count,decoded_sha256`; encoding literal `base64`; content canonical padded RFC 4648 and bounded by the 10 MiB observation stream; count uint64 equals decoded bytes; digest hashes them; decoded bytes are nonempty and contain no NUL, but every other byte including invalid UTF-8, control, TAB, LF, CR, backslash, and colon is retained losslessly; a token that crosses the stream bound is not fabricated as a path and terminates with `stream-bound` while raw stream hash/length remain retained |
 | `UTC` | string matching `^20[0-9]{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]\.[0-9]{3}Z$`, a valid Gregorian instant |
 | `LANE` | one exact lane string at the index table in section 8.5 |
 | `REVIEWER_ID` | string matching `^REV-[A-Z0-9][A-Z0-9-]{0,59}$`; unique natural person or separately authorized agent identity across the 22 current slots |
@@ -903,12 +965,12 @@ must recompute from the named bytes; merely matching `DIGEST` syntax is not
 sufficient. No unstated coercion, default, additional property, alternate
 encoding, or nullable value exists.
 
-### 8.2 Closed `test-gate-evidence.v5` mode schema
+### 8.2 Closed `test-gate-evidence.v6` mode schema
 
 The exact ordered top-level keys are:
 `schema,evidence_id,mode,evidence_version,evidence_path,wp_id,
 wp_artifact_digest,acceptance_binding,entry_binding,implementation_binding,
-logical_predecessor_commit,context_rev_binding,identity_custody,artifact_digests,
+logical_predecessor_commit,context_rev_binding,identity_registry,candidate_author_ids,artifact_digests,
 trace_manifest_digest,allocated_targets,target_results,fixture_bindings,command_identity,
 exact_argv,tool_versions,environment_digest,resource_bounds,
 determinism_controls,expected,actual,observed_outputs,rollback_plan,
@@ -918,26 +980,27 @@ predecessor_evidence,history,evidence_digest`.
 
 | Ordered field | Exact rule |
 |---|---|
-| `schema` | string literal `test-gate-evidence.v5` |
+| `schema` | string literal `test-gate-evidence.v6` |
 | `evidence_id` | string exactly `EVID-WP-TST-001-<mode>-vNNNN` |
 | `mode` | `MODE` |
 | `evidence_version` | `VERSION` |
 | `evidence_path` | string exactly `context/waves/2026-07-28-bastion-foundation/evidence/wp-tst-001/runs/<mode>/<evidence_id>.json` |
 | `wp_id` | string literal `WP-TST-001` |
-| `wp_artifact_digest` | `DIGEST` of independently accepted R8 bytes |
+| `wp_artifact_digest` | `DIGEST` of independently accepted R9 bytes |
 | `acceptance_binding` | closed `AcceptanceBinding` below |
 | `entry_binding` | closed `EntryBinding` below |
 | `implementation_binding` | closed `ImplementationBinding` below |
 | `logical_predecessor_commit` | literal `cd1f1d75ec312789fed63a265219d8ad9069a17a` |
 | `context_rev_binding` | closed `ContextRevBinding` below |
-| `identity_custody` | closed `IdentityCustody` below; byte-identical candidate-wide |
+| `identity_registry` | exact six-element source-order array of closed `AuthorBinding` objects below; mode-evidence binding matches this mode and review successors retain it byte-identically |
+| `candidate_author_ids` | exact bytewise-sorted unique projection of every registry author/controller ID |
 | `artifact_digests` | exactly 18 closed `ArtifactBinding` objects, strictly sorted and unique by `path`, one for every section 3 path; equality/null/reason rules below |
 | `trace_manifest_digest` | `DIGEST` of the accepted exact 123-identity/148-edge manifest |
 | `allocated_targets` | immutable `0..148` closed `AllocatedTarget` objects in exact section 7 allocation order for `mode`; empty exactly when that mode has no edge |
 | `target_results` | exactly one closed `TargetResult` per allocated target in identical order and identity; states/reasons/pointers and prefix rule below |
 | `fixture_bindings` | exactly four closed `FixtureBinding` objects in ascending `fixture_id` order; exactly the current rows in section 5 |
 | `command_identity` | exact section 6 `CMD-*` identity selected by `mode` |
-| `exact_argv` | exactly the selected section 6 JSON value: ordered array of `1..2` argv arrays, each `1..16` literal strings of `1..128` bytes; no joining, shell spelling, or prose reconstruction |
+| `exact_argv` | exact section 6 serial expansion: `0..148` per-target argv arrays in allocation order, or the selected template only for an unallocated mode; no joining, shell spelling, aggregate libtest execution, or prose reconstruction |
 | `tool_versions` | exactly the selected section 6 per-mode tuple sequence; closed `ToolVersion` objects in first-use order, unique by `tool` |
 | `environment_digest` | `DIGEST` of the bytewise-name-sorted sanitized `<name><TAB><value><LF>` sequence; names match `^[A-Z][A-Z0-9_]{0,63}$`, values are `0..128` printable-ASCII bytes, and duplicate names reject |
 | `resource_bounds` | closed `ResourceBounds` below |
@@ -966,14 +1029,14 @@ shown; all members are non-null unless stated otherwise:
 
 | Type | Ordered members and exact rules |
 |---|---|
-| `AcceptanceBinding` | `commit:GIT_ID,pulse_digest:DIGEST`; commit is the committed R8 acceptance pulse and that pulse hashes R8 and earlier inputs, never its own commit |
+| `AcceptanceBinding` | `commit:GIT_ID,pulse_digest:DIGEST`; commit is the committed R9 acceptance pulse and that pulse hashes R9 and earlier inputs, never its own commit |
 | `EntryBinding` | `commit:GIT_ID,pulse_digest:DIGEST,tree_digest:GIT_ID`; commit is the direct governance child of acceptance and its pulse binds acceptance, never its own commit |
 | `ImplementationBinding` | exact ordered keys `commit,tree_digest,first_parent,allowed_paths,observed_preflight`; commit/tree/parent use the prior constraints; allowed paths are the exact 18 section 3 paths in bytewise order; preflight is the closed object below |
 | `ContextRevBinding` | `exit_commit:GIT_ID,implementation_digest:DIGEST,evidence_set_digest:DIGEST,evidence_tree_digest:GIT_ID,unchanged_result_digest:DIGEST`; values are exactly `ab227cc06f15299b594cfe2be99915bd93c4c081`,`c5c2df1178568cd49b5d721cd01cba7cce3371e049528e07bad30d6b3324ea72`,`b95beff569794125018f2fde3d4d3317ed32278dfcfb1fc22a7d25cf51226bd9`,`d554c8c0c3d534aa96924f085a4dc007b25e3a3c`,`f0a15398cc87614cc904cbaa28459ef65ebc267ed70349e46f86f743ebd708c6`; the last hashes exact UTF-8 `rev_unchanged=true<LF>` and proves context only |
-| `IdentityCustody` | exact ordered keys `author_id,controller_id,source,authentication_digest,digest`; IDs are distinct `REVIEWER_ID`-domain principal values authenticated before the candidate run; source literal `supervisor-authenticated`; authentication digest binds the immutable supervisor authentication record; digest hashes exact UTF-8 `author=<author_id><LF>controller=<controller_id><LF>source=supervisor-authenticated<LF>authentication=<authentication_digest><LF>` |
+| `AuthorBinding` | exact ordered keys `source_kind,source_ref,source_digest,author_id,controller_id,binding_digest`; kind is `wp_candidate|acceptance_pulse|entry_pulse|implementation_commit|mode_evidence|set_evidence` in that order; IDs are `REVIEWER_ID`; binding digest hashes canonical preceding fields and never an enclosing evidence/set digest |
 | `ArtifactBinding` | `path:REL_PATH,expected_sha256:DIGEST|null,actual_sha256:DIGEST|null,reason:null|enum(missing,deleted,renamed,substituted,unreadable)`; when a same-path row exists the digests/reason equal it; total read/Git failure permits both null with unreadable; reason is null iff both digests are non-null and equal |
 | `AllocatedTarget` | exact ordered keys `controlled_id,assertion`; pair must be one exact section 7 edge assigned to this mode; lane strings are admitted only where section 7 uses them |
-| `TargetResult` | exact ordered keys `controlled_id,assertion,state,reason,output_pointer`; identity equals same-index allocation; state enum `not_run|passed|failed|held`; reason/pointer obey the exhaustive target table below |
+| `TargetResult` | exact ordered keys `controlled_id,assertion,attempt_ordinal,attempt_argv,start_record_digest,completion_record_digest,recovery_record_digest,state,reason,output_pointer`; identity/ordinal/argv equal same-index allocation and section 6 serial expansion; all three record digests are null for not-run; normal attempts have start/completion non-null and recovery null; only a supervisor-loss terminal has start/recovery non-null and completion null, with recovery binding that start; state/reason/pointer obey the exhaustive target table below |
 | `FixtureBinding` | `fixture_id:SAFE_ID,version:VERSION,source_id:SAFE_ID,source_digest:DIGEST,custody_id:SAFE_ID,custody_digest:DIGEST,input_digest:DIGEST,supersession_state:enum(current,superseded)`; values equal one current section 5 row, so all four are `current` in an executable set |
 | `ToolVersion` | exact ordered keys `tool,version,digest_source,digest_preimage,digest`; tool/version/source/digest equal the selected section 6 tuple; source enum `version-preimage|artifact-bytes`; preimage is the exact printable string with literal `<LF>` tokens for version-preimage or literal `tools/test_gate.ps1:raw-bytes` for artifact-bytes; digest recomputes from the described bytes |
 | `ResourceBounds` | `wall_seconds:60,process_tree_bytes:1073741824,combined_stream_bytes:10485760`; all JSON integers |
@@ -982,18 +1045,44 @@ shown; all members are non-null unless stated otherwise:
 | `ActualResult` | `exit:integer 0..255|null,result:enum(passed,failed,not-run),posture:enum(promotable,non-promotable),reason:enum(expected-outcome,preflight-failed,command-not-started,target-held,unexpected-exit,assertion-failure,bound-exceeded,binding-mismatch,conflict),start_utc:UTC,end_utc:UTC,duration_ms:integer 0..60000`; end is not earlier than start and duration equals their millisecond difference; exit is null iff no internal argv began |
 | `EvidenceBinding` | `evidence_id:string,evidence_path:string,evidence_version:VERSION,evidence_digest:DIGEST`; ID/path use the same mode and bound version formulas and digest hashes that immutable predecessor |
 
+Identity extraction is literal and total. `wp_candidate` hashes committed
+`pulse-21-wp-tst-001-r9-candidate.md` bytes and extracts its sole fenced
+`vtrace-author-custody.v1` block with exact LF rows `subject=WP-TST-001-R9`,
+`author_id=REV-TST-WP-AUTHOR`, `controller_id=REV-TST-GOVERNANCE-CONTROLLER`,
+`subject_digest=<wp_artifact_digest>`. `acceptance_pulse` and `entry_pulse`
+similarly use future committed pulses 22 and 23, subjects
+`WP-TST-001-R9-ACCEPTANCE` and `WP-TST-001-R9-ENTRY`, authors
+`REV-TST-ACCEPTANCE-AUTHOR` and `REV-TST-ENTRY-AUTHOR`, governance controller,
+and subject digests respectively equal to the WP and acceptance-pulse digests.
+Their source digests hash complete raw pulse bytes.
+
+`implementation_commit` hashes raw `git cat-file commit` bytes and extracts
+exactly one final ordered trailer pair `Vtrace-Author-Id:
+REV-TST-IMPLEMENTATION-AUTHOR` and `Vtrace-Controller-Id:
+REV-TST-IMPLEMENTATION-CONTROLLER`. `mode_evidence` and `set_evidence` hash
+canonical LF rows `schema=vtrace-evidence-custody.v1`, `scope=<mode-or-SET>`,
+`evidence_id=<initial-id>`, `author_id=REV-TST-EVIDENCE-AUTHOR`,
+`controller_id=REV-TST-EVIDENCE-CONTROLLER`, and
+`wp_digest=<wp_artifact_digest>`. Missing/duplicate/reordered source fields,
+working-tree substitution, caller identity, digest mismatch, or any author/
+controller not projected into `candidate_author_ids` rejects. Thus no candidate
+author can be omitted from independence checks.
+Source refs are respectively the committed R9 candidate, acceptance, entry,
+and implementation commit IDs, the initial mode evidence ID, and the initial
+set evidence ID; each must resolve to the exact source just described.
+
 Target-result optionality is exact:
 
 | State | Exact reason | Exact output pointer |
 |---|---|---|
 | `passed` | null | `/observed_outputs/structured/content` |
 | `held` | `expected-hold|dependency-hold` | `/observed_outputs/structured/content` |
-| `failed` | `assertion-failed|timeout|bound-kill|crash|unexpected-exit` | one `OUTPUT_POINTER` |
+| `failed` | `assertion-failed|timeout|bound-kill|crash|supervisor-loss|unexpected-exit` | one `OUTPUT_POINTER` |
 | `not_run` | `preflight-failed|command-not-started|after-terminal` | null |
 
 `target_results` always has allocation cardinality; an attempted prefix is
 represented by states, never by truncation or omission. The first
-`timeout|bound-kill|crash|unexpected-exit` is terminal. If it occurs while a
+`timeout|bound-kill|crash|supervisor-loss|unexpected-exit` is terminal. If it occurs while a
 target is active, that target is failed with the terminal reason; every later
 allocation is `not_run/after-terminal/null`. If termination occurs before or
 between targets, the completed prefix is retained and every remaining target
@@ -1025,9 +1114,11 @@ untracked_paths,ignored_paths,expected_manifest_digest,actual_manifest_digest,
 failure_reasons,preflight_digest`. Status is `pass|failure`.
 
 `git_observations` is exactly the closed sequence in section 6 command-ID
-order: one `local_config_before`, one `committed_status`, one `porcelain_state`, one
+order: `root_discovery,git_dir,common_dir,index_path,local_config_before,
+committed_status,porcelain_state_before`, one
 `binary_diff`, one `tree_inventory`, then one `blob_bytes` object for every
-tree-inventory object in emission order, then one `local_config_after`. Thus no
+tree-inventory object in emission order, then `porcelain_state_after,
+local_config_after`. Thus no
 Git invocation is aggregated away or omitted.
 Each has ordered keys
 `command_id,argv,exit,stdout_byte_count,stdout_sha256,stderr_byte_count,
@@ -1039,17 +1130,24 @@ iff exit is 0 and parsing is complete, otherwise
 `blob_bytes` object retains its substituted object ID in argv and its own raw
 stdout/stderr byte counts and hashes. The before/after local-config observations
 must have byte-identical stdout/stderr, proving that complete raw local
-configuration custody did not change during observation.
+effective local/worktree/command-scope configuration custody did not change
+during observation.
 
-`repository_inputs` is a closed object with ordered keys `before,after`; each
-is exactly two closed `InfoFileBinding` objects in path order
-`.git/info/attributes`, `.git/info/exclude`. An `InfoFileBinding` has exact keys
-`path,state,byte_count,sha256`: state is `absent|present`; absent requires zero
-and null, while present requires uint64 exact raw byte count and `DIGEST` of
-those bytes. Before and after arrays must be byte-identical. These bindings
-close the repository-local attribute/exclude inputs that Git cannot disable;
-system/global inputs remain disabled and command-line configuration overrides
-all relevant local keys.
+`repository_inputs` is a closed object with exact ordered keys
+`repo_root,git_dir,common_dir,index_path,index_before,index_after,
+common_inputs_before,common_inputs_after`. The four paths equal the raw
+absolute outputs of the discovery commands after handle normalization; git-dir
+and common-dir may differ in a linked worktree, and index path is resolved from
+git-dir, never assumed under `.git`. Each index binding and each common-input
+binding is a closed `FileBinding` with exact keys
+`absolute_path,state,byte_count,sha256`: state is `absent|present`; absent
+requires zero/null, present requires exact uint64 raw byte count and digest.
+Common inputs are exactly `<common-dir>/info/attributes` then
+`<common-dir>/info/exclude`. Before/after index bindings and common-input arrays
+must be byte-identical, as must raw stdout/stderr for the two porcelain and two
+local-config observations. This is the before/after nonmutation custody for the
+index and worktree view; a change is terminal failure. System/global inputs
+remain disabled and all remaining repository-local inputs are bound.
 
 `rows`, `missing_paths`, `extra_paths`, `dirty_paths`, `staged_paths`,
 `untracked_paths`, and `ignored_paths` are closed `TotalList` objects with exact
@@ -1066,25 +1164,28 @@ is no smaller arbitrary ceiling. `full_set_digest` is always `DIGEST` over
 and `<LF>` in authoritative order; for terminal parsing it additionally ends
 `terminal=<reason><LF>`. The streaming digest covers the full observed set,
 including every unretained member and the item that triggered count overflow.
+Every Git-derived path collection is ordered by unsigned decoded raw-path
+bytes, never Unicode, locale, case folding, quoted display, or base64 spelling;
+duplicate decoded byte strings reject even if encoded differently.
 
 Each row item is a closed `ObservedDeltaRow` with exact keys
-`path,classification,git_status,old_path,expected_sha256,actual_sha256,reason`.
+`path,allowlisted_path,classification,git_status,old_path,expected_sha256,actual_sha256,reason`.
 Classification is `matched|missing|extra|nonallowlisted|deleted|renamed|
-substituted`; path is `REL_PATH` for matched/missing/deleted/substituted and
-`OBS_PATH` for extra/nonallowlisted/renamed; Git status is `A|M|D|R|null`; old
-path is `OBS_PATH|null`; expected
+substituted`; `path` is always `RawGitPath`; `allowlisted_path` is a `REL_PATH`
+only when decoded bytes are exactly that path's UTF-8 bytes and otherwise null;
+Git status is `A|M|D|R|null`; old path is `RawGitPath|null`; expected
 and actual hashes are independently `DIGEST|null`; reason is null or the same
 non-matched classification. Coherence is exhaustive:
 
-| Classification | Git / old path | Expected / actual digest | Reason |
+| Classification | Allowlisted / Git / old path | Expected / actual digest | Reason |
 |---|---|---|---|
-| `matched` | `A|M` / null | both non-null and equal | null |
-| `missing` | null / null | non-null / null | `missing` |
-| `extra` | `A|M` / null | null / non-null | `extra` |
-| `nonallowlisted` | `A|M` / null | null / non-null | `nonallowlisted` |
-| `deleted` | `D` / null | non-null / null | `deleted` |
-| `renamed` | `R` / distinct non-null | expected nullable / non-null | `renamed` |
-| `substituted` | `A|M` / null | both non-null and unequal | `substituted` |
+| `matched` | non-null / `A|M` / null | both non-null and equal | null |
+| `missing` | non-null / null / null | non-null / null | `missing` |
+| `extra` | null / `A|M` / null | null / non-null | `extra` |
+| `nonallowlisted` | null / `A|M` / null | null / non-null | `nonallowlisted` |
+| `deleted` | non-null / `D` / null | non-null / null | `deleted` |
+| `renamed` | nullable / `R` / distinct non-null | expected nullable / non-null | `renamed` |
+| `substituted` | non-null / `A|M` / null | both non-null and unequal | `substituted` |
 
 Row authoritative order is committed-status emission order, followed by
 missing allowed paths in allowed-path order. No expected row is fabricated for
@@ -1092,7 +1193,8 @@ an absent observation and no D/R/extra row is discarded. An unlisted target
 under `crates/bastion-boundary-tests/`, `fixtures/bootstrap/`, or `tools/` is
 `extra`; every other unlisted target is `nonallowlisted`. Rename classification
 takes precedence while its target also appears in extra paths when unlisted.
-Porcelain authoritative order supplies dirty/staged/untracked/ignored lists;
+Porcelain authoritative order supplies dirty/staged/untracked/ignored lists,
+whose retained items are `RawGitPath` objects;
 missing/extra are exact row projections. Duplicate logical paths reject.
 
 Failure reasons are the exact applicable subset of the following enum, emitted
@@ -1106,7 +1208,8 @@ Git/read/terminal failure makes that full side unobservable. Equality is
 required only for pass. `preflight_digest` is last and omits only itself.
 
 Preflight is pass iff every required Git observation is complete/zero/null-reason,
-the two local-config streams and repository-input snapshots are byte-identical;
+the two local-config streams, two porcelain streams, index bindings, and
+repository-input snapshots are byte-identical;
 all seven lists have exact count state; rows contain exactly 18 matched allowed
 paths with required A/M status; every other list is empty; both manifest
 digests are non-null/equal; and the 18 artifact bindings equal the allowed-row
@@ -1283,8 +1386,17 @@ version are non-null and equal the immediately prior same-scope, same-index
 decision. Lane equals the indexed lane. Reviewer ID is `REVIEWER_ID`; it differs
 from every finding/defer/conflict owner assigned to adjudicate that decision.
 `reviewer_authentication_digest` is the `DIGEST` of that reviewer's immutable
-supervisor authentication record and is byte-identical for every occurrence of
-that reviewer across current and historical records.
+authentication record at exact create-new path
+`context/waves/2026-07-28-bastion-foundation/evidence/wp-tst-001/review-auth/Lii/<reviewer_id>.json`
+for the lane's zero-padded index. That closed canonical record has exact keys
+`schema,lane_index,lane,reviewer_id,authorizing_controller_id,
+wp_artifact_digest,record_digest`; schema is literal
+`vtrace-review-auth.v1`, lane fields equal the indexed lane, authorizing
+controller is a `REVIEWER_ID` present in `candidate_author_ids`, WP digest
+equals the enclosing value, and record digest omits only itself. The top-level
+authentication digest equals that verified record digest and is byte-identical
+for every occurrence of that reviewer across current and historical records;
+no caller-presented identity or free authentication preimage is accepted.
 Reviewer identity is an absolute candidate-wide lane bijection: one
 `reviewer_id` may occur in mode/set/current/history decisions for one and only
 one lane, and every non-null lane has exactly one reviewer ID. Reuse across a
@@ -1292,7 +1404,7 @@ second lane rejects even if a conflict is recorded; the duplicate-reviewer
 negative fixture covers mode, set, current, and predecessor substitution.
 Independence is `independent|conflicted`, but it is a derived projection rather
 than a reviewer assertion: it is `independent` iff `reviewer_id` differs from
-both candidate-wide `identity_custody.author_id` and `controller_id`, retains
+every candidate-wide `candidate_author_ids` member, retains
 one authenticated identity across its lane history, and occurs in no other
 lane; otherwise it is `conflicted` and an open conflict naming the identity
 collision is mandatory. A supplied enum inconsistent with those custody facts
@@ -1347,7 +1459,7 @@ only the next unused evidence version and changes exactly one slot. Every
 non-derived field is byte-identical to the immediate predecessor, specifically
 `schema,mode,wp_id,wp_artifact_digest,acceptance_binding,entry_binding,
 implementation_binding,logical_predecessor_commit,context_rev_binding,
-identity_custody,artifact_digests,trace_manifest_digest,allocated_targets,
+identity_registry,candidate_author_ids,artifact_digests,trace_manifest_digest,allocated_targets,
 target_results,fixture_bindings,
 command_identity,exact_argv,tool_versions,environment_digest,resource_bounds,
 determinism_controls,expected,actual,observed_outputs,rollback_plan,
@@ -1371,21 +1483,25 @@ assurance lanes are `pass`, all predecessors/digests/versions verify, and zero
 current critical/major finding, open defer, open dissent conflict, or evidence
 conflict is mandatory.
 
-### 8.6 Independently closed `test-gate-evidence-set.v4` schema
+### 8.6 Independently closed `test-gate-evidence-set.v5` schema
 
 A set uses section 8.1 canonical encoding and these exact ordered keys:
 `schema,set_id,set_version,set_path,wp_id,wp_artifact_digest,
-acceptance_binding,entry_binding,implementation_binding,identity_custody,mode_records,
+acceptance_binding,entry_binding,implementation_binding,identity_registry,candidate_author_ids,mode_records,
 aggregate_digest,observed_outputs,required_review_lanes,reviewer_decisions,
 findings,defers,dissent,conflicts,status,review_completeness,rollback_plan,reproduction_plan,
 predecessor_set,history,invalidation_triggers,set_digest`.
 
-`schema` is literal `test-gate-evidence-set.v4`; set version is `VERSION`; ID is
+`schema` is literal `test-gate-evidence-set.v5`; set version is `VERSION`; ID is
 exactly `EVID-WP-TST-001-SET-vNNNN`; path is exactly
 `context/waves/2026-07-28-bastion-foundation/evidence/wp-tst-001/sets/<set_id>.json`;
 WP ID is literal `WP-TST-001`; WP digest and the three binding objects use the
-fully closed definitions and equalities in section 8.2. `identity_custody`
-equals the same candidate-wide object in every selected mode. `mode_records` is
+fully closed definitions and equalities in section 8.2. Set `identity_registry`
+is the exact source-kind/source-ref-sorted unique union of the 16 selected mode
+registries: four shared governance/implementation bindings, 16 distinct mode-
+evidence bindings, and one shared set-evidence binding, exactly 21 elements.
+`candidate_author_ids` is the identical author/controller projection in the
+set and every selected mode. `mode_records` is
 exactly 16 closed objects with ordered keys
 `mode,evidence_id,evidence_version,evidence_path,evidence_digest`, in section 6
 MODE order; each field uses the mode formulas/types in section 8.2, each digest
@@ -1453,7 +1569,7 @@ with only its preceding comma and member omitted.
 A one-lane set successor changes exactly one decision slot. Every non-derived
 field is byte-identical to its immediate predecessor: `schema,wp_id,
 wp_artifact_digest,acceptance_binding,entry_binding,implementation_binding,
-identity_custody,
+identity_registry,candidate_author_ids,
 required_review_lanes,rollback_plan,reproduction_plan,
 invalidation_triggers`; the other 21 slots are byte-identical.
 The complete and only derived delta is: set version plus 1; regenerated set ID
@@ -1478,7 +1594,7 @@ quarantined, or hidden.
 ## 9. Entry, stop, exit, and authority
 
 Acceptance of this candidate, if it occurs, authorizes only a later separate
-entry decision. The acceptance pulse binds the R8 artifact digest and all prior
+entry decision. The acceptance pulse binds the R9 artifact digest and all prior
 governance inputs, but never its own future commit. After it is committed, the
 entry pulse binds that acceptance commit and pulse digest, but never its own
 future commit. After entry is committed, evidence binds the resulting entry
