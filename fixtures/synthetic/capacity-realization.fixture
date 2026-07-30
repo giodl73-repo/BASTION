@@ -1,0 +1,11 @@
+schema=bastion.aggregate-capacity-realization.v1
+scenario_version=bastion-scenario-v2
+package_id=cedar-support-package
+capacity.funded=10000
+capacity.contracted=9800
+capacity.delivered=9200
+capacity.staffed=8500
+capacity.trained=8000
+capacity.maintained=6800
+capacity.supplied=6200
+capacity.usable=6000
