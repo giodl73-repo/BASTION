@@ -22,6 +22,15 @@ the exact WP, representation, resource bounds, safe fixtures, toolchain,
 dependencies, commands, rollback, and assurance decisions are independently
 accepted.
 
+### Bounded semantic demonstration overlay
+
+The repository owner separately authorized `WP-SEM-001` and `WP-SEM-002` as
+closed safe-synthetic, unclassified, non-operational demonstrations. They add
+executable product meaning but do not close a held unknown, satisfy a canonical
+producer WP, change the source-spine DAG, or authorize real-force, procurement,
+fiscal, Taxlane, operational, or release work. The canonical statuses and
+ordering below therefore remain unchanged.
+
 ## 2. Frozen baseline
 
 | Input | SHA-256 |

@@ -1,0 +1,17 @@
+[package]
+name = "bastion-remedy-slice"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[lib]
+name = "bastion_remedy_slice"
+path = "src/lib.rs"
+
+[[bin]]
+name = "bastion-remedies"
+path = "src/main.rs"
+
+[lints]
+workspace = true

@@ -7,5 +7,9 @@ name = "bastion-readiness-slice"
 version = "0.1.0"
 
 [[package]]
+name = "bastion-remedy-slice"
+version = "0.1.0"
+
+[[package]]
 name = "bastion-review"
 version = "0.1.0"

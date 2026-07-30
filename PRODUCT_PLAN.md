@@ -17,7 +17,11 @@ lifecycle cost, transition risk, and auditability together.
 
 ## Current boundary
 
-The accepted empty Rust workspace contains no product semantics. Review and
-isolated-test scaffolds are acceptance-ready; semantic implementation remains
-gated. No force plan, operational recommendation, official request, savings
-estimate, Taxlane admission, allocation, rate change, or release.
+Two owner-directed, bounded safe-synthetic demonstrations are the current
+semantic product boundary. `WP-SEM-001` executes one readiness-package
+assessment. `WP-SEM-002` compares three non-operational remedy classes against
+that kind of package while preserving resource, time, transition, and safety
+limits. These slices do not complete or waive the canonical source-spine work
+packages below. No real force, operational recommendation, procurement
+decision, official request, savings estimate, Taxlane admission, allocation,
+rate change, or release.

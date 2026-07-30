@@ -19,11 +19,11 @@ and lifecycle cost.
 | Working Rust | `bastion-review` provides a deterministic review kernel; `bastion-boundary-tests` implements typed control, source-allocation, contract, property, model, adversarial, hold, static, and no-authority checks. |
 | Verified checkpoint | The parked `codex/wp-tst-001-amend` checkpoint passes 145 Rust tests across nine test targets with zero third-party Rust dependencies. |
 | Evidence status | The typed implementation exists and is committed; its canonical 16-mode evidence publication and independent exit acceptance remain unfinished. |
-| Product status | One bounded semantic feature is executable: a safe-synthetic readiness package can be assessed across nine support facets and compared with one bounded alternative. |
+| Product status | Two bounded semantic features are executable: a readiness-package assessment and a three-class remedy comparison retaining resource, time, transition, and safety limits. |
 
 ## Features available now
 
-BASTION now has one defense-readiness feature in addition to two cross-cutting
+BASTION now has two defense-readiness features in addition to two cross-cutting
 review controls:
 
 1. The `bastion assess` command evaluates a fictional, non-operational support
@@ -43,6 +43,14 @@ The bounded alternative improves those five facets and raises the floor to 78%
 with no remaining threshold concerns. The floor is a transparent minimum over
 synthetic inputs—not a probability of mission success or deployment advice.
 
+The `bastion-remedies compare` command now tests three remedy classes against
+the same kind of fictional constraint. Inventory expansion raises asset
+availability but leaves supplier resilience—and the 60% readiness floor—
+unchanged. The maintenance/spares case raises the floor to 65%; the
+supplier/logistics case raises it to 80%. Each result retains its synthetic
+resource index, lead time, transition burden, safety posture, and remaining
+bottleneck. BASTION deliberately does not select or recommend a remedy.
+
 ## Defense feature scorecard
 
 | User-visible capability | Status |
@@ -53,16 +61,18 @@ synthetic inputs—not a probability of mission success or deployment advice.
 | Measure personnel, training, asset, maintenance, spares, logistics, and safety facets | **Built in first slice** |
 | Measure supplier resilience and interoperability | **Built in first slice** |
 | Calculate a transparent synthetic readiness floor or held result | **Built in first slice** |
-| Run surge, disruption, mobilization, transition, or lifecycle scenarios | **Not built** |
-| Compare one bounded support alternative | **Built in first slice** |
+| Run surge, disruption, mobilization, or lifecycle scenarios | **Not built** |
+| Compare inventory, maintenance/spares, and supplier/logistics remedy classes | **Built in second slice** |
+| Retain synthetic resource, lead-time, transition-burden, and safety limits | **Built in second slice** |
 | Estimate lifecycle cost, realizable savings, or transition risk | **Not built** |
 | Produce a held TAXLANE evidence handoff | **Not built** |
 
-**Bottom line:** BASTION has completed exactly one bounded semantic slice. It
-can identify the limiting facet in a fictional readiness package and show how
-a specified support alternative changes the result. It cannot validate a real
-force, predict mission success, plan a deployment, recommend procurement, or
-set spending, savings, or tax rates.
+**Bottom line:** BASTION has completed exactly two bounded semantic slices. It
+can identify the limiting facet in a fictional readiness package and compare
+how three remedy classes change that constraint while keeping their principal
+burdens visible. It cannot validate a real force, predict mission success,
+plan a deployment, recommend procurement, or set spending, savings, or tax
+rates.
 
 ## First feature milestone achieved
 
@@ -84,6 +94,27 @@ cargo +1.95.0 run --locked --offline -q -p bastion-readiness-slice --bin bastion
 
 The command emits deterministic JSON with every facet, threshold, posture,
 bottleneck, comparison, and explicit no-authority flags.
+
+## Second feature milestone achieved
+
+The safe-synthetic remedy comparison:
+
+- compares inventory expansion, maintenance/spares, and supplier/logistics;
+- keeps all nine readiness facets visible for baseline and every remedy;
+- reports readiness-floor change and remaining bottleneck;
+- retains resource index, lead time, and transition burden separately;
+- holds remedies with missing/stale limits or a safety regression; and
+- emits no selected remedy, procurement instruction, or monetized savings.
+
+Replay it with:
+
+```powershell
+cargo +1.95.0 run --locked --offline -q -p bastion-remedy-slice --bin bastion-remedies -- compare fixtures/synthetic/readiness-remedies.fixture
+```
+
+The result demonstrates why purchased inventory is not automatically usable
+readiness: strengthening a non-limiting facet can consume resources while the
+actual constraint remains untouched.
 
 ## What the finished system is intended to show
 
@@ -109,9 +140,10 @@ The repository pins Rust 1.95.0 and has no third-party Rust dependencies.
 cargo +1.95.0 test --locked --offline --workspace --all-targets
 ```
 
-Expected result on this branch: **21 passed, 0 failed**—16 review-kernel tests
-and 5 semantic-slice tests. The separate parked typed-boundary checkpoint and
-its unfinished evidence acceptance are not claimed by this branch.
+Expected result on this branch: **26 passed, 0 failed**—16 review-kernel tests
+and 5 tests for each semantic slice. The separate parked typed-boundary
+checkpoint and its unfinished evidence acceptance are not claimed by this
+branch.
 
 ## Repository map
 
@@ -135,6 +167,7 @@ repository.
 BASTION is an early semantic research and tooling repository. It performs no
 targeting, operational planning, vulnerability exploitation, force-employment
 recommendation, official scoring, procurement instruction, savings claim,
-budget allocation, or public release. Its achieved result is limited to the
-included fictional package; a public aggregate corpus, real-force analysis,
-lifecycle cost model, and flagship real-world scenario remain future work.
+budget allocation, or public release. Its achieved results are limited to the
+included fictional package and remedy cases; a public aggregate corpus,
+real-force analysis, lifecycle cost model, and flagship real-world scenario
+remain future work.

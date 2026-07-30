@@ -17,6 +17,11 @@ emission prerequisite; it remains a separate release-blocking hold. The common
 gates and exact aliases in
 `IMPLEMENTATION_PLAN.md` are normative here.
 
+Owner-directed `WP-SEM-001` and `WP-SEM-002` are bounded safe-synthetic
+demonstration overlays recorded in their own files. They are not members of
+the canonical register or DAG and cannot be cited as completing, bypassing, or
+unblocking any row below.
+
 ## 2. Exact 20-WP register and DAG
 
 | WP | Exact boundary/slice | Smallest coherent deliverable | Exact predecessors | Status |
