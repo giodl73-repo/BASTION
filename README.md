@@ -1,200 +1,225 @@
 # BASTION
 
-**Defense 2.0 — measure whether public resources produce sustainable mission
-readiness, not merely purchased inventory.**
+**Defense 2.0 — test whether public resources become sustainable readiness,
+not merely purchased inventory.**
 
-A purchased asset is not readiness if it cannot be staffed, trained, supplied,
-maintained, integrated, repaired, mobilized, or safely employed for its declared
-public mission. BASTION treats defense as a delivery network spanning people,
-acquisition, maintenance, suppliers, logistics, interoperability, resilience,
-and lifecycle cost.
+A purchased system is not readiness if it cannot be staffed, trained, supplied,
+maintained, integrated, repaired, mobilized, or safely used for its declared
+public mission. Purchase price is not lifecycle affordability. More inventory
+does not fix a supplier, maintenance, workforce, logistics, or interoperability
+bottleneck.
 
-## Baseline summary
+BASTION turns that insight into a replayable evidence chain. It keeps readiness
+facets, capacity realization, lifecycle resources, alternatives, stakeholder
+burden, delivery feasibility, safety floors, and adaptation visible together.
+The result is not a force plan or procurement recommendation. It is a disciplined
+way to test whether a claimed defense investment or efficiency can survive the
+constraints required to make it real.
 
-| Area | Established baseline |
-|---|---|
-| Public question | Does public spending produce maintainable, supplied, staffed, interoperable, resilient readiness over the full lifecycle? |
-| Evidence boundary | Public, aggregate, unclassified, source-labelled or clearly synthetic evidence only. |
-| Systems baseline | Mission, CONOPS, requirements, specification, architecture, interfaces, design, package boundaries, verification, validation, and code-rigor controls are defined and traceable. |
-| Working Rust | `bastion-review` provides a deterministic review kernel; `bastion-boundary-tests` implements typed control, source-allocation, contract, property, model, adversarial, hold, static, and no-authority checks. |
-| Verified checkpoint | The parked `codex/wp-tst-001-amend` checkpoint passes 145 Rust tests across nine test targets with zero third-party Rust dependencies. |
-| Evidence status | The typed implementation exists and is committed; its canonical 16-mode evidence publication and independent exit acceptance remain unfinished. |
-| Product status | Twelve bounded semantic slices are executable, spanning readiness and remedies through admitted public aggregates, stress, realization, accounting, alternatives, distribution, transition, adaptation, peers, and a held Taxlane candidate. |
+## The story in one view
 
-## Features available now
+```mermaid
+flowchart LR
+    A[Public mission] --> B[What was purchased?]
+    B --> C[What is usable?]
+    C --> D[What is the bottleneck?]
+    D --> E[What is the lifecycle cost?]
+    E --> F[Who carries burden and risk?]
+    F --> G[Can a transition be delivered safely?]
+    G --> H[Observe and adapt]
+    H --> I[Held Taxlane evidence pack]
+```
 
-BASTION now has twelve defense-readiness features in addition to two cross-cutting
-review controls:
+BASTION prevents shortcuts across this chain. Spending does not prove
+readiness. Inventory does not prove availability. A projected saving is not
+real until transition and lifecycle costs are included. A peer-country
+percentage is context, not a target. Research cannot authorize procurement,
+operations, allocation, or tax rates.
 
-1. The `bastion assess` command evaluates a fictional, non-operational support
-   package across personnel, training, assets, maintenance, spares, logistics,
-   suppliers, interoperability, and safety. It exposes the weakest supported
-   facet and compares one bounded support alternative.
-2. A Rust library can evaluate a fully constructed research-review packet and
-   return **pass recommended**, **hold**, or **reject**, while preserving
-   findings, conflicts, dissent, and accepted history.
-3. A developer-facing boundary suite can verify that a proposed evidence
-   implementation retains its required source, control, hold, review, and
-   no-authority obligations.
+## What works today
 
-In the included fictional Cedar disaster-relief support package, the baseline
-readiness floor is 60%, constrained by supplier resilience, with five concerns.
-The bounded alternative improves those five facets and raises the floor to 78%
-with no remaining threshold concerns. The floor is a transparent minimum over
-synthetic inputs—not a probability of mission success or deployment advice.
+BASTION now provides twelve executable, bounded semantic features:
 
-The `bastion-remedies compare` command now tests three remedy classes against
-the same kind of fictional constraint. Inventory expansion raises asset
-availability but leaves supplier resilience—and the 60% readiness floor—
-unchanged. The maintenance/spares case raises the floor to 65%; the
-supplier/logistics case raises it to 80%. Each result retains its synthetic
-resource index, lead time, transition burden, safety posture, and remaining
-bottleneck. BASTION deliberately does not select or recommend a remedy.
+- a fictional, non-operational readiness-package assessment across personnel,
+  training, assets, maintenance, spares, logistics, suppliers,
+  interoperability, and safety;
+- a remedy comparison that tests inventory, maintenance/spares, and
+  supplier/logistics responses against the same bottleneck;
+- an admitted public, aggregate, unclassified evidence mini-corpus;
+- explicit disruption and recovery scenarios;
+- a purchase-to-usable-readiness realization chain;
+- reconciled acquisition and full-lifecycle resource accounting;
+- constrained procurement, sustainment, commonality, and workforce
+  alternatives without automatic selection;
+- stakeholder incidence across personnel, families, suppliers, communities,
+  allies, and taxpayers;
+- a transition gate requiring ownership, industrial and workforce capacity,
+  milestones, measures, safety, stop conditions, and rollback;
+- an adaptive cycle that creates a new immutable successor when observed
+  readiness, cost, or supplier conditions cross declared triggers;
+- definition-normalized NATO expenditure comparison; and
+- a complete but held Taxlane evidence-pack candidate that cannot admit,
+  allocate, price, procure, operate, or release itself.
 
-## Defense feature scorecard
+Every example is deterministic and uses public aggregate unclassified evidence
+or clearly labelled synthetic, non-operational data.
 
-| User-visible capability | Status |
-|---|---|
-| Load a source-labelled public aggregate, unclassified mini-corpus | **Built in SEM-003** |
-| Define one fictional, non-operational mission/readiness package | **Built** |
-| Ingest a sample formation, unit, asset, program, supplier, or inventory | **Not built** |
-| Measure personnel, training, asset, maintenance, spares, logistics, and safety facets | **Built in first slice** |
-| Measure supplier resilience and interoperability | **Built in first slice** |
-| Calculate a transparent synthetic readiness floor or held result | **Built in first slice** |
-| Run bounded disruption, recovery, and lifecycle scenarios | **Built in SEM-004–006** |
-| Compare inventory, maintenance/spares, and supplier/logistics remedy classes | **Built in second slice** |
-| Retain synthetic resource, lead-time, transition-burden, and safety limits | **Built in second slice** |
-| Compare lifecycle resources and transition risk without claiming realized savings | **Built in SEM-006–009** |
-| Run adaptive successors and normalized NATO expenditure comparisons | **Built in SEM-010–011** |
-| Produce a held, non-admitted TAXLANE evidence candidate | **Built in SEM-012** |
+## What the demonstrations reveal
 
-**Bottom line:** BASTION has completed exactly twelve bounded semantic slices. It
-can identify the limiting facet in a fictional readiness package and compare
-how three remedy classes change that constraint while keeping their principal
-burdens visible. It cannot validate a real force, predict mission success,
-plan a deployment, recommend procurement, or set spending, savings, or tax
-rates.
+### Purchased inventory and usable readiness are different
 
-## First feature milestone achieved
+In the fictional Cedar disaster-relief support package, the initial readiness
+floor is 60%, constrained by supplier resilience. A bounded support alternative
+raises the floor to 78%. This is a transparent minimum across synthetic support
+facets—not a probability of mission success.
 
-The safe-synthetic readiness-package feature now:
+The remedy comparison sharpens the result. Inventory expansion improves asset
+availability but leaves the supplier bottleneck and 60% floor unchanged.
+Maintenance and spares raise the floor to 65%; supplier and logistics work
+raise it to 80%. BASTION preserves resource use, lead time, transition burden,
+safety posture, and the remaining bottleneck without selecting a remedy.
 
-- ingest a fictional, non-operational formation with staffing, asset,
-  maintenance, spares, supplier, logistics, and interoperability facets;
-- preserve missing, stale, incompatible, and non-composable facets;
-- produce an assessable or held readiness result with explicit blockers;
-- compare no-change and bounded support alternatives without deployment or
-  targeting advice; and
-- emit a source-labelled artifact that can be independently replayed.
+### Funding is not the same as delivered capacity
 
-A user can replay the included case with:
+The realization demonstration traces its fictional funded-capacity index to
+60% usable readiness and identifies maintenance as the largest handoff loss.
+That makes the missing link visible: authorization and purchase must survive
+staffing, training, integration, maintenance, spares, supply, and other
+delivery constraints.
+
+### More procurement can cost more without fixing the constraint
+
+One synthetic portfolio alternative adds $20 billion in fictional lifecycle
+cost while leaving the 60% readiness floor unchanged. The result is not an
+argument against procurement; it is proof that procurement must be evaluated
+against the actual bottleneck and full lifecycle.
+
+### Transition and safety determine whether an efficiency is real
+
+The lifecycle feature reconciles acquisition, personnel, operations,
+maintenance, spares, infrastructure, transition, and unallocated resources
+with zero residual. A candidate does not become transition-testable until it
+has an accountable owner, industrial and workforce capacity, milestones,
+measures, transition funding, a safety floor, stop conditions, and rollback.
+
+## From question to evidence
+
+| Stage | Question BASTION can answer | Demonstrated feature |
+|---|---|---|
+| SEM-001 | What constrains a fictional support package? | Nine visible readiness facets and a transparent floor |
+| SEM-002 | Which remedy addresses the actual bottleneck? | Three remedy classes with cost, time, burden, safety, and residual constraint |
+| SEM-003 | What official public baseline is admitted? | GAO 2026 aggregate weapon-program assessment |
+| SEM-004 | Does readiness survive disruption and bounded recovery? | Immutable supplier/workforce/maintenance/spares scenarios |
+| SEM-005 | How much funded capacity becomes usable readiness? | Explicit realization losses and limiting handoff |
+| SEM-006 | Do lifecycle resources reconcile? | Eight-category, zero-residual resource envelope |
+| SEM-007 | Does each alternative improve the floor or merely add cost? | Procurement, sustainment, commonality, and workforce comparison |
+| SEM-008 | Who carries workload, transition burden, cost, and risk? | Seven-group, reconciled incidence map |
+| SEM-009 | Is the transition deliverable and safe enough to test? | Owner, capacity, milestones, measures, safety, stop, and rollback gate |
+| SEM-010 | How does the model learn without rewriting history? | Triggered immutable successor |
+| SEM-011 | How does US spending compare under one definition? | Definition-normalized NATO comparison |
+| SEM-012 | Is the evidence complete enough for external review? | Held, non-admitted LaneEvidencePack candidate |
+
+The admitted public baseline uses
+[GAO's 2026 Weapon Systems Annual Assessment](https://www.gao.gov/products/gao-26-108457).
+It records 104 assessed programs, 23 middle-tier acquisitions, at least $49
+billion of planned middle-tier investment, technology-maturity findings, and
+bounded schedule and total-investment context. These aggregates establish the
+public acquisition landscape; they do not establish readiness or support any
+operational inference.
+
+The peer feature uses NATO's common expenditure definition and keeps estimates
+and category limits explicit. It demonstrates comparison discipline; it does
+not infer readiness from spending share or turn a peer value into a US target.
+
+## Try the product
+
+Assess the fictional support package:
 
 ```powershell
 cargo +1.95.0 run --locked --offline -q -p bastion-readiness-slice --bin bastion -- assess fixtures/synthetic/readiness-package.fixture
 ```
 
-The command emits deterministic JSON with every facet, threshold, posture,
-bottleneck, comparison, and explicit no-authority flags.
-
-## Second feature milestone achieved
-
-The safe-synthetic remedy comparison:
-
-- compares inventory expansion, maintenance/spares, and supplier/logistics;
-- keeps all nine readiness facets visible for baseline and every remedy;
-- reports readiness-floor change and remaining bottleneck;
-- retains resource index, lead time, and transition burden separately;
-- holds remedies with missing/stale limits or a safety regression; and
-- emits no selected remedy, procurement instruction, or monetized savings.
-
-Replay it with:
+Compare remedies against the same type of constraint:
 
 ```powershell
 cargo +1.95.0 run --locked --offline -q -p bastion-remedy-slice --bin bastion-remedies -- compare fixtures/synthetic/readiness-remedies.fixture
 ```
 
-The result demonstrates why purchased inventory is not automatically usable
-readiness: strengthening a non-limiting facet can consume resources while the
-actual constraint remains untouched.
-
-## SEM-003 through SEM-012 achieved
-
-| Slice | Executed feature achievement |
-|---|---|
-| SEM-003 | Admits GAO-26-108457 public aggregate evidence covering 104 programs, 23 middle-tier acquisitions, technology-maturity findings, and bounded investment/schedule context without readiness or operational inference. |
-| SEM-004 | Compares baseline, disruption, and recovery supplier/workforce/maintenance/spares floors with an immutable successor and explicit recovery horizon. |
-| SEM-005 | Traces a fictional funded-capacity index to 60% usable readiness and identifies maintenance as the largest handoff loss. |
-| SEM-006 | Reconciles acquisition, personnel, operations, maintenance, spares, infrastructure, transition, and unallocated lifecycle resources with zero residual. |
-| SEM-007 | Shows additional procurement adds $20 billion of fictional lifecycle cost while leaving the 60% readiness floor unchanged; no alternative is selected. |
-| SEM-008 | Maps workload, transition burden, and reconciled cost incidence across seven stakeholder groups without ranking human worth. |
-| SEM-009 | Requires owner, industrial/workforce capacity, milestones, measures, cadence, transition cost, safety floor, stop, and rollback before transition-testable research. |
-| SEM-010 | Converts observed readiness, lifecycle-cost, and supplier triggers into exactly one immutable successor without in-place retry. |
-| SEM-011 | Compares 2025 estimated US and NATO peer expenditure using NATO's definition while stating that spending share does not prove readiness. |
-| SEM-012 | Builds a complete held LaneEvidencePack candidate with lifecycle/transition ranges, floors, distribution, uncertainty, overlap, dissent, and holds; savings remain unrealized and the pack cannot self-admit. |
-
-Run any program slice with:
+Replay the culminating held handoff:
 
 ```powershell
 cargo +1.95.0 run --locked --offline -q -p bastion-program --bin bastion-program -- sem-012 fixtures/synthetic/held-taxlane-pack.fixture
 ```
 
-Replace `sem-012` and the fixture with the exact command recorded in
-`docs/vtrace/WP_SEM_003.md` through `WP_SEM_012.md`.
+Each command emits deterministic JSON with its evidence state, measured result,
+limits, holds, and explicit no-authority fields. Exact commands for SEM-003
+through SEM-012 are recorded in
+[the VTRACE work packages](docs/vtrace/WORK_PACKAGES.md).
 
-## What the finished system is intended to show
+## Why the Taxlane handoff is held
 
-Once the semantic packages and public aggregate corpus are implemented,
-BASTION is designed to support questions such as:
+BASTION owns defense evidence; it does not own the national allocation or rate
+decision. Its SEM-012 artifact packages:
 
-- Is a purchased capability actually available after staffing, training,
-  maintenance, spare-parts, supplier, and integration constraints?
-- Would maintenance, inventory, common-platform, workforce, or acquisition
-  reform improve readiness more than additional procurement?
-- Where do lifecycle cost, repair-time tails, supplier concentration, or
-  logistics constraints create persistent delivery risk?
-- Which constrained alternatives improve resilience and readiness while
-  preserving civilian control, safety, alliance, and transition floors?
+- need, lifecycle, and transition ranges;
+- readiness and safety floors;
+- stakeholder distribution;
+- delivery confidence and controls;
+- uncertainty, overlap, dissent, and unresolved holds; and
+- explicit proof that projected savings remain unrealized and the pack cannot
+  admit or emit itself.
 
-These are intended examples, not current findings or operational advice.
+This makes defense evidence useful to Taxlane without allowing BASTION to turn
+research into procurement or policy. A future efficiency claim must survive
+transition, lifecycle, readiness, resilience, surge, workforce, supplier,
+alliance, legal, civilian-control, and safety constraints—and must be
+re-evaluated as observed results change.
 
-## Verify the working feature branch
+## Trust and validation
 
-The repository pins Rust 1.95.0 and has no third-party Rust dependencies.
+BASTION is governed by VTRACE and reviewed through civilian strategy,
+readiness, acquisition, industrial-base, logistics, comptroller, service-member
+and family, independent-test, alliance, classification, safety, law, numeracy,
+citation, editorial, and stakeholder roles. Missing or stale evidence is held,
+never converted to zero. Dissent and null results remain visible.
+
+The repository pins Rust 1.95.0 and uses no third-party Rust dependencies.
 
 ```powershell
 cargo +1.95.0 test --locked --offline --workspace --all-targets
 ```
 
 Expected result on this branch: **47 passed, 0 failed**—16 review-kernel tests,
-5 tests for each of the first two slices, and 21 program tests for SEM-003
-through SEM-012. The separate parked typed-boundary
-checkpoint and its unfinished evidence acceptance are not claimed by this
-branch.
+5 tests for each of the first two product slices, and 21 tests for SEM-003
+through SEM-012.
 
-## Repository map
+## What remains
 
-- [Product plan](PRODUCT_PLAN.md) — thesis, intended product shape, and current boundary.
+The current achievement is a complete bounded semantic program, not a validated
+real-force model. The next substantive work is to widen and independently
+review the public corpus, test aggregate program and industrial-base examples,
+validate a non-operational representative scenario, and submit a handoff to an
+external admission process. Classified, controlled, exploitable, targeting,
+operational-planning, and person-level information remain outside scope.
+
+## Repository guide
+
+- [Product plan](PRODUCT_PLAN.md) — thesis, product shape, and current boundary.
+- [Program completion record](docs/program/SEMANTIC_DELIVERIES_003_012.md) —
+  feature sequence and final audit evidence.
 - [Mission](docs/vtrace/MISSION.md) — purpose, outcomes, exclusions, and authority.
-- [Implementation plan](docs/vtrace/IMPLEMENTATION_PLAN.md) — package order and entry/exit gates.
-- [Work packages](docs/vtrace/WORK_PACKAGES.md) — exact ownership and dependency allocation.
-- [Verification](docs/vtrace/VERIFICATION.md) and [validation](docs/vtrace/VALIDATION.md) — required proof and outcome checks.
-- [Role panel](.roles/ROLE.md) — readiness, acquisition, logistics, finance, civilian-control, safety, editorial, and stakeholder review.
-
-## Relationship to TAXLANE
-
-BASTION is the defense evidence owner. It may eventually prepare a held,
-source-labelled handoff describing verified needs, efficiencies, lifecycle
-effects, delivery confidence, and risks. It does not admit that evidence,
-allocate a budget, or set a tax rate; those decisions remain outside this
-repository.
+- [Implementation plan](docs/vtrace/IMPLEMENTATION_PLAN.md) — package order and gates.
+- [Work packages](docs/vtrace/WORK_PACKAGES.md) — exact feature contracts.
+- [Verification](docs/vtrace/VERIFICATION.md) and
+  [validation](docs/vtrace/VALIDATION.md) — proof and outcome checks.
+- [Role panel](.roles/ROLE.md) — substantive, editorial, assurance, and stakeholder review.
 
 ## Boundary
 
-BASTION is a bounded semantic research and tooling repository. It performs no
-targeting, operational planning, vulnerability exploitation, force-employment
-recommendation, official scoring, procurement instruction, savings claim,
-budget allocation, or public release. Its achieved public evidence is a
-deliberately small aggregate mini-corpus; readiness, accounting, alternatives,
-transition, and handoff examples remain safe-synthetic and non-operational. A
-general corpus, real-force analysis, admitted Taxlane handoff, and flagship
-real-world scenario remain future work.
+BASTION is a public-aggregate, unclassified research and tooling repository.
+It performs no targeting, operational planning, vulnerability exploitation,
+real-force assessment, force-employment recommendation, procurement
+instruction, official scoring, savings claim, budget allocation, tax-rate
+instruction, or public release. Its admitted public corpus is deliberately
+small; its readiness, scenario, accounting, alternative, transition, and
+handoff demonstrations are synthetic and non-operational.
