@@ -1,0 +1,21 @@
+# NATO Defence Expenditure of NATO Countries (2014-2025), Tables 3 and 8a.
+schema=bastion.nato-peer-comparison.v1
+source_id=nato-defence-expenditure-2014-2025
+source_url=https://www.nato.int/content/dam/nato/webready/documents/finance/def-exp-2025-en.pdf
+publication_date=2025-08-28
+data_period=2025
+evidence_state=current
+estimate_state=2025-estimate
+definition=nato-defence-expenditure
+unit=basis-points-of-gdp
+peer_use=diagnostic-not-target
+gdp.us-bps=322
+gdp.france-bps=205
+gdp.united-kingdom-bps=240
+gdp.canada-bps=201
+gdp.nato-europe-canada-bps=227
+gdp.nato-total-bps=276
+us.equipment-bps=2969
+us.personnel-bps=2731
+us.infrastructure-bps=187
+us.other-bps=4112
