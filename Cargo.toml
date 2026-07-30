@@ -1,6 +1,6 @@
 [workspace]
-members = ["crates/bastion-review", "crates/bastion-readiness-slice", "crates/bastion-remedy-slice"]
-default-members = ["crates/bastion-review", "crates/bastion-readiness-slice", "crates/bastion-remedy-slice"]
+members = ["crates/bastion-review", "crates/bastion-readiness-slice", "crates/bastion-remedy-slice", "crates/bastion-program"]
+default-members = ["crates/bastion-review", "crates/bastion-readiness-slice", "crates/bastion-remedy-slice", "crates/bastion-program"]
 resolver = "3"
 
 [workspace.package]
