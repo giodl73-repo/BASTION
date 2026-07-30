@@ -5,6 +5,7 @@ use std::collections::{BTreeMap, BTreeSet};
 pub mod sem003;
 pub mod sem004;
 pub mod sem005;
+pub mod sem006;
 
 const MAX_INPUT_BYTES: usize = 128 * 1024;
 
@@ -102,6 +103,7 @@ pub fn run(delivery: &str, input: &str) -> Result<String, String> {
         "sem-003" => sem003::run(input),
         "sem-004" => sem004::run(input),
         "sem-005" => sem005::run(input),
+        "sem-006" => sem006::run(input),
         _ => Err(format!("unknown delivery: {delivery}")),
     }
 }

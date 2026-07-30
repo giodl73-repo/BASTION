@@ -1,0 +1,15 @@
+# Safe-synthetic amounts; not a budget or savings estimate.
+schema=bastion.lifecycle-accounting.v1
+scenario_version=bastion-scenario-v2
+unit=millions-usd
+price_basis=constant-illustrative
+horizon_years=10
+authorized=100000
+category.acquisition=30000
+category.personnel=22000
+category.operations=14000
+category.maintenance=13000
+category.spares=7000
+category.infrastructure=5000
+category.transition=4000
+category.unallocated=5000
