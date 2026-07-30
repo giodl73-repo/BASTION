@@ -1,4 +1,4 @@
-# WP-TST-001-R20 — externally-dispatched schema-version corrective amendment
+# WP-TST-001-R21 — fully versioned externally dispatched corrective amendment
 
 Status: `proposed; acceptance_candidate; not_accepted; not_entered`
 
@@ -26,18 +26,21 @@ versioned those contracts but collapsed distinct R17/R18 frozen schemas,
 allowed nested candidate identity to participate in validator selection, left
 one ledger reference stale, did not version the expanded failed-amendment
 review, and omitted failed R15 from one historical-negative description. R20
-supersedes only the failed amendments and authorizes one separately accepted R20 corrective entry and implementation
+repaired those points but treated revision-specific exact values as unchanged,
+left failed-review and governance-delta dispatch without a total external
+parent/envelope classification path, and retained ledger v4 for the new
+revision. R21 supersedes only the failed amendments and authorizes one separately accepted R21 corrective entry and implementation
 successor on the same linear lineage. Accepted REV is only a
 context co-member: workspace co-membership and Git ancestry are explicitly not
 WP-predecessor or dependency relationships.
 
 ## 1. Controlled baseline and custody
 
-The R20 candidate commit is the exact commit containing these WP and Pulse 34
-bytes. The R20 acceptance commit must have that exact R20 candidate commit as
-its sole first parent; the R20 corrective-entry commit must be its later
+The R21 candidate commit is the exact commit containing these WP and Pulse 35
+bytes. The R21 acceptance commit must have that exact R21 candidate commit as
+its sole first parent; the R21 corrective-entry commit must be its later
 direct governance successor; and the corrective implementation commit must be
-the direct child of that R20 corrective entry. Accepted `WP-WS-001` exit
+the direct child of that R21 corrective entry. Accepted `WP-WS-001` exit
 `cd1f1d75ec312789fed63a265219d8ad9069a17a` remains the sole logical WP
 predecessor. Any nonlinear implementation ancestry, dirty unrelated path,
 predecessor digest, or Cargo edge holds acceptance and entry.
@@ -109,6 +112,10 @@ predecessor digest, or Cargo edge holds acceptance and entry.
 | Retained failed R19 WP SHA-256 / blob | `33763165576e450132a98547f8d23d5746c96c7c1f95b8688ccf8b5a6766b8a4` / `daac24b6eaa19e22979b77f6f2b7fbab215a3507` |
 | Retained failed R19 pulse path / SHA-256 / blob | `context/waves/2026-07-28-bastion-foundation/pulses/pulse-33-wp-tst-001-r19-corrective-lineage-candidate.md` / `a5edc0c0f217581fe8d46329eea6c7c7ed967df75e70d54a0b52743c26e4e3fe` / `9126b40d140c6b9c272f3440ff31b3a574f9a7e4` |
 | Failed R19 disposition | combined independent-review findings; not accepted; not entered; no implementation authority; no evidence or exit |
+| Retained failed R20 amendment commit / parent | `6ffb40615b60e8760a896771a16072b2d2ec47e9` / `4602ced667aa1188133429c2011d57736d203a72` |
+| Retained failed R20 WP SHA-256 / blob | `f5e230de66b9ef41be7ac84817610cb7c966757db2aa119fe9a345cd1bdbb287` / `5c246e8e518bd27d24aaf536cc351f2b03370b6d` |
+| Retained failed R20 pulse path / SHA-256 / blob | `context/waves/2026-07-28-bastion-foundation/pulses/pulse-34-wp-tst-001-r20-corrective-lineage-candidate.md` / `64c276b482f91ea84d50a598c8eeb1ec6c5ac836ec2ffe4bca95911db9b9ebf9` / `d4be82759eb9e8cb87249d35e099b1e74d99ef90` |
+| Failed R20 disposition | combined independent-review findings; not accepted; not entered; no implementation authority; no evidence or exit |
 | Context-only accepted REV exit | `ab227cc06f15299b594cfe2be99915bd93c4c081` |
 | Context-only accepted REV implementation commit / SHA-256 | `5c4e96306d3c463a44be7621371759da8bca399b` / `c5c2df1178568cd49b5d721cd01cba7cce3371e049528e07bad30d6b3324ea72` |
 | Context-only accepted REV evidence-set SHA-256 / tree | `b95beff569794125018f2fde3d4d3317ed32278dfcfb1fc22a7d25cf51226bd9` / `d554c8c0c3d534aa96924f085a4dc007b25e3a3c` |
@@ -207,9 +214,9 @@ No other crate, source, fixture, generated, documentation, role, wave,
 TRACKER, submodule, CI, release, or configuration path is permitted. The
 original R14 implementation commit is retained as a failed direct child of the
 R14 entry and is never a promotable implementation result or evidence base.
-The R15, R16, R17, R18, and R19 amendment commits are retained as failed governance and
-authorize nothing. A later R20 acceptance and corrective entry authorize exactly one
-corrective implementation commit as the direct non-merge child of the R20
+The R15, R16, R17, R18, R19, and R20 amendment commits are retained as failed governance and
+authorize nothing. A later R21 acceptance and corrective entry authorize exactly one
+corrective implementation commit as the direct non-merge child of the R21
 corrective entry. That corrective commit may change only the same 18 paths
 above.
 
@@ -222,13 +229,13 @@ Two deltas are mandatory and distinct:
    unsigned raw-path-byte emission order. Intervening governance paths are excluded only by
    those explicit path arguments and are separately bound below; an unscoped
    diff, inferred pathset, glob, negative pathspec, or post-filter is invalid.
-2. `corrective_delta` is the exact projection from the accepted R20
+2. `corrective_delta` is the exact projection from the accepted R21
    corrective-entry commit to its direct corrective child over the same 18
    literal path arguments. It contains a nonempty subset of those paths, each
    `A|M`, once, in unsigned raw-path-byte order and no other path.
 3. `governance_delta` is the complete unprojected governance path sequence
-   from failed implementation through R20 corrective entry. It binds the R15,
-   R16, R17, R18, and R19 failed amendments, R20 candidate, future R20 acceptance, and future R20
+   from failed implementation through R21 corrective entry. It binds the R15,
+   R16, R17, R18, R19, and R20 failed amendments, R21 candidate, future R21 acceptance, and future R21
    corrective-entry commits and proves that none changes an implementation
    path.
 
@@ -254,12 +261,13 @@ normative arrays:
   "governance_r17_failed_raw": ["<GIT-C>","diff","--raw","-z","--no-abbrev","--full-index","--no-ext-diff","--find-renames=100%","--diff-filter=AMDR","be689ae15837b6f5ce0c24a89ee66a6b5939aa75","e7eb6be0adcdb5afc069f5cd3e45cf62dbc31a6e","--","docs/vtrace/WP_TST_001.md","context/waves/2026-07-28-bastion-foundation/pulses/pulse-31-wp-tst-001-r17-corrective-lineage-candidate.md"],
   "governance_r18_failed_raw": ["<GIT-C>","diff","--raw","-z","--no-abbrev","--full-index","--no-ext-diff","--find-renames=100%","--diff-filter=AMDR","e7eb6be0adcdb5afc069f5cd3e45cf62dbc31a6e","97716b9165cc4b8f0e6a51010376b0a8e46cc169","--","docs/vtrace/WP_TST_001.md","context/waves/2026-07-28-bastion-foundation/pulses/pulse-32-wp-tst-001-r18-corrective-lineage-candidate.md"],
   "governance_r19_failed_raw": ["<GIT-C>","diff","--raw","-z","--no-abbrev","--full-index","--no-ext-diff","--find-renames=100%","--diff-filter=AMDR","97716b9165cc4b8f0e6a51010376b0a8e46cc169","4602ced667aa1188133429c2011d57736d203a72","--","docs/vtrace/WP_TST_001.md","context/waves/2026-07-28-bastion-foundation/pulses/pulse-33-wp-tst-001-r19-corrective-lineage-candidate.md"],
-  "governance_r20_candidate_raw": ["<GIT-C>","diff","--raw","-z","--no-abbrev","--full-index","--no-ext-diff","--find-renames=100%","--diff-filter=AMDR","4602ced667aa1188133429c2011d57736d203a72","<r20_candidate_commit>","--","docs/vtrace/WP_TST_001.md","context/waves/2026-07-28-bastion-foundation/pulses/pulse-34-wp-tst-001-r20-corrective-lineage-candidate.md"],
-  "governance_r20_acceptance_raw": ["<GIT-C>","diff","--raw","-z","--no-abbrev","--full-index","--no-ext-diff","--find-renames=100%","--diff-filter=AMDR","<r20_candidate_commit>","<r20_acceptance_commit>","--","context/waves/2026-07-28-bastion-foundation/pulses/pulse-35-wp-tst-001-r20-acceptance.md"],
-  "r20_acceptance_commit_object": ["<GIT-C>","cat-file","commit","<r20_acceptance_commit>"],
+  "governance_r20_failed_raw": ["<GIT-C>","diff","--raw","-z","--no-abbrev","--full-index","--no-ext-diff","--find-renames=100%","--diff-filter=AMDR","4602ced667aa1188133429c2011d57736d203a72","6ffb40615b60e8760a896771a16072b2d2ec47e9","--","docs/vtrace/WP_TST_001.md","context/waves/2026-07-28-bastion-foundation/pulses/pulse-34-wp-tst-001-r20-corrective-lineage-candidate.md"],
+  "governance_r21_candidate_raw": ["<GIT-C>","diff","--raw","-z","--no-abbrev","--full-index","--no-ext-diff","--find-renames=100%","--diff-filter=AMDR","6ffb40615b60e8760a896771a16072b2d2ec47e9","<r21_candidate_commit>","--","docs/vtrace/WP_TST_001.md","context/waves/2026-07-28-bastion-foundation/pulses/pulse-35-wp-tst-001-r21-corrective-lineage-candidate.md"],
+  "governance_r21_acceptance_raw": ["<GIT-C>","diff","--raw","-z","--no-abbrev","--full-index","--no-ext-diff","--find-renames=100%","--diff-filter=AMDR","<r21_candidate_commit>","<r21_acceptance_commit>","--","context/waves/2026-07-28-bastion-foundation/pulses/pulse-36-wp-tst-001-r21-acceptance.md"],
+  "r21_acceptance_commit_object": ["<GIT-C>","cat-file","commit","<r21_acceptance_commit>"],
   "corrective_entry_commit_object": ["<GIT-C>","cat-file","commit","<corrective_entry_commit>"],
   "corrective_implementation_commit_object": ["<GIT-C>","cat-file","commit","<corrective_implementation_commit>"],
-  "governance_r20_entry_raw": ["<GIT-C>","diff","--raw","-z","--no-abbrev","--full-index","--no-ext-diff","--find-renames=100%","--diff-filter=AMDR","<r20_acceptance_commit>","<corrective_entry_commit>","--","context/waves/2026-07-28-bastion-foundation/pulses/pulse-36-wp-tst-001-r20-corrective-entry.md"]
+  "governance_r21_entry_raw": ["<GIT-C>","diff","--raw","-z","--no-abbrev","--full-index","--no-ext-diff","--find-renames=100%","--diff-filter=AMDR","<r21_acceptance_commit>","<corrective_entry_commit>","--","context/waves/2026-07-28-bastion-foundation/pulses/pulse-37-wp-tst-001-r21-corrective-entry.md"]
 }
 ```
 
@@ -306,7 +314,7 @@ subsequence whose corrective-entry and corrective-child object IDs differ;
 that subsequence is nonempty, raw-path-byte ordered, and no caller selects it.
 The independently retained `corrective_delta_unscoped_raw` stdout must be
 byte-identical to `corrective_delta_raw` stdout. It proves only that this
-subsequence is the complete R20-entry-to-child change and contains no extra
+subsequence is the complete R21-entry-to-child change and contains no extra
 path; it never supplies implementation rows or either manifest. The
 delta preimage is exact UTF-8
 `schema=test-gate-delta.v1<LF>kind=<kind><LF>base=<base><LF>target=<target><LF>`
@@ -317,10 +325,10 @@ of raw Git path bytes. `complete` has 18 rows; `corrective` has `1..18` rows.
 The SHA-256 of that entire preimage is the delta digest.
 
 The governance allowlist is exact and exhaustive: R15, failed R16, failed R17,
-failed R18, failed R19, and the R20 candidate each have the two paths named by their exact arrays;
-acceptance has only Pulse 35; corrective entry has only Pulse 36. Each
+failed R18, failed R19, failed R20, and the R21 candidate each have the two paths named by their exact arrays;
+acceptance has only Pulse 36; corrective entry has only Pulse 37. Each
 governance observation must show exactly its stated `M/A`, `M/A`, `M/A`,
-`M/A`, `M/A`, `M/A`, `A`, or `A` path inventory, respectively, and the union is
+`M/A`, `M/A`, `M/A`, `M/A`, `A`, or `A` path inventory, respectively, and the union is
 disjoint from the 18 implementation paths. The unscoped raw diff for each
 adjacent commit pair is additionally required to be byte-identical to its
 scoped raw diff, preventing a hidden excluded governance path.
@@ -334,9 +342,10 @@ with no `--` or path argument. Bases/targets, in order, are exactly
 `be689ae15837b6f5ce0c24a89ee66a6b5939aa75 -> e7eb6be0adcdb5afc069f5cd3e45cf62dbc31a6e`,
 `e7eb6be0adcdb5afc069f5cd3e45cf62dbc31a6e -> 97716b9165cc4b8f0e6a51010376b0a8e46cc169`,
 `97716b9165cc4b8f0e6a51010376b0a8e46cc169 -> 4602ced667aa1188133429c2011d57736d203a72`,
-`4602ced667aa1188133429c2011d57736d203a72 -> <r20_candidate_commit>`,
-`<r20_candidate_commit> -> <r20_acceptance_commit>`, and
-`<r20_acceptance_commit> -> <corrective_entry_commit>`, expanded to the full
+`4602ced667aa1188133429c2011d57736d203a72 -> 6ffb40615b60e8760a896771a16072b2d2ec47e9`,
+`6ffb40615b60e8760a896771a16072b2d2ec47e9 -> <r21_candidate_commit>`,
+`<r21_candidate_commit> -> <r21_acceptance_commit>`, and
+`<r21_acceptance_commit> -> <corrective_entry_commit>`, expanded to the full
 40-lowercase-hex values already bound by the corresponding scoped array. The
 retained command IDs are the scoped ID plus suffix `_unscoped`; their argv
 digests use the same `test-gate-argv.v1` preimage. Native/portable exit,
@@ -363,28 +372,60 @@ The exact governance rows are respectively `M docs/vtrace/WP_TST_001.md`,
 `A .../pulse-33-wp-tst-001-r19-corrective-lineage-candidate.md`;
 `M docs/vtrace/WP_TST_001.md`,
 `A .../pulse-34-wp-tst-001-r20-corrective-lineage-candidate.md`;
-`A .../pulse-35-wp-tst-001-r20-acceptance.md`; and
-`A .../pulse-36-wp-tst-001-r20-corrective-entry.md`, where each `.../` expands
+`M docs/vtrace/WP_TST_001.md`,
+`A .../pulse-35-wp-tst-001-r21-corrective-lineage-candidate.md`;
+`A .../pulse-36-wp-tst-001-r21-acceptance.md`; and
+`A .../pulse-37-wp-tst-001-r21-corrective-entry.md`, where each `.../` expands
 only to `context/waves/2026-07-28-bastion-foundation/pulses/`. No alias is
 retained in a row.
 
-### 3.1 R20 lineage objects and externally selected schema-version closure
+### 3.1 R21 lineage objects and externally selected schema-version closure
 
-R20 replaces, rather than informally extending, every affected
-R14/R15/R16/R17/R18/R19 record. Validator selection is not data-directed by a
+R21 replaces, rather than informally extending, every affected
+R14/R15/R16/R17/R18/R19/R20 record. Validator selection is not data-directed by a
 nested member. Before any nested parse, the supervisor obtains an external
-dispatch tuple `(artifact_kind,outer_schema,wp_revision,candidate_commit)`:
+dispatch tuple `(artifact_kind,outer_schema,wp_revision,candidate_commit,
+parent_binding_path,subject_commit,committed_wp_blob,committed_wp_sha256)`:
 artifact kind comes from the already classified closed path/kind grammar;
 outer schema and WP revision come from a bounded top-level envelope read; and
 candidate commit comes only from the verified governance context (the exact
-acceptance parent/current candidate for R20 or the frozen custody row for a
+acceptance parent/current candidate for R21 or the frozen custody row for a
 historical revision). It then resolves
 `<candidate_commit>:docs/vtrace/WP_TST_001.md` with the sanitized Git object
 commands, requires the resolved blob ID and SHA-256 of complete raw blob bytes
 to equal the frozen row below, and only then selects the one immutable validator
 for the complete tuple. A candidate commit copied from `lineage_binding`, any
 other nested member, caller input, or working-tree bytes cannot select or alter
-the validator. Tuple mismatch rejects before nested parsing.
+the validator. Committed WP blob/SHA are the verified results of that resolution.
+`parent_binding_path` is the exact canonical JSON pointer established by the
+already selected parent-envelope traversal, and `subject_commit` is null except
+for a failed-amendment review, where it is the section 1 commit selected by the
+parent failed-amendment index before review bytes are parsed. Governance delta
+uses parent path `/lineage_binding`, child path
+`/lineage_binding/governance_delta`, null subject commit, and the parent's
+externally selected WP revision/candidate/WP tuple; failed review at index `i`
+uses parent path `/lineage_binding/failed_amendments/i`, child path
+`/lineage_binding/failed_amendments/i/review`, and the exact indexed subject
+commit. Neither object may self-select via a nested `wp_revision`, candidate,
+review ID, or subject. Tuple mismatch rejects before nested parsing.
+
+Dispatch is total for every current matrix row. The path classifier selects a
+mode-evidence, set-evidence, ledger-record, publication, decision,
+review-authentication, acceptance-pulse, entry-pulse, or lineage-envelope
+grammar before reading that artifact. Its bounded top-level envelope supplies
+`outer_schema` and `wp_revision`; the verified candidate/WP tuple supplies the
+remaining commit custody. Mode/set envelopes select their lineage,
+implementation, registry, author, evidence-custody, decision, and publication
+children through exact canonical parent paths; ledger and publication
+envelopes select their lineage child the same way; acceptance/entry pulse
+envelopes select author custody and binding children; the lineage envelope
+selects intent, failed amendment/review, governance delta, acceptance, entry,
+and implementation children. Every child path is fixed by its already selected
+parent validator. The supervisor retains the corresponding metadata digest
+alongside that traversal; GovernanceDeltaBinding and FailedAmendmentBinding
+also bind it internally through their explicit `dispatch_metadata_digest` key.
+There is therefore no dispatch-listed type whose revision, subject, source
+enum, or nested validator must first be obtained from that child.
 
 Frozen dispatch identities are R17 commit/WP SHA/blob
 `e7eb6be0adcdb5afc069f5cd3e45cf62dbc31a6e` /
@@ -395,46 +436,50 @@ Frozen dispatch identities are R17 commit/WP SHA/blob
 `99e1aee5250052cbf534db9a4f1a66575caaa256`; and R19
 `4602ced667aa1188133429c2011d57736d203a72` /
 `33763165576e450132a98547f8d23d5746c96c7c1f95b8688ccf8b5a6766b8a4` /
-`daac24b6eaa19e22979b77f6f2b7fbab215a3507`. R20 uses the exact committed
+`daac24b6eaa19e22979b77f6f2b7fbab215a3507`; and R20
+`6ffb40615b60e8760a896771a16072b2d2ec47e9` /
+`f5e230de66b9ef41be7ac84817610cb7c966757db2aa119fe9a345cd1bdbb287` /
+`5c246e8e518bd27d24aaf536cc351f2b03370b6d`. R21 uses the exact committed
 candidate selected by its future acceptance-parent proof and the WP digest/blob
-committed with Pulse 34. R14/R15/R16 use their section 1 frozen commit/WP
+committed with Pulse 35. R14/R15/R16 use their section 1 frozen commit/WP
 SHA/blob rows and original validators.
 
-| Affected closed artifact | Frozen R17 | Frozen R18 | Frozen R19 | Current R20 |
-|---|---|---|---|---|
-| Mode evidence | `test-gate-evidence.v12` | `test-gate-evidence.v12` | `test-gate-evidence.v13` | `test-gate-evidence.v13` |
-| Set evidence | `test-gate-evidence-set.v11` | `test-gate-evidence-set.v11` | `test-gate-evidence-set.v12` | `test-gate-evidence-set.v12` |
-| Ledger | `test-gate-ledger.v3` | `test-gate-ledger.v3` | `test-gate-ledger.v4` | `test-gate-ledger.v4` |
-| Publication receipt | `test-gate-publication-receipt.v2` | `test-gate-publication-receipt.v2` | `test-gate-publication-receipt.v3` | `test-gate-publication-receipt.v3` |
-| Publication finalization | `test-gate-publication-finalization.v2` | `test-gate-publication-finalization.v2` | `test-gate-publication-finalization.v3` | `test-gate-publication-finalization.v3` |
-| Decision | `test-gate-decision.v2` | `test-gate-decision.v2` | `test-gate-decision.v3` | `test-gate-decision.v3` |
-| Review authentication | `vtrace-review-auth.v2` | `vtrace-review-auth.v2` | `vtrace-review-auth.v3` | `vtrace-review-auth.v3` |
-| Author binding | `vtrace-author-binding.v2` | `vtrace-author-binding.v2` | `vtrace-author-binding.v3` | `vtrace-author-binding.v3` |
-| Identity registry | `vtrace-identity-registry.v2` | `vtrace-identity-registry.v2` | `vtrace-identity-registry.v3` | `vtrace-identity-registry.v3` |
-| Acceptance/entry author custody | `vtrace-author-custody.v2` | `vtrace-author-custody.v2` | `vtrace-author-custody.v3` | `vtrace-author-custody.v3` |
-| Evidence custody preimage | `vtrace-evidence-custody.v1` | `vtrace-evidence-custody.v1` | `vtrace-evidence-custody.v2` | `vtrace-evidence-custody.v2` |
-| Corrective-lineage intent | `corrective-lineage-intent.v2` | `corrective-lineage-intent.v3` | `corrective-lineage-intent.v4` | `corrective-lineage-intent.v5` |
-| Governance delta | `test-gate-governance-delta.v2` | `test-gate-governance-delta.v3` | `test-gate-governance-delta.v4` | `test-gate-governance-delta.v5` |
-| Failed-amendment review | `test-gate-failed-amendment-review.v1` | `test-gate-failed-amendment-review.v1` | `test-gate-failed-amendment-review.v1` | `test-gate-failed-amendment-review.v2` |
-| Failed amendment | `test-gate-failed-amendment.v2` | `test-gate-failed-amendment.v3` | `test-gate-failed-amendment.v4` | `test-gate-failed-amendment.v5` |
-| Corrective lineage | `test-gate-corrective-lineage.v2` | `test-gate-corrective-lineage.v3` | `test-gate-corrective-lineage.v4` | `test-gate-corrective-lineage.v5` |
-| Acceptance binding | `test-gate-acceptance-binding.v3` | `test-gate-acceptance-binding.v4` | `test-gate-acceptance-binding.v5` | `test-gate-acceptance-binding.v5` |
-| Corrective-entry binding | `test-gate-corrective-entry-binding.v3` | `test-gate-corrective-entry-binding.v4` | `test-gate-corrective-entry-binding.v5` | `test-gate-corrective-entry-binding.v5` |
-| Implementation binding | `test-gate-implementation-binding.v3` | `test-gate-implementation-binding.v4` | `test-gate-implementation-binding.v5` | `test-gate-implementation-binding.v6` |
+| Affected closed artifact | Frozen R17 | Frozen R18 | Frozen R19 | Frozen R20 | Current R21 |
+|---|---|---|---|---|---|
+| Mode evidence | `test-gate-evidence.v12` | `test-gate-evidence.v12` | `test-gate-evidence.v13` | `test-gate-evidence.v13` | `test-gate-evidence.v14` |
+| Set evidence | `test-gate-evidence-set.v11` | `test-gate-evidence-set.v11` | `test-gate-evidence-set.v12` | `test-gate-evidence-set.v12` | `test-gate-evidence-set.v13` |
+| Ledger | `test-gate-ledger.v3` | `test-gate-ledger.v3` | `test-gate-ledger.v4` | `test-gate-ledger.v4` | `test-gate-ledger.v5` |
+| Publication receipt | `test-gate-publication-receipt.v2` | `test-gate-publication-receipt.v2` | `test-gate-publication-receipt.v3` | `test-gate-publication-receipt.v3` | `test-gate-publication-receipt.v4` |
+| Publication finalization | `test-gate-publication-finalization.v2` | `test-gate-publication-finalization.v2` | `test-gate-publication-finalization.v3` | `test-gate-publication-finalization.v3` | `test-gate-publication-finalization.v4` |
+| Decision | `test-gate-decision.v2` | `test-gate-decision.v2` | `test-gate-decision.v3` | `test-gate-decision.v3` | `test-gate-decision.v4` |
+| Review authentication | `vtrace-review-auth.v2` | `vtrace-review-auth.v2` | `vtrace-review-auth.v3` | `vtrace-review-auth.v3` | `vtrace-review-auth.v4` |
+| Author binding | `vtrace-author-binding.v2` | `vtrace-author-binding.v2` | `vtrace-author-binding.v3` | `vtrace-author-binding.v3` | `vtrace-author-binding.v4` |
+| Identity registry | `vtrace-identity-registry.v2` | `vtrace-identity-registry.v2` | `vtrace-identity-registry.v3` | `vtrace-identity-registry.v3` | `vtrace-identity-registry.v4` |
+| Candidate-WP author custody | `vtrace-author-custody.v1` | `vtrace-author-custody.v1` | `vtrace-author-custody.v1` | `vtrace-author-custody.v1` | `vtrace-author-custody.v2` |
+| Acceptance/entry author custody | `vtrace-author-custody.v2` | `vtrace-author-custody.v2` | `vtrace-author-custody.v3` | `vtrace-author-custody.v3` | `vtrace-author-custody.v4` |
+| Evidence custody preimage | `vtrace-evidence-custody.v1` | `vtrace-evidence-custody.v1` | `vtrace-evidence-custody.v2` | `vtrace-evidence-custody.v2` | `vtrace-evidence-custody.v3` |
+| Corrective-lineage intent | `corrective-lineage-intent.v2` | `corrective-lineage-intent.v3` | `corrective-lineage-intent.v4` | `corrective-lineage-intent.v5` | `corrective-lineage-intent.v6` |
+| Governance delta | `test-gate-governance-delta.v2` | `test-gate-governance-delta.v3` | `test-gate-governance-delta.v4` | `test-gate-governance-delta.v5` | `test-gate-governance-delta.v6` |
+| External validator dispatch metadata | not present | not present | not present | not present | `test-gate-validator-dispatch.v1` |
+| Failed-amendment review | `test-gate-failed-amendment-review.v1` | `test-gate-failed-amendment-review.v1` | `test-gate-failed-amendment-review.v1` | `test-gate-failed-amendment-review.v2` | `test-gate-failed-amendment-review.v3` |
+| Failed amendment | `test-gate-failed-amendment.v2` | `test-gate-failed-amendment.v3` | `test-gate-failed-amendment.v4` | `test-gate-failed-amendment.v5` | `test-gate-failed-amendment.v6` |
+| Corrective lineage | `test-gate-corrective-lineage.v2` | `test-gate-corrective-lineage.v3` | `test-gate-corrective-lineage.v4` | `test-gate-corrective-lineage.v5` | `test-gate-corrective-lineage.v6` |
+| Acceptance binding | `test-gate-acceptance-binding.v3` | `test-gate-acceptance-binding.v4` | `test-gate-acceptance-binding.v5` | `test-gate-acceptance-binding.v5` | `test-gate-acceptance-binding.v6` |
+| Corrective-entry binding | `test-gate-corrective-entry-binding.v3` | `test-gate-corrective-entry-binding.v4` | `test-gate-corrective-entry-binding.v5` | `test-gate-corrective-entry-binding.v5` | `test-gate-corrective-entry-binding.v6` |
+| Implementation binding | `test-gate-implementation-binding.v3` | `test-gate-implementation-binding.v4` | `test-gate-implementation-binding.v5` | `test-gate-implementation-binding.v6` | `test-gate-implementation-binding.v7` |
 
 Historical records validate only under the exact tuple-selected frozen validator
 and digest preimages in this matrix; R17 and R18 are deliberately distinct.
-R20 retains an R19 schema literal exactly where that artifact's own ordered
-members and value algebra are unchanged; the external tuple still selects a
-distinct revision-specific nested validator. Versions advance only for the
-expanded intent, governance delta, failed review/binding, corrective lineage,
-and implementation-binding contracts. The current R20 validator accepts only
-the Current R20 column for its externally verified tuple. Cross-revision relabel,
+R20 is frozen exactly as committed, including every retained literal. R21 calls
+no revision-specific exact value unchanged: every affected outer or nested
+contract advances because its exact WP revision, subject/source enum, nested
+binding, or value algebra differs. The current R21 validator accepts only the
+Current R21 column for its externally verified tuple. Cross-revision relabel,
 old outer/new nested bytes, new outer/old nested bytes, commit/revision/schema
 substitution, or parsing nested candidate identity before external dispatch
 rejects. Generic observation, argv, raw delta, failed-attempt,
 structured-result, and other types not listed above retain their existing
-schema because R20 changes none of their ordered members, enums, nested exact
+schema because R21 changes none of their ordered members, enums, nested exact
 shapes, or digest preimages.
 The following types are closed; listed order is canonical key order and no
 additional or omitted member is valid:
@@ -444,16 +489,17 @@ additional or omitted member is valid:
 | `GovernanceGitObservation` / `test-gate-governance-git-observation.v1` | `schema,command_id,argv,native_exit_u32,portable_exit,stdout_byte_count,stdout_sha256,stderr_byte_count,stderr_sha256,observation_digest`; argv is one exact scoped/unscoped array above, exits are `0,0`, counts/hash bind complete raw streams, and digest is last. |
 | `DeltaBinding` / `test-gate-delta-binding.v1` | `schema,kind,base_commit,target_commit,raw_observation,binary_observation,rows,row_count,delta_digest`; kind is `complete-implementation|corrective-implementation`; observations use the same ordered members/types as `GovernanceGitObservation` but schemas `test-gate-delta-git-observation.v1` and exact raw/binary argv above; rows use `status,path,old_oid,new_oid` in unsigned raw-path-byte Git emission order and exactly parse raw stdout; binary stdout SHA supplies the delta preimage; digest is last and hashes the defined delta preimage, not JSON. |
 | `CommitParentObservation` / `test-gate-commit-parent-observation.v1` | `schema,command_id,argv,native_exit_u32,portable_exit,stdout_byte_count,stdout_sha256,stderr_byte_count,stderr_sha256,commit,tree,parent_count,first_parent,parse_status,observation_digest`; argv is exact `GIT-C || ["cat-file","commit",commit]`; exits are `0,0`; stream counts/hashes bind complete raw bytes; commit/tree/parent are lowercase `GIT_ID`; parent count is literal `1`; parse status is `complete`; digest is last and hashes canonical JSON with only itself and its preceding comma omitted. |
-| `AcceptanceCommitObservation` / `test-gate-commit-parent-observation.v1` | the acceptance-role use of the one shared `CommitParentObservation` schema above, with no alternate keys or preimage; command ID is `r20_acceptance_commit_object`, commit is R20 acceptance, and first parent is the exact externally selected R20 candidate. Entry and implementation use that identical schema with only their formula-bound command/commit/tree/parent values changed. |
-| `GovernanceDeltaBinding` / `test-gate-governance-delta.v5` | `schema,r15_failed_amendment_commit,r15_paths,r15_scoped,r15_unscoped,r16_failed_amendment_commit,r16_paths,r16_scoped,r16_unscoped,r17_failed_amendment_commit,r17_paths,r17_scoped,r17_unscoped,r18_failed_amendment_commit,r18_paths,r18_scoped,r18_unscoped,r19_failed_amendment_commit,r19_paths,r19_scoped,r19_unscoped,r20_candidate_commit,r20_candidate_paths,r20_candidate_scoped,r20_candidate_unscoped,r20_acceptance_commit,r20_acceptance_paths,r20_acceptance_scoped,r20_acceptance_unscoped,corrective_entry_commit,corrective_entry_paths,corrective_entry_scoped,corrective_entry_unscoped,aggregate_digest`; path arrays are exact; each unscoped observation uses no diff filter and must be byte-identical to its scoped peer; aggregate hashes all sixteen observations then commit/path rows in field order; digest is last. |
+| `AcceptanceCommitObservation` / `test-gate-commit-parent-observation.v1` | the acceptance-role use of the one shared `CommitParentObservation` schema above, with no alternate keys or preimage; command ID is `r21_acceptance_commit_object`, commit is R21 acceptance, and first parent is the exact externally selected R21 candidate. Entry and implementation use that identical schema with only their formula-bound command/commit/tree/parent values changed. |
+| `ValidatorDispatchMetadata` / `test-gate-validator-dispatch.v1` | exact ordered keys `schema,artifact_kind,artifact_path,outer_schema,wp_revision,candidate_commit,parent_binding_path,subject_commit,committed_wp_blob,committed_wp_sha256,dispatch_digest`; values are the externally established tuple/path data above, nullability only as specified there, and digest hashes the preceding ten fields. It is retained before and outside the child parse; GovernanceDeltaBinding and every failed-amendment review bind its digest from their already selected parent envelope without using child bytes to select it. |
+| `GovernanceDeltaBinding` / `test-gate-governance-delta.v6` | `schema,r15_failed_amendment_commit,r15_paths,r15_scoped,r15_unscoped,r16_failed_amendment_commit,r16_paths,r16_scoped,r16_unscoped,r17_failed_amendment_commit,r17_paths,r17_scoped,r17_unscoped,r18_failed_amendment_commit,r18_paths,r18_scoped,r18_unscoped,r19_failed_amendment_commit,r19_paths,r19_scoped,r19_unscoped,r20_failed_amendment_commit,r20_paths,r20_scoped,r20_unscoped,r21_candidate_commit,r21_candidate_paths,r21_candidate_scoped,r21_candidate_unscoped,r21_acceptance_commit,r21_acceptance_paths,r21_acceptance_scoped,r21_acceptance_unscoped,corrective_entry_commit,corrective_entry_paths,corrective_entry_scoped,corrective_entry_unscoped,dispatch_metadata_digest,aggregate_digest`; path arrays are exact; external dispatch metadata uses parent `/lineage_binding`, child `/lineage_binding/governance_delta`, null subject, and R21 tuple; each unscoped observation uses no diff filter and must be byte-identical to its scoped peer; aggregate hashes all eighteen observations then commit/path rows and dispatch digest in field order; digest is last. |
 | `FailedAttemptBinding` / `test-gate-failed-attempt.v1` | `schema,commit,tree_digest,first_parent,implementation_paths,implementation_manifest_digest,audit_id,audit_digest,critical_count,major_count,disposition,promotable,evidence_claimed,exit_claimed,binding_digest`; constants are failed commit/tree/R14 entry, exact 18 paths, audit ID `AUDIT-WP-TST-001-R14-IMPLEMENTATION-001`, counts `4,2`, disposition `failed-retained`, and three booleans `false`; audit digest hashes the canonical six-finding audit record; binding digest is last. |
-| `FailedAmendmentBinding` / `test-gate-failed-amendment.v5` | same exact ordered keys/rules as v4; exactly five bindings exist in revision order R15,R16,R17,R18,R19 using section 1 identities, reviews `AUDIT-WP-TST-001-R15-AMENDMENT-001`, `...R16...`, `...R17...`, `...R18...`, `...R19...`, actionable counts `5,6,4,1,5`, disposition `failed-retained`, and three false booleans; binding digest is last. |
-| `CorrectiveLineageBinding` / `test-gate-corrective-lineage.v5` | `schema,wp_revision,wp_artifact_digest,r20_candidate_commit,acceptance_binding,corrective_entry_binding,original_r14_entry_commit,original_r14_entry_pulse_digest,failed_attempt,failed_amendments,governance_delta,complete_implementation_delta,corrective_delta,corrective_implementation_commit,corrective_implementation_tree,lineage_digest`; revision `R20`; failed amendments exactly `[R15,R16,R17,R18,R19]`; positive WP/acceptance/entry values are R20 only; all nested observations/digests recompute; lineage digest is last. |
-| `AcceptanceBindingV5` / `test-gate-acceptance-binding.v5` | `schema,wp_revision,commit,first_parent,commit_observation,pulse_path,pulse_digest,subject_id,subject_digest,binding_digest`; revision `R20`; observation is exact `AcceptanceCommitObservation`, its commit equals this commit and its sole first parent equals the externally selected `r20_candidate_commit`; path Pulse 35, subject `WP-TST-001-R20-ACCEPTANCE`, subject digest equals R20 WP digest; binding digest is last. |
-| `CorrectiveEntryBindingV5` / `test-gate-corrective-entry-binding.v5` | `schema,wp_revision,commit,tree_digest,first_parent,commit_observation,pulse_path,pulse_digest,subject_id,acceptance_commit,acceptance_pulse_digest,binding_digest`; revision `R20`; exact `CommitParentObservation` command ID `corrective_entry_commit_object` binds commit/tree and exactly one parent equal to acceptance; path Pulse 36, subject `WP-TST-001-R20-CORRECTIVE-ENTRY`; binding digest is last. |
-| `ImplementationBindingV6` / `test-gate-implementation-binding.v6` | `schema,commit,tree_digest,first_parent,commit_observation,allowed_paths,failed_attempt_binding_digest,failed_amendment_binding_digests,governance_delta_digest,complete_implementation_delta,corrective_delta,corrective_no_extra_observation,observed_preflight,binding_digest`; exact `CommitParentObservation` command ID `corrective_implementation_commit_object` binds commit/tree and exactly one parent equal to corrective entry; failed amendment digests are R15,R16,R17,R18,R19; no-extra observation has no diff filter and must equal corrective raw stdout; binding digest is last. |
-| `AuthorBindingV3` / `vtrace-author-binding.v3` | `schema,source_kind,source_ref,source_digest,wp_revision,lineage_digest,author_id,controller_id,binding_digest`; source kind is exactly `wp_r20_candidate|r20_acceptance_pulse|r20_corrective_entry_pulse|failed_r14_implementation|corrective_implementation_commit|mode_evidence|set_evidence`; R14/R15/R16/R17/R18/R19 governance is not a positive registry source; failed kind grants no authority; binding digest is last. |
-| `IdentityRegistryV3` / `vtrace-identity-registry.v3` | `schema,bindings,candidate_author_ids,failed_author_ids,registry_digest`; bindings are source-kind/source-ref sorted unique `AuthorBindingV3`; candidate IDs project every author/controller ID having at least one positive nonfailed binding, even when the same ID also occurs in a failed binding; failed IDs project every failed-kind ID for visibility and independence collision checks. Failed bindings confer no authority. An ID is excluded from candidate IDs only when all of its bindings are failed-only; registry digest is last. |
+| `FailedAmendmentBinding` / `test-gate-failed-amendment.v6` | exact ordered keys `schema,wp_revision,commit,first_parent,wp_sha256,wp_blob,pulse_path,pulse_sha256,pulse_blob,dispatch_metadata_digest,review_id,review_digest,actionable_count,disposition,accepted,entered,authority_created,binding_digest`; exactly six bindings exist in revision order R15,R16,R17,R18,R19,R20 using section 1 identities, and each parent binds the externally preselected metadata for child path `/lineage_binding/failed_amendments/i/review` before review parse; reviews are `AUDIT-WP-TST-001-R15-AMENDMENT-001` through `...R20...`, actionable counts `5,6,4,1,5,3`, disposition `failed-retained`, and three false booleans; binding digest is last. |
+| `CorrectiveLineageBinding` / `test-gate-corrective-lineage.v6` | `schema,wp_revision,wp_artifact_digest,r21_candidate_commit,acceptance_binding,corrective_entry_binding,original_r14_entry_commit,original_r14_entry_pulse_digest,failed_attempt,failed_amendments,governance_delta,complete_implementation_delta,corrective_delta,corrective_implementation_commit,corrective_implementation_tree,lineage_digest`; revision `R21`; failed amendments exactly `[R15,R16,R17,R18,R19,R20]`; positive WP/acceptance/entry values are R21 only; all nested observations/digests recompute; lineage digest is last. |
+| `AcceptanceBindingV6` / `test-gate-acceptance-binding.v6` | `schema,wp_revision,commit,first_parent,commit_observation,pulse_path,pulse_digest,subject_id,subject_digest,binding_digest`; revision `R21`; observation is exact `AcceptanceCommitObservation`, its commit equals this commit and its sole first parent equals the externally selected `r21_candidate_commit`; path Pulse 36, subject `WP-TST-001-R21-ACCEPTANCE`, subject digest equals R21 WP digest; binding digest is last. |
+| `CorrectiveEntryBindingV6` / `test-gate-corrective-entry-binding.v6` | `schema,wp_revision,commit,tree_digest,first_parent,commit_observation,pulse_path,pulse_digest,subject_id,acceptance_commit,acceptance_pulse_digest,binding_digest`; revision `R21`; exact `CommitParentObservation` command ID `corrective_entry_commit_object` binds commit/tree and exactly one parent equal to acceptance; path Pulse 37, subject `WP-TST-001-R21-CORRECTIVE-ENTRY`; binding digest is last. |
+| `ImplementationBindingV7` / `test-gate-implementation-binding.v7` | `schema,commit,tree_digest,first_parent,commit_observation,allowed_paths,failed_attempt_binding_digest,failed_amendment_binding_digests,governance_delta_digest,complete_implementation_delta,corrective_delta,corrective_no_extra_observation,observed_preflight,binding_digest`; exact `CommitParentObservation` command ID `corrective_implementation_commit_object` binds commit/tree and exactly one parent equal to corrective entry; failed amendment digests are R15,R16,R17,R18,R19,R20; no-extra observation has no diff filter and must equal corrective raw stdout; binding digest is last. |
+| `AuthorBindingV4` / `vtrace-author-binding.v4` | `schema,source_kind,source_ref,source_digest,wp_revision,lineage_digest,author_id,controller_id,binding_digest`; source kind is exactly `wp_r21_candidate|r21_acceptance_pulse|r21_corrective_entry_pulse|failed_r14_implementation|corrective_implementation_commit|mode_evidence|set_evidence`; R14/R15/R16/R17/R18/R19/R20 governance is not a positive registry source; failed kind grants no authority; binding digest is last. |
+| `IdentityRegistryV4` / `vtrace-identity-registry.v4` | `schema,bindings,candidate_author_ids,failed_author_ids,registry_digest`; bindings are source-kind/source-ref sorted unique `AuthorBindingV4`; candidate IDs project every author/controller ID having at least one positive nonfailed binding, even when the same ID also occurs in a failed binding; failed IDs project every failed-kind ID for visibility and independence collision checks. Failed bindings confer no authority. An ID is excluded from candidate IDs only when all of its bindings are failed-only; registry digest is last. |
 
 Each commit-object command retains the complete stdout and stderr byte streams
 through their exact counts and SHA-256 values. Its parser consumes the raw
@@ -527,7 +573,7 @@ A<TAB>tools/test_gate.ps1<TAB>9362a4b4f284371f431076d1bd07a07955daddd0
 The audit constants are subject commit/tree from section 1, reviewed revision
 `R14`, counts `4,2`, disposition `failed-retained`, and booleans `false,false,
 false`; `audit_digest` is last and uses the canonical JSON omission rule. The
-R20 corrective evidence may close the technical conditions only by new results;
+R21 corrective evidence may close the technical conditions only by new results;
 it never changes any audit finding disposition or failed-attempt boolean. The
 failed commit/tree/audit/binding digests are unequal to the corrective commit/
 tree/complete-delta/corrective-delta/lineage/evidence/set digests. Any equality,
@@ -535,9 +581,13 @@ substitution, omission, favorable projection, accepted evidence pointer, or
 exit inclusion is a `binding-mismatch` and non-promotable.
 
 Each amendment review referenced by `FailedAmendmentBinding` dispatches
-independently before its findings are parsed: retained R15/R16/R17/R18 is one
-frozen `test-gate-failed-amendment-review.v1` object and newly retained R19 is
-one `test-gate-failed-amendment-review.v2` object. Both have exact ordered keys
+independently before its findings are parsed. The already selected parent
+failed-amendment envelope supplies one exact `ValidatorDispatchMetadata`
+digest, including its indexed subject commit and the externally verified WP
+tuple, before the review child is read. Retained R15/R16/R17/R18 use their
+frozen `test-gate-failed-amendment-review.v1` validators, retained R19 uses its
+frozen R20 `test-gate-failed-amendment-review.v2` validator, and newly retained
+R20 uses `test-gate-failed-amendment-review.v3`. All have exact ordered keys
 `schema,review_id,subject_commit,findings,actionable_count,disposition,
 accepted,entered,authority_created,review_digest`. `findings` is exactly the
 ordered string array `["complete-delta-projection-unclosed",
@@ -562,26 +612,31 @@ digest is last. The R17 review has exact findings
 "ledger-version-reference-stale",
 "failed-amendment-review-schema-unversioned",
 "failed-r15-negative-custody-omitted"]`, count `5`, disposition
-`failed-retained`, and all booleans false. R15/R16/R17/R18 retain their exact
-frozen v1 review validators; R20 v2 adds only the exact R19 review ID/subject/
-finding array/count and selects it through the external dispatch tuple. Neither review nor any failed WP/pulse may appear
+`failed-retained`, and all booleans false. The R20 review has exact findings
+`["revision-specific-schema-versions-not-incremented",
+"failed-review-and-governance-delta-dispatch-context-incomplete",
+"ledger-current-version-not-advanced"]`, count `3`, disposition
+`failed-retained`, and all booleans false. Each review's exact validator is
+selected only from its parent metadata before these ordered child bytes are
+parsed; `subject_commit` is then checked for equality and never participates in
+selection. Neither review nor any failed WP/pulse may appear
 as a positive registry source, executable entry, implementation input, review
 pass, or promotion claim.
 
-Future Pulse 35 contains exactly one fenced `vtrace-author-custody.v3` block
-with LF rows in this order: `subject=WP-TST-001-R20-ACCEPTANCE`,
-`wp_revision=R20`, `wp_digest=<R20-WP-DIGEST>`,
-`r20_candidate_commit=<R20-CANDIDATE-COMMIT>`,
-`acceptance_first_parent=<R20-CANDIDATE-COMMIT>`,
+Future Pulse 36 contains exactly one fenced `vtrace-author-custody.v4` block
+with LF rows in this order: `subject=WP-TST-001-R21-ACCEPTANCE`,
+`wp_revision=R21`, `wp_digest=<R21-WP-DIGEST>`,
+`r21_candidate_commit=<R21-CANDIDATE-COMMIT>`,
+`acceptance_first_parent=<R21-CANDIDATE-COMMIT>`,
 `lineage_intent_digest=<DIGEST>`, `author_id=REV-TST-ACCEPTANCE-AUTHOR`,
 `controller_id=REV-TST-GOVERNANCE-CONTROLLER`. The intent digest hashes exact
 UTF-8 bytes consisting of every following literal key/value row in exactly this
 order, each terminated by LF including the last:
 
 ```text
-schema=corrective-lineage-intent.v5
-wp_revision=R20
-wp_digest=<R20-WP-DIGEST>
+schema=corrective-lineage-intent.v6
+wp_revision=R21
+wp_digest=<R21-WP-DIGEST>
 original_r14_entry_commit=6354f5184b97923571dcd397ac9871167833e86e
 original_r14_entry_pulse_digest=84bdc53fed341919db253d2799a2d7119a965fce5b505dd28df0fec840f5c035
 failed_r14_implementation_commit=7e4591838dfffdc8d1fc35f0e97e77133a56490b
@@ -592,26 +647,27 @@ failed_r16_amendment_commit=be689ae15837b6f5ce0c24a89ee66a6b5939aa75
 failed_r17_amendment_commit=e7eb6be0adcdb5afc069f5cd3e45cf62dbc31a6e
 failed_r18_amendment_commit=97716b9165cc4b8f0e6a51010376b0a8e46cc169
 failed_r19_amendment_commit=4602ced667aa1188133429c2011d57736d203a72
-r20_candidate_commit=<R20-CANDIDATE-COMMIT>
+failed_r20_amendment_commit=6ffb40615b60e8760a896771a16072b2d2ec47e9
+r21_candidate_commit=<R21-CANDIDATE-COMMIT>
 complete_delta_kind=complete-implementation
 corrective_delta_kind=corrective-implementation
 ```
 
 Angle-bracket values expand to the one already bound lowercase digest/commit;
-the brackets are not hashed. Pulse 36 contains exactly one fenced
-`vtrace-author-custody.v3` block with rows `subject=WP-TST-001-R20-CORRECTIVE-ENTRY`,
-`wp_revision=R20`, `wp_digest=<R20-WP-DIGEST>`,
-`acceptance_commit=<R20-ACCEPTANCE-COMMIT>`,
-`acceptance_pulse_digest=<PULSE-35-DIGEST>`,
+the brackets are not hashed. Pulse 37 contains exactly one fenced
+`vtrace-author-custody.v4` block with rows `subject=WP-TST-001-R21-CORRECTIVE-ENTRY`,
+`wp_revision=R21`, `wp_digest=<R21-WP-DIGEST>`,
+`acceptance_commit=<R21-ACCEPTANCE-COMMIT>`,
+`acceptance_pulse_digest=<PULSE-36-DIGEST>`,
 `author_id=REV-TST-ENTRY-AUTHOR`,
 `controller_id=REV-TST-GOVERNANCE-CONTROLLER`. Neither block contains or hashes
-its own containing future commit. Their parsed fields populate only the v5
+its own containing future commit. Their parsed fields populate only the v6
 acceptance/corrective-entry bindings above.
 
 Every self-digest hashes canonical JSON with its final digest member and the
 immediately preceding comma omitted. Nested bindings hash independently before
 their digest is used. `failed_attempt.binding_digest`,
-all three ordered `failed_amendments[*].binding_digest` values, both delta digests, and
+all six ordered `failed_amendments[*].binding_digest` values, both delta digests, and
 `governance_delta.aggregate_digest` must all differ from `lineage_digest`, every
 evidence/set digest, and every decision digest. The failed attempt may appear
 only in `failed_attempt`, failed-kind registry custody, predecessor/history, or
@@ -619,7 +675,7 @@ diagnostic provenance; it may never equal the current implementation,
 execution origin, positive author source, expected/actual pass input, receipt,
 finalization, set mode record, or exit tree.
 
-All subsequent references to R14 evidence schemas are replaced by the R20
+All subsequent references to R14 evidence schemas are replaced by the R21
 versions and placements in section 8 below. Every R14 path, command, fixture,
 bound, trace, behavior, review lane, exit, rollback, and authority restriction
 remains normative without weakening. Evidence remains a separate later commit.
@@ -852,7 +908,7 @@ is exact per mode and ordered by first internal use:
 | `L2HoldClosure` | `[cargo]` |
 | `L2NoAuthority` | `[cargo]` |
 
-R20 retains the exact R14 serial phase plan. Each closed `ExecutionPhase` has ordered
+R21 retains the exact R14 serial phase plan. Each closed `ExecutionPhase` has ordered
 keys `phase_ordinal,phase_id,kind,tool_version_indices,argv,target_first,
 target_count`: ordinal is consecutive from 1; kind is `command|targets`;
 tool indices select the exact top-level tuples in use order; argv is a literal
@@ -934,7 +990,7 @@ three-digit one-based mode-allocation ordinal. Completion/recovery uses the next
 not its start's RRRR. No other entry, sequence gap, duplicate, alternate width,
 temp remnant, or filename is legal. Bytewise filename order is chain order.
 
-Ledger schema is literal `test-gate-ledger.v4`. Every variant has exact ordered
+Ledger schema is literal `test-gate-ledger.v5`. Every variant has exact ordered
 common prefix `schema,record_kind,wp_id,wp_revision,wp_digest,lineage_binding,
 acceptance_commit,corrective_entry_commit,failed_implementation_commit,
 implementation_commit,mode,execution_id,
@@ -944,12 +1000,12 @@ only that final key and its preceding comma. Predecessor is null only for
 `RunStart`; otherwise it hashes the immediately prior durable record. No
 variant admits another variant's keys or placeholder null fields.
 
-`wp_revision` is literal `R20`; `wp_digest` is the accepted R20 WP digest;
+`wp_revision` is literal `R21`; `wp_digest` is the accepted R21 WP digest;
 `lineage_binding` is the complete closed `CorrectiveLineageBinding`; the three
 commit fields equal its acceptance, corrective-entry, failed-attempt, and
 current corrective-implementation projections. Thus every ledger record binds
 the corrective delta and failed disposition before its variant suffix; no R14
-positive acceptance/entry field is admitted by v3.
+positive acceptance/entry field is admitted by v5.
 
 | Variant / exact `record_kind` | Exact ordered suffix before `record_digest` |
 |---|---|
@@ -969,7 +1025,7 @@ Record `ordinal` is uint equal to filename RRRR; run attempt is uint
 `1..148` equal to MMM and the one-based index of that mode allocation. Times
 are `UTC`; all IDs/digests use section 8 primitives. The enclosing
 `ledger_binding` supplies the execution ordinal without changing the retained
-`test-gate-ledger.v4` record schema; its execution ID/version/run root bind those exact
+`test-gate-ledger.v5` record schema; its execution ID/version/run root bind those exact
 records.
 
 All identity and argv values equal their exact phase/allocation. The
@@ -1333,7 +1389,7 @@ one implementation commit, implementation/test/fixture-manifest/WP/
 acceptance/runner/root-manifest/lock/WS predecessor digest, exact argv,
 sanitized-environment digest, start/end/duration, bounds, per-command exit and
 stream hashes/bytes, combined bytes, assertions, executed case target, and
-result in canonical `test-gate-evidence.v13` JSON. All 16 modes must pass at
+result in canonical `test-gate-evidence.v14` JSON. All 16 modes must pass at
 one identical binding. A zero-test target, skipped target, missing field,
 mutation during a run, mismatched digest, or output after supervisor failure
 is a failure.
@@ -1810,7 +1866,7 @@ must recompute from the named bytes; merely matching `DIGEST` syntax is not
 sufficient. No unstated coercion, default, additional property, alternate
 encoding, or nullable value exists.
 
-### 8.2 Closed `test-gate-evidence.v13` mode schema
+### 8.2 Closed `test-gate-evidence.v14` mode schema
 
 The exact ordered top-level keys are:
 `schema,evidence_id,mode,evidence_version,evidence_path,execution_id,
@@ -1827,7 +1883,7 @@ predecessor_evidence,history,evidence_digest`.
 
 | Ordered field | Exact rule |
 |---|---|
-| `schema` | string literal `test-gate-evidence.v13` |
+| `schema` | string literal `test-gate-evidence.v14` |
 | `evidence_id` | string exactly `EVID-WP-TST-001-<mode>-vNNNN` |
 | `mode` | `MODE` |
 | `evidence_version` | `VERSION` |
@@ -1840,15 +1896,15 @@ predecessor_evidence,history,evidence_digest`.
 | `predecessor_execution` | null iff `execution_history=[]`; otherwise the last closed `ExecutionBinding` in that history, retained by reviews of the new execution |
 | `execution_history` | exact ascending immutable `ExecutionBinding` array defined below |
 | `wp_id` | string literal `WP-TST-001` |
-| `wp_revision` | string literal `R20` |
-| `wp_artifact_digest` | `DIGEST` of independently accepted R20 bytes |
+| `wp_revision` | string literal `R21` |
+| `wp_artifact_digest` | `DIGEST` of independently accepted R21 bytes |
 | `lineage_binding` | complete closed `CorrectiveLineageBinding`; its WP digest equals the preceding field and every nested delta/failed/governance digest recomputes |
-| `acceptance_binding` | exact `AcceptanceBindingV5` equal to `lineage_binding.acceptance_binding` |
-| `corrective_entry_binding` | exact `CorrectiveEntryBindingV5` equal to `lineage_binding.corrective_entry_binding` |
-| `implementation_binding` | closed `ImplementationBindingV6` below and equal to the lineage corrective implementation/deltas/no-extra/commit-parent observations |
+| `acceptance_binding` | exact `AcceptanceBindingV6` equal to `lineage_binding.acceptance_binding` |
+| `corrective_entry_binding` | exact `CorrectiveEntryBindingV6` equal to `lineage_binding.corrective_entry_binding` |
+| `implementation_binding` | closed `ImplementationBindingV7` below and equal to the lineage corrective implementation/deltas/no-extra/commit-parent observations |
 | `logical_predecessor_commit` | literal `cd1f1d75ec312789fed63a265219d8ad9069a17a` |
 | `context_rev_binding` | closed `ContextRevBinding` below |
-| `identity_registry` | one closed `IdentityRegistryV3`; its mode-evidence binding matches this mode and review successors retain the registry byte-identically |
+| `identity_registry` | one closed `IdentityRegistryV4`; its mode-evidence binding matches this mode and review successors retain the registry byte-identically |
 | `candidate_author_ids` | exact bytewise-sorted unique projection of `identity_registry.candidate_author_ids`; an ID with any positive binding remains present even if it is also visible in `failed_author_ids`; only failed-only IDs are absent and no failed binding grants authority |
 | `artifact_digests` | exactly 18 closed `ArtifactBinding` objects, strictly sorted and unique by `path`, one for every section 3 path; equality/null/reason rules below |
 | `trace_manifest_digest` | `DIGEST` of the accepted exact 123-identity/148-edge manifest |
@@ -1910,13 +1966,13 @@ ordinal and array byte-identically.
 
 | Type | Ordered members and exact rules |
 |---|---|
-| `ExecutionOrigin` | exact keys `wp_revision,lineage_digest,execution_id,execution_ordinal,execution_evidence_version,implementation_commit,run_id,ledger_root,ledger_aggregate_digest`; revision/lineage equal R20 top level; values equal the implementation and ledger bindings; ordinal is independent of evidence version; it contains no evidence ID/version/path/digest and is byte-identical in every review successor |
+| `ExecutionOrigin` | exact keys `wp_revision,lineage_digest,execution_id,execution_ordinal,execution_evidence_version,implementation_commit,run_id,ledger_root,ledger_aggregate_digest`; revision/lineage equal R21 top level; values equal the implementation and ledger bindings; ordinal is independent of evidence version; it contains no evidence ID/version/path/digest and is byte-identical in every review successor |
 | `ExecutionBinding` | exact keys `wp_revision,lineage_digest,execution_id,execution_ordinal,execution_evidence_version,execution_origin_digest,evidence_id,evidence_version,evidence_path,evidence_digest,run_id,ledger_root,ledger_aggregate_digest`; origin digest hashes canonical `ExecutionOrigin`; evidence values bind the last immutable record of that execution immediately before the next execution begins; ordinal obeys the complete consecutive history rule while the two evidence-version fields retain their exact record meanings; every digest recomputes |
-| `AcceptanceBindingV5` | exact closed section 3.1 object; only R20 acceptance is positive and its retained commit observation proves the sole externally selected R20-candidate parent |
-| `CorrectiveEntryBindingV5` | exact closed section 3.1 object; only R20 corrective entry is executable entry and its retained commit observation proves the acceptance parent |
-| `ImplementationBindingV6` | exact closed section 3.1 object; current commit/tree, retained sole R20-entry parent, exact complete/corrective deltas, unfiltered no-extra observation, governance and failed custody all validate |
+| `AcceptanceBindingV6` | exact closed section 3.1 object; only R21 acceptance is positive and its retained commit observation proves the sole externally selected R21-candidate parent |
+| `CorrectiveEntryBindingV6` | exact closed section 3.1 object; only R21 corrective entry is executable entry and its retained commit observation proves the acceptance parent |
+| `ImplementationBindingV7` | exact closed section 3.1 object; current commit/tree, retained sole R21-entry parent, exact complete/corrective deltas, unfiltered no-extra observation, governance and failed custody all validate |
 | `ContextRevBinding` | `exit_commit:GIT_ID,implementation_digest:DIGEST,evidence_set_digest:DIGEST,evidence_tree_digest:GIT_ID,unchanged_result_digest:DIGEST`; values are exactly `ab227cc06f15299b594cfe2be99915bd93c4c081`,`c5c2df1178568cd49b5d721cd01cba7cce3371e049528e07bad30d6b3324ea72`,`b95beff569794125018f2fde3d4d3317ed32278dfcfb1fc22a7d25cf51226bd9`,`d554c8c0c3d534aa96924f085a4dc007b25e3a3c`,`f0a15398cc87614cc904cbaa28459ef65ebc267ed70349e46f86f743ebd708c6`; the last hashes exact UTF-8 `rev_unchanged=true<LF>` and proves context only |
-| `AuthorBindingV3` | exact closed section 3.1 object; positive and failed source kinds, R20 revision, lineage digest, failed-only exclusion, and dual-bound-ID visibility are mandatory |
+| `AuthorBindingV4` | exact closed section 3.1 object; positive and failed source kinds, R21 revision, lineage digest, failed-only exclusion, and dual-bound-ID visibility are mandatory |
 | `ArtifactBinding` | `path:REL_PATH,expected_sha256:DIGEST|null,actual_sha256:DIGEST|null,reason:null|enum(missing,deleted,renamed,substituted,unreadable)`; when a same-path row exists the digests/reason equal it; total read/Git failure permits both null with unreadable; reason is null iff both digests are non-null and equal |
 | `AllocatedTarget` | exact ordered keys `controlled_id,assertion`; pair must be one exact section 7 edge assigned to this mode; lane strings are admitted only where section 7 uses them |
 | `TargetResult` | exact ordered keys `controlled_id,assertion,attempt_ordinal,attempt_argv,start_record_digest,completion_record_digest,recovery_record_digest,state,reason,output_pointer`; identity/ordinal/argv equal same-index allocation and section 6 serial expansion; all three record digests are null for not-run; normal attempts have start/completion non-null and recovery null; every exact recovery-kind terminal has start/recovery non-null and completion null, with recovery binding that start; state/reason/pointer obey the exhaustive target table below |
@@ -1926,17 +1982,17 @@ ordinal and array byte-identically.
 | `DeterminismControls` | `order:"bytewise",seed:"disabled",clock:"disabled",locale:"disabled",retry:"disabled"` |
 | `ExpectedResult` | `native_exit_u32:0,portable_exit:0,result:"passed",posture:"promotable",reason:"expected-outcome"` |
 | `ActualResult` | `native_exit_u32:integer 0..4294967295|null,portable_exit:integer 0..255|null,result:enum(passed,failed,not-run),posture:enum(promotable,non-promotable),reason:enum(expected-outcome,preflight-failed,command-not-started,target-held,unexpected-exit,assertion-failure,bound-exceeded,binding-mismatch,conflict),start_utc:UTC,end_utc:UTC,duration_ms:integer 0..60000`; end is not earlier than start and duration equals their millisecond difference; exits are null together iff no internal argv began; otherwise portable equals native when at most 255 and 255 when larger |
-| `EvidenceBinding` | exact keys `wp_revision,lineage_digest,evidence_id,evidence_path,evidence_version,evidence_digest`; revision/lineage equal the enclosing R20 record; ID/path use the same mode and bound version formulas and digest hashes that immutable predecessor |
+| `EvidenceBinding` | exact keys `wp_revision,lineage_digest,evidence_id,evidence_path,evidence_version,evidence_digest`; revision/lineage equal the enclosing R21 record; ID/path use the same mode and bound version formulas and digest hashes that immutable predecessor |
 
-Identity extraction is literal and total. `wp_r20_candidate` hashes committed
-`pulse-34-wp-tst-001-r20-corrective-lineage-candidate.md` bytes and extracts
-its sole fenced `vtrace-author-custody.v1` block with exact LF rows
-`subject=WP-TST-001-R20`,
+Identity extraction is literal and total. `wp_r21_candidate` hashes committed
+`pulse-35-wp-tst-001-r21-corrective-lineage-candidate.md` bytes and extracts
+its sole fenced `vtrace-author-custody.v2` block with exact LF rows
+`subject=WP-TST-001-R21`,
 `author_id=REV-TST-WP-AUTHOR`, `controller_id=REV-TST-GOVERNANCE-CONTROLLER`,
-`subject_digest=<wp_artifact_digest>`. `r20_acceptance_pulse` and
-`r20_corrective_entry_pulse` similarly use future committed pulses 35 and 36,
-subjects `WP-TST-001-R20-ACCEPTANCE` and
-`WP-TST-001-R20-CORRECTIVE-ENTRY`, authors
+`subject_digest=<wp_artifact_digest>`. `r21_acceptance_pulse` and
+`r21_corrective_entry_pulse` similarly use future committed pulses 36 and 37,
+subjects `WP-TST-001-R21-ACCEPTANCE` and
+`WP-TST-001-R21-CORRECTIVE-ENTRY`, authors
 `REV-TST-ACCEPTANCE-AUTHOR` and `REV-TST-ENTRY-AUTHOR`, governance controller,
 and subject digests respectively equal to the WP and acceptance-pulse digests.
 Their source digests hash complete raw pulse bytes.
@@ -1945,10 +2001,10 @@ Their source digests hash complete raw pulse bytes.
 exactly one final ordered trailer pair `Vtrace-Author-Id:
 REV-TST-IMPLEMENTATION-AUTHOR` and `Vtrace-Controller-Id:
 REV-TST-IMPLEMENTATION-CONTROLLER`. `mode_evidence` and `set_evidence` hash
-canonical LF rows `schema=vtrace-evidence-custody.v2`, `scope=<mode-or-SET>`,
+canonical LF rows `schema=vtrace-evidence-custody.v3`, `scope=<mode-or-SET>`,
 `evidence_id=<execution-origin-id>`, `author_id=REV-TST-EVIDENCE-AUTHOR`,
 `controller_id=REV-TST-EVIDENCE-CONTROLLER`, and
-`wp_revision=R20`, `lineage_digest=<lineage_binding.lineage_digest>`, and
+`wp_revision=R21`, `lineage_digest=<lineage_binding.lineage_digest>`, and
 `wp_digest=<wp_artifact_digest>`. `failed_r14_implementation` instead extracts
 the failed commit's trailers, always places those IDs in
 `identity_registry.failed_author_ids`, and binds the exact
@@ -1963,7 +2019,7 @@ author can be omitted from independence checks.
 For a mode, execution-origin ID is the evidence ID whose version equals
 `execution_evidence_version`; review successors retain it and an execution
 successor replaces only this binding with its new origin. Positive source refs
-are respectively the committed R20 candidate, R20 acceptance, R20 corrective
+are respectively the committed R21 candidate, R21 acceptance, R21 corrective
 entry, corrective implementation commit, that execution-origin mode evidence
 ID, and the initial set evidence ID. The separate failed source ref is the R14
 failed commit and is the only failed-kind binding; its IDs may also occur in
@@ -2078,15 +2134,15 @@ and the file's lane/reviewer fields. Numeric widths, MODEs, record kinds, and
 version/run/ordinal relationships are exactly those closed in this WP. SHA-256
 hashes exact raw bytes and must agree with canonical record digest rules;
 
-For R20 the kind-to-schema/digest-key map is exact:
-`ledger-record -> test-gate-ledger.v4/record_digest`,
-`mode-evidence -> test-gate-evidence.v13/evidence_digest`,
-`set-evidence -> test-gate-evidence-set.v12/set_digest`,
-`review-auth -> vtrace-review-auth.v3/record_digest`,
-`publication-receipt -> test-gate-publication-receipt.v3/receipt_digest`, and
-`publication-finalization -> test-gate-publication-finalization.v3/finalization_digest`.
+For R21 the kind-to-schema/digest-key map is exact:
+`ledger-record -> test-gate-ledger.v5/record_digest`,
+`mode-evidence -> test-gate-evidence.v14/evidence_digest`,
+`set-evidence -> test-gate-evidence-set.v13/set_digest`,
+`review-auth -> vtrace-review-auth.v4/record_digest`,
+`publication-receipt -> test-gate-publication-receipt.v4/receipt_digest`, and
+`publication-finalization -> test-gate-publication-finalization.v4/finalization_digest`.
 No earlier schema version is current, generated-path-valid, selectable by set
-assembly, or promotable under R20.
+assembly, or promotable under R21.
 
 total count equals item count; manifest digest hashes each
 canonical complete item plus LF in item order. Before each mode this object
@@ -2339,14 +2395,14 @@ watch-stop, null path/count/digest. Plan digest omits only itself.
 Publication is exact and create-new throughout. After the passing post-worker
 snapshot, the supervisor canonicalizes evidence in memory, writes/flushes/
 closes it, flushes its parent, and takes a full `post-evidence` snapshot. It
-then writes a canonical `test-gate-publication-receipt.v3` with exact keys
+then writes a canonical `test-gate-publication-receipt.v4` with exact keys
 `schema,wp_revision,lineage_binding,execution_id,run_id,evidence_path,evidence_digest,
 post_evidence_snapshot,watch_event_count,watch_event_digest,status,
 failure_reasons,receipt_digest`; status is `pass|failure`; reasons are the
 exact sorted subset of `write-failed|flush-failed|snapshot-failed|
 unexpected-path|transient-mutation|watch-overflow`, and pass iff exact `[]`
 and all prior equalities hold. The digest omits only itself. After durable receipt creation it takes a full
-`post-receipt` snapshot and prepares `test-gate-publication-finalization.v3`
+`post-receipt` snapshot and prepares `test-gate-publication-finalization.v4`
 with exact keys `schema,wp_revision,lineage_binding,execution_id,run_id,evidence_path,evidence_digest,
 receipt_path,receipt_digest,post_receipt_snapshot,
 expected_post_finalization_snapshot_digest,expected_final_watch_event_count,
@@ -2360,12 +2416,12 @@ fields inside that snapshot bind the prefix through `finalization_self_event`;
 the finalization's separate expected final watch digest/count additionally
 append exactly `watch_stop_event`.
 
-For both v3 publication records, `wp_revision` is literal `R20` and
-`lineage_binding` is byte-identical to the enclosing evidence v13 object. Its
-accepted R20 WP, corrective entry, failed attempt, governance delta, complete
+For both v4 publication records, `wp_revision` is literal `R21` and
+`lineage_binding` is byte-identical to the enclosing evidence v14 object. Its
+accepted R21 WP, corrective entry, failed attempt, governance delta, complete
 delta, corrective delta, and current implementation values validate before any
-receipt/finalization digest is computed. V1 publication records cannot bind or
-promote an R20 execution.
+receipt/finalization digest is computed. V1/v2/v3 publication records cannot bind or
+promote an R21 execution.
 
 The supervisor durably create-new writes finalization, observes exactly that
 self event, takes the actual `post-finalization` snapshot while every watch and
@@ -2535,7 +2591,7 @@ same index in `required_review_lanes`.
 | `20` | `.roles/stakeholders/taxpayer-oversight.md` |
 | `21` | `Role review steward` |
 
-A non-null slot is one closed `test-gate-decision.v3` object with exact ordered keys
+A non-null slot is one closed `test-gate-decision.v4` object with exact ordered keys
 `schema,wp_revision,lineage_binding_digest,decision_id,decision_version,predecessor_decision_id,
 predecessor_decision_digest,predecessor_decision_version,lane,status,
 reviewer_id,reviewer_authentication_digest,independence,assurance,findings,defer,dissent,conflicts,closure,
@@ -2556,7 +2612,7 @@ authentication record at exact create-new path
 for the lane's zero-padded index. That closed canonical record has exact keys
 `schema,wp_revision,lineage_binding_digest,lane_index,lane,reviewer_id,authorizing_controller_id,
 wp_artifact_digest,record_digest`; schema is literal
-`vtrace-review-auth.v3`, revision is literal `R20`, lineage digest equals the
+`vtrace-review-auth.v4`, revision is literal `R21`, lineage digest equals the
 enclosing evidence/set lineage, lane fields equal the indexed lane, authorizing
 controller is a `REVIEWER_ID` present in `candidate_author_ids`, WP digest
 equals the enclosing value, and record digest omits only itself. The top-level
@@ -2564,9 +2620,9 @@ authentication digest equals that verified record digest and is byte-identical
 for every occurrence of that reviewer across current and historical records;
 no caller-presented identity or free authentication preimage is accepted.
 The decision's schema/revision/lineage fields are immutable across same-lane
-successors and equal its enclosing evidence v13 or set v12. A v1/v2 decision or
-v1/v2 review-auth record, an R14/R15 WP digest, or a failed-attempt author/controller
-cannot authenticate an R20 review.
+successors and equal its enclosing evidence v14 or set v13. A v1/v2/v3 decision or
+v1/v2/v3 review-auth record, an R14/R15 WP digest, or a failed-attempt author/controller
+cannot authenticate an R21 review.
 Reviewer identity is an absolute candidate-wide lane bijection: one
 `reviewer_id` may occur in mode/set/current/history decisions for one and only
 one lane, and every non-null lane has exactly one reviewer ID. Reuse across a
@@ -2708,7 +2764,7 @@ assurance lanes are `pass`, all predecessors/digests/versions verify, and zero
 current critical/major finding, open defer, open dissent conflict, or evidence
 conflict is mandatory.
 
-### 8.6 Independently closed `test-gate-evidence-set.v12` schema
+### 8.6 Independently closed `test-gate-evidence-set.v13` schema
 
 A set uses section 8.1 canonical encoding and these exact ordered keys:
 `schema,set_id,set_version,set_path,wp_id,wp_revision,wp_artifact_digest,lineage_binding,
@@ -2717,14 +2773,14 @@ aggregate_digest,observed_outputs,required_review_lanes,reviewer_decisions,
 findings,defers,dissent,conflicts,status,review_completeness,rollback_plan,reproduction_plan,
 predecessor_set,history,invalidation_triggers,set_digest`.
 
-`schema` is literal `test-gate-evidence-set.v12`; set version is `VERSION`; ID is
+`schema` is literal `test-gate-evidence-set.v13`; set version is `VERSION`; ID is
 exactly `EVID-WP-TST-001-SET-vNNNN`; path is exactly
 `context/waves/2026-07-28-bastion-foundation/evidence/wp-tst-001/sets/<set_id>.json`;
-WP ID is literal `WP-TST-001`; `wp_revision` is literal `R20`; WP digest,
+WP ID is literal `WP-TST-001`; `wp_revision` is literal `R21`; WP digest,
 lineage, and the three binding objects use the fully closed definitions and
 equalities in sections 3.1 and 8.2. Set `identity_registry` is one closed
-`IdentityRegistryV3` whose bindings are the exact source-kind/source-ref-sorted
-unique union of the 16 selected mode registries: the shared R20 candidate,
+`IdentityRegistryV4` whose bindings are the exact source-kind/source-ref-sorted
+unique union of the 16 selected mode registries: the shared R21 candidate,
 acceptance, corrective-entry, failed-attempt, and corrective-implementation
 bindings, 16 distinct mode-evidence bindings, and one shared set-evidence
 binding, exactly 22 bindings. Set projections apply the same total rule as each
@@ -2742,7 +2798,7 @@ MODE order; execution fields equal the selected mode record and obey its
 ordinal/history rules; each field uses the mode formulas/types in section 8.2, each digest
 recomputes, receipt/finalization paths equal that execution's publication
 plan, and the complete acyclic publication/final snapshot/watch chain verifies.
-All selected records have identical R20 WP/lineage/acceptance/corrective-entry/
+All selected records have identical R21 WP/lineage/acceptance/corrective-entry/
 implementation/failed-attempt/complete-delta/corrective-delta bindings.
 `aggregate_digest` is `DIGEST` over each selected
 `<wp-revision><TAB><lineage-digest><TAB><execution-id><TAB><execution-ordinal><TAB><execution-evidence-version><TAB>
@@ -2831,12 +2887,12 @@ mode/set/decision preimage includes its own digest, enclosing digest, future
 commit, or future pulse. Neither history is mutated, deleted, overwritten,
 quarantined, or hidden.
 
-The dedicated R20 negative suite retains every R14 and failed-R15/R16/R17/R18/R19 case with
+The dedicated R21 negative suite retains every R14 and failed-R15/R16/R17/R18/R19/R20 case with
 exact section 1 commit:path, blob, and raw-byte SHA custody, and
 additionally rejects every cross-revision relabel, `(schema,wp_revision)`
 mismatch, historical-validator substitution, old outer/new nested combination,
 new outer/old nested combination, and any nested parse begun before exact
-external artifact-kind/schema/revision/candidate-commit/WP-blob dispatch. It also
+external artifact-kind/schema/revision/candidate-commit/WP-blob/parent-path/subject dispatch. It also
 additionally rejects a root/merge/multi-parent/malformed/substituted acceptance,
 entry, or implementation commit object; nonzero cat-file exit; nonempty stderr;
 wrong raw stream count/hash; parsed tree/parent not derived from retained bytes;
@@ -2879,16 +2935,16 @@ revision's bytes.
 ## 9. Entry, stop, exit, and authority
 
 Acceptance of this candidate, if it occurs, authorizes only a later separate
-R20 corrective-entry decision. The acceptance pulse binds the R20 artifact
-digest, its exact externally selected R20 candidate first parent and complete commit observation,
+R21 corrective-entry decision. The acceptance pulse binds the R21 artifact
+digest, its exact externally selected R21 candidate first parent and complete commit observation,
 accepted R14 custody, the retained failed
-implementation, failed R15, R16, R17, R18, and R19 amendments, exact governance
+implementation, failed R15, R16, R17, R18, R19, and R20 amendments, exact governance
 observations, and all prior governance inputs, but never its own future commit. After it is committed, the
 corrective-entry pulse binds that acceptance commit and pulse digest, but never
 its own future commit. After corrective entry is committed, evidence binds the
-R20 WP/acceptance/corrective entry as its only positive governance identity,
+R21 WP/acceptance/corrective entry as its only positive governance identity,
 and binds the original R14 entry solely as complete-delta base plus the failed
-R14/R15/R16/R17/R18/R19 custody. A clean isolated worktree starts at the R20 corrective-entry
+R14/R15/R16/R17/R18/R19/R20 custody. A clean isolated worktree starts at the R21 corrective-entry
 commit, and the corrective
 implementation commit is its sole-parent, non-merge direct child; exact raw
 commit observations prove acceptance-to-entry and entry-to-child. Its complete
