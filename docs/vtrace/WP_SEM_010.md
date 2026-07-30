@@ -1,6 +1,6 @@
 # WP-SEM-010 — Adaptive readiness successor cycle
 
-Status: `implemented; exit evidence pending final program audit`
+Status: `implemented; bounded exit evidence recorded`
 
 SEM-010 evaluates observed readiness, lifecycle-cost, safety, and supplier
 triggers and creates exactly one immutable successor rank and action. It

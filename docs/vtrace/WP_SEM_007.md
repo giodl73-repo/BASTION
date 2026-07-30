@@ -1,6 +1,6 @@
 # WP-SEM-007 — Readiness portfolio alternatives
 
-Status: `implemented; exit evidence pending final program audit`
+Status: `implemented; bounded exit evidence recorded`
 
 SEM-007 compares no-change, additional procurement, sustainment-first, and
 commonality/workforce hypotheses across readiness floor, lifecycle and

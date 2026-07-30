@@ -24,12 +24,14 @@ accepted.
 
 ### Bounded semantic demonstration overlay
 
-The repository owner separately authorized `WP-SEM-001` and `WP-SEM-002` as
-closed safe-synthetic, unclassified, non-operational demonstrations. They add
+The repository owner separately authorized `WP-SEM-001` through `WP-SEM-012`
+as bounded public-aggregate or safe-synthetic, unclassified, non-operational
+demonstrations. They add
 executable product meaning but do not close a held unknown, satisfy a canonical
 producer WP, change the source-spine DAG, or authorize real-force, procurement,
 fiscal, Taxlane, operational, or release work. The canonical statuses and
-ordering below therefore remain unchanged.
+ordering below therefore remain unchanged. The held SEM-012 candidate cannot
+emit or self-admit.
 
 ## 2. Frozen baseline
 

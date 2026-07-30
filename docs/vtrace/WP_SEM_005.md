@@ -1,6 +1,6 @@
 # WP-SEM-005 — Capacity realization path
 
-Status: `implemented; exit evidence pending final program audit`
+Status: `implemented; bounded exit evidence recorded`
 
 SEM-005 traces a fictional aggregate capacity index from funding through
 contracting, delivery, staffing, training, maintenance, supply, and usable

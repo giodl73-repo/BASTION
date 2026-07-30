@@ -1,5 +1,5 @@
 schema=bastion.aggregate-stress-recovery.v1
-source_id=gao-25-107569
+source_id=gao-26-108457
 baseline_version=bastion-scenario-v1
 successor_version=bastion-scenario-v2
 recovery_days=270

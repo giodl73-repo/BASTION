@@ -17,11 +17,12 @@ lifecycle cost, transition risk, and auditability together.
 
 ## Current boundary
 
-Two owner-directed, bounded safe-synthetic demonstrations are the current
-semantic product boundary. `WP-SEM-001` executes one readiness-package
-assessment. `WP-SEM-002` compares three non-operational remedy classes against
-that kind of package while preserving resource, time, transition, and safety
-limits. These slices do not complete or waive the canonical source-spine work
-packages below. No real force, operational recommendation, procurement
-decision, official request, savings estimate, Taxlane admission, allocation,
-rate change, or release.
+Twelve owner-directed, bounded semantic demonstrations are the current product
+boundary. `WP-SEM-001` through `WP-SEM-012` now cover readiness, remedies, a
+small admitted public unclassified mini-corpus, stress/recovery, realization,
+lifecycle accounting, alternatives, incidence, transition, adaptive
+successors, definition-normalized peers, and a held non-admitted Taxlane
+candidate. These slices do not complete or waive the canonical source-spine
+work packages below. No real force, operational recommendation, procurement
+decision, official request, realized savings claim, Taxlane admission,
+allocation, rate change, or release.

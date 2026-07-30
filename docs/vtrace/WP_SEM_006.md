@@ -1,6 +1,6 @@
 # WP-SEM-006 — Reconciled lifecycle accounting
 
-Status: `implemented; exit evidence pending final program audit`
+Status: `implemented; bounded exit evidence recorded`
 
 SEM-006 reconciles a fictional authorized resource envelope across acquisition,
 personnel, operations, maintenance, spares, infrastructure, transition, and

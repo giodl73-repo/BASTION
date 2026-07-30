@@ -1,6 +1,6 @@
 # WP-SEM-009 — Transition feasibility
 
-Status: `implemented; exit evidence pending final program audit`
+Status: `implemented; bounded exit evidence recorded`
 
 SEM-009 requires a fictional alternative to retain owner, bounded authority,
 industrial and workforce capacity, milestones, measurement cadence,

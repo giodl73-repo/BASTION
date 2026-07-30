@@ -1,0 +1,17 @@
+# GAO Weapon Systems Annual Assessment 2026; public aggregate findings.
+schema=bastion.public-unclassified-mini-corpus.v1
+source_id=gao-26-108457
+source_url=https://www.gao.gov/products/gao-26-108457
+publication_date=2026-07-02
+data_period=2026-annual-assessment
+evidence_state=current
+classification=public-unclassified
+programs_assessed=104
+mta_programs=23
+mta_investment_millions=49000
+average_capability_months_lower_bound=144
+mta_entry_cohort=40
+mta_immature_entry_count=18
+current_mta_reviewed=8
+current_mta_immature_count=7
+total_program_investment_millions_lower_bound=2400000

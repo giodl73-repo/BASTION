@@ -1,6 +1,6 @@
 # WP-SEM-004 — Aggregate stress and recovery scenarios
 
-Status: `implemented; exit evidence pending final program audit`
+Status: `implemented; bounded exit evidence recorded`
 
 SEM-004 compares baseline, disruption, and recovery support conditions with an
 explicit successor version and recovery horizon. Supplier, workforce,

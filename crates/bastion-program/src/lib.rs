@@ -80,7 +80,7 @@ impl Document {
             || value.len() > 512
             || value
                 .chars()
-                .any(|character| character.is_control() || character == '"')
+                .any(|character| character.is_control() || matches!(character, '"' | '\\'))
         {
             return Err(format!("unsafe text field: {key}"));
         }

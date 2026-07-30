@@ -1,6 +1,6 @@
 # BASTION semantic deliveries 003–012
 
-Status: `owner-directed program; SEM-003 in implementation; later waves gated by predecessor exit`
+Status: `complete; repository audit recorded`
 
 Each row is one executable vertical feature, one isolated commit, and one
 named branch. All inputs are public aggregate unclassified or clearly
@@ -24,3 +24,9 @@ allocation, rates, or release.
 Every exit requires deterministic CLI output, closed parsing, explicit
 missing/stale/incompatible behavior, adversarial rejection, feature-level
 tests, README evidence, and explicit no-authority fields.
+
+## Final audit evidence
+
+On 2026-07-30, the locked and offline full workspace passed formatting,
+`cargo check`, warnings-as-errors `cargo clippy`, all 47 tests, and
+`cargo doc --no-deps`. The ten program slices account for 21 of those tests.

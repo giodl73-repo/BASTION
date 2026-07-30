@@ -1,6 +1,6 @@
 # WP-SEM-011 — Normalized NATO expenditure comparison
 
-Status: `implemented; exit evidence pending final program audit`
+Status: `implemented; bounded exit evidence recorded`
 
 SEM-011 compares 2025 estimated defence expenditure shares using NATO's own
 definition, preserves the estimate flag, reconciles the US category

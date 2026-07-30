@@ -1,6 +1,6 @@
 # WP-SEM-012 — Held Taxlane evidence pack
 
-Status: `implemented; exit evidence pending final program audit`
+Status: `implemented; bounded exit evidence recorded`
 
 SEM-012 packages need, alternatives, lifecycle and transition ranges,
 readiness/safety/supplier floors, distribution, uncertainty, overlap, dissent,
