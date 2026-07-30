@@ -1,0 +1,16 @@
+schema=bastion.adaptive-readiness-cycle.v1
+current_version=bastion-cycle-v2
+successor_version=bastion-cycle-v3
+current_rank=2
+successor_rank=3
+owner=portfolio-transition-office
+observed_readiness_floor_bps=7300
+readiness_trigger_bps=7500
+observed_lifecycle_cost_millions=108000
+cost_ceiling_millions=105000
+observed_safety_bps=9700
+safety_trigger_bps=9500
+observed_supplier_bps=7200
+supplier_trigger_bps=7500
+action=revise-commonality-workforce
+evidence_state=current
