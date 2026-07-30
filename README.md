@@ -21,86 +21,55 @@ and lifecycle cost.
 | Evidence status | The typed implementation exists and is committed; its canonical 16-mode evidence publication and independent exit acceptance remain unfinished. |
 | Product status | No readiness model, acquisition model, public aggregate corpus, savings result, portfolio recommendation, or Taxlane handoff has been accepted yet. |
 
-## Validated engineering evidence
+## Features available now
 
-These are reproducible properties of the parked typed-boundary checkpoint—not
-claims about defense performance:
+BASTION currently has two usable cross-cutting features:
 
-| Measure | Validated result | What it establishes |
-|---|---:|---|
-| Rust tests | **145 passed, 0 failed** | Positive, negative, contract, property, model, adversarial, hold, source-spine, static-surface, and no-authority behavior executes successfully. |
-| Named field-level controls | **607** | Every controlled field has a literal identity; removal or cross-family substitution changes the fixed control digest and fails validation. |
-| Source-to-assertion trace obligations | **148 unique tuples** | Each tested obligation binds one controlled identity, exact assertion, execution mode, normative clause, source digest, and typed owner. |
-| Controlled systems baseline | **298 identities** | The plan accounts for 98 requirements, 121 specification identities, design decisions, contracts, package boundaries, and code-rigor constraints. |
-| Execution modes | **16 defined modes** | Format, compilation, focused/workspace tests, lint, docs, static and supply-chain checks, plus source-spine, contract, property, model, adversarial, hold, and no-authority checks are structurally bound. Canonical publication remains pending. |
-| Independent review lanes | **22 required lanes** | Every mode and the final evidence set require separate, digest-bound lane decisions. Those final reviews have not yet been executed or accepted. |
-| Safe-synthetic fixtures | **4 boundary fixtures** | Valid, absent, stale, and deny-marker paths are represented without operational or classified data. |
-| Third-party Rust dependencies | **0** | The current review and boundary-test substrate is deterministic and dependency-free. |
+1. A Rust library can evaluate a fully constructed research-review packet and
+   return **pass recommended**, **hold**, or **reject**, while preserving
+   findings, conflicts, dissent, and accepted history.
+2. A developer-facing boundary suite can verify that a proposed evidence
+   implementation retains its required source, control, hold, review, and
+   no-authority obligations.
 
-The 607-control registry is fixed by SHA-256 digest
-`a0d8e0cfee59cbeac2958c2f23d33a99fb325a9c939c68be113c0d78dc9789f8`;
-the exact 148-obligation allocation is fixed by
-`931843c0688cfb64c0dbaf551d5502163a06dc2f340358d2e2cc7ccf3e42374a`.
-The tests deliberately remove and swap controls, source mappings, and typed
-owners to prove these totals cannot pass through accidental counting alone.
+These are review and implementation-validation features. They do not yet
+constitute a defense-readiness product.
 
-## Safe-synthetic formation example
+## Defense feature scorecard
 
-Consider a fictional, non-operational support formation called **Cedar**. Its
-declared public mission is to sustain a 30-day disaster-relief support package.
-An illustrative evidence submission says:
-
-| Facet | Submitted synthetic evidence |
+| User-visible capability | Status |
 |---|---|
-| Personnel coverage | 90% |
-| Asset availability | 75% |
-| Scheduled-maintenance coverage | absent |
-| Critical-spares evidence | stale |
-| Supplier resilience | single-source dependency recorded |
-| Interoperability evidence | absent |
-| Submitted headline | “82% ready” |
+| Load a public aggregate, unclassified defense corpus | **Not built** |
+| Define a fictional or aggregate mission/readiness package | **Not built** |
+| Ingest a sample formation, unit, asset, program, supplier, or inventory | **Not built** |
+| Measure staffing, training, availability, maintenance, repair, or supply | **Not built** |
+| Measure acquisition cycle time, supplier resilience, or interoperability | **Not built** |
+| Calculate a readiness score, gap, tail, or null result | **Not built** |
+| Run surge, disruption, mobilization, transition, or lifecycle scenarios | **Not built** |
+| Compare constrained portfolios or delivery alternatives | **Not built** |
+| Estimate lifecycle cost, realizable savings, or transition risk | **Not built** |
+| Produce a held TAXLANE evidence handoff | **Not built** |
 
-The current BASTION boundary layer can validate the control posture around this
-submission:
+**Bottom line:** BASTION has review and test-control features, but it has **zero
+completed defense semantic features**. It cannot currently validate a sample
+army or formation as a product feature. The earlier Cedar illustration was a
+design example, not an executed capability, and has therefore been removed.
 
-1. The missing maintenance and interoperability evidence remain **absent**;
-   they cannot be inferred from personnel or asset availability.
-2. The stale spares evidence cannot count as a current pass.
-3. The single-source condition must remain visible as a resilience concern.
-4. The “82% ready” headline cannot be promoted from incomplete,
-   non-composable facets, so the package remains **held**.
-5. Any attempt to turn the held record into targeting, deployment,
-   procurement, budget, savings, or rate authority is **rejected**.
+## First feature milestone
 
-What BASTION does **not** yet do is ingest this table as a semantic model,
-derive the 82%, estimate mission success, or recommend how Cedar should be
-deployed. Implementing the first safe-synthetic readiness model and producing
-its digest-bound result requires the separately governed semantic work
-packages that follow the current test-harness exit.
+The first substantive milestone should be a safe-synthetic readiness-package
+feature with a real CLI or library input and reproducible output. It should:
 
-## What BASTION has succeeded at
+- ingest a fictional, non-operational formation with staffing, asset,
+  maintenance, spares, supplier, logistics, and interoperability facets;
+- preserve missing, stale, incompatible, and non-composable facets;
+- produce an assessable or held readiness result with explicit blockers;
+- compare no-change and bounded support alternatives without deployment or
+  targeting advice; and
+- emit a source-labelled artifact that can be independently replayed.
 
-BASTION has converted a sensitive, expansive subject into a bounded and
-mechanically testable research contract. Its controlled source universe covers
-98 requirements and 121 specification identities within 298 controlled
-identities, including explicit package, interface, design, and code-rigor
-ownership.
-
-The current typed boundary checkpoint demonstrates that:
-
-- controlled requirements and sources have explicit, testable allocation;
-- missing, stale, malformed, conflicting, or prohibited evidence fails closed;
-- readiness, civilian-control, safety, financial, supplier, logistics,
-  interoperability, and lifecycle concerns cannot silently substitute for one
-  another;
-- findings, dissent, holds, and null results remain visible;
-- review output cannot become targeting, operational planning, force
-  employment, procurement, allocation, rate, or release authority.
-
-This is meaningful executable infrastructure. It provides the trust and
-traceability substrate required before readiness, sustainment, acquisition,
-supplier, economics, alternatives, and delivery models can make defensible
-claims.
+Until that executes, the repository should be described as a validated
+foundation rather than a working readiness analyzer.
 
 ## What the finished system is intended to show
 
