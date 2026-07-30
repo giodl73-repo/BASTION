@@ -1,0 +1,24 @@
+# Safe-synthetic, aggregate, unclassified, and non-operational.
+schema=bastion.synthetic-readiness-package.v1
+package_id=cedar-support-package
+mission_label=disaster-relief-support
+mission_days=30
+source_label=safe-synthetic-bastion-v1
+baseline.personnel_coverage_bps=current:9200
+baseline.training_currency_bps=current:8800
+baseline.asset_availability_bps=current:7800
+baseline.maintenance_completion_bps=current:7000
+baseline.spares_fill_bps=current:6800
+baseline.logistics_reliability_bps=current:8000
+baseline.supplier_resilience_bps=current:6000
+baseline.interoperability_bps=current:9000
+baseline.safety_compliance_bps=current:9700
+alternative.personnel_coverage_bps=current:9200
+alternative.training_currency_bps=current:8800
+alternative.asset_availability_bps=current:8200
+alternative.maintenance_completion_bps=current:8800
+alternative.spares_fill_bps=current:8500
+alternative.logistics_reliability_bps=current:8800
+alternative.supplier_resilience_bps=current:7800
+alternative.interoperability_bps=current:9000
+alternative.safety_compliance_bps=current:9700

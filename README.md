@@ -19,46 +19,54 @@ and lifecycle cost.
 | Working Rust | `bastion-review` provides a deterministic review kernel; `bastion-boundary-tests` implements typed control, source-allocation, contract, property, model, adversarial, hold, static, and no-authority checks. |
 | Verified checkpoint | The parked `codex/wp-tst-001-amend` checkpoint passes 145 Rust tests across nine test targets with zero third-party Rust dependencies. |
 | Evidence status | The typed implementation exists and is committed; its canonical 16-mode evidence publication and independent exit acceptance remain unfinished. |
-| Product status | No readiness model, acquisition model, public aggregate corpus, savings result, portfolio recommendation, or Taxlane handoff has been accepted yet. |
+| Product status | One bounded semantic feature is executable: a safe-synthetic readiness package can be assessed across nine support facets and compared with one bounded alternative. |
 
 ## Features available now
 
-BASTION currently has two usable cross-cutting features:
+BASTION now has one defense-readiness feature in addition to two cross-cutting
+review controls:
 
-1. A Rust library can evaluate a fully constructed research-review packet and
+1. The `bastion assess` command evaluates a fictional, non-operational support
+   package across personnel, training, assets, maintenance, spares, logistics,
+   suppliers, interoperability, and safety. It exposes the weakest supported
+   facet and compares one bounded support alternative.
+2. A Rust library can evaluate a fully constructed research-review packet and
    return **pass recommended**, **hold**, or **reject**, while preserving
    findings, conflicts, dissent, and accepted history.
-2. A developer-facing boundary suite can verify that a proposed evidence
+3. A developer-facing boundary suite can verify that a proposed evidence
    implementation retains its required source, control, hold, review, and
    no-authority obligations.
 
-These are review and implementation-validation features. They do not yet
-constitute a defense-readiness product.
+In the included fictional Cedar disaster-relief support package, the baseline
+readiness floor is 60%, constrained by supplier resilience, with five concerns.
+The bounded alternative improves those five facets and raises the floor to 78%
+with no remaining threshold concerns. The floor is a transparent minimum over
+synthetic inputs—not a probability of mission success or deployment advice.
 
 ## Defense feature scorecard
 
 | User-visible capability | Status |
 |---|---|
 | Load a public aggregate, unclassified defense corpus | **Not built** |
-| Define a fictional or aggregate mission/readiness package | **Not built** |
+| Define one fictional, non-operational mission/readiness package | **Built** |
 | Ingest a sample formation, unit, asset, program, supplier, or inventory | **Not built** |
-| Measure staffing, training, availability, maintenance, repair, or supply | **Not built** |
-| Measure acquisition cycle time, supplier resilience, or interoperability | **Not built** |
-| Calculate a readiness score, gap, tail, or null result | **Not built** |
+| Measure personnel, training, asset, maintenance, spares, logistics, and safety facets | **Built in first slice** |
+| Measure supplier resilience and interoperability | **Built in first slice** |
+| Calculate a transparent synthetic readiness floor or held result | **Built in first slice** |
 | Run surge, disruption, mobilization, transition, or lifecycle scenarios | **Not built** |
-| Compare constrained portfolios or delivery alternatives | **Not built** |
+| Compare one bounded support alternative | **Built in first slice** |
 | Estimate lifecycle cost, realizable savings, or transition risk | **Not built** |
 | Produce a held TAXLANE evidence handoff | **Not built** |
 
-**Bottom line:** BASTION has review and test-control features, but it has **zero
-completed defense semantic features**. It cannot currently validate a sample
-army or formation as a product feature. The earlier Cedar illustration was a
-design example, not an executed capability, and has therefore been removed.
+**Bottom line:** BASTION has completed exactly one bounded semantic slice. It
+can identify the limiting facet in a fictional readiness package and show how
+a specified support alternative changes the result. It cannot validate a real
+force, predict mission success, plan a deployment, recommend procurement, or
+set spending, savings, or tax rates.
 
-## First feature milestone
+## First feature milestone achieved
 
-The first substantive milestone should be a safe-synthetic readiness-package
-feature with a real CLI or library input and reproducible output. It should:
+The safe-synthetic readiness-package feature now:
 
 - ingest a fictional, non-operational formation with staffing, asset,
   maintenance, spares, supplier, logistics, and interoperability facets;
@@ -68,8 +76,14 @@ feature with a real CLI or library input and reproducible output. It should:
   targeting advice; and
 - emit a source-labelled artifact that can be independently replayed.
 
-Until that executes, the repository should be described as a validated
-foundation rather than a working readiness analyzer.
+A user can replay the included case with:
+
+```powershell
+cargo +1.95.0 run --locked --offline -q -p bastion-readiness-slice --bin bastion -- assess fixtures/synthetic/readiness-package.fixture
+```
+
+The command emits deterministic JSON with every facet, threshold, posture,
+bottleneck, comparison, and explicit no-authority flags.
 
 ## What the finished system is intended to show
 
@@ -87,18 +101,17 @@ BASTION is designed to support questions such as:
 
 These are intended examples, not current findings or operational advice.
 
-## Verify the working checkpoint
+## Verify the working feature branch
 
 The repository pins Rust 1.95.0 and has no third-party Rust dependencies.
 
 ```powershell
-git switch codex/wp-tst-001-amend
 cargo +1.95.0 test --locked --offline --workspace --all-targets
 ```
 
-Expected result at the parked typed-boundary checkpoint: **145 passed, 0
-failed**. This test result does not substitute for the still-pending canonical
-16-mode evidence publication and exit review.
+Expected result on this branch: **21 passed, 0 failed**—16 review-kernel tests
+and 5 semantic-slice tests. The separate parked typed-boundary checkpoint and
+its unfinished evidence acceptance are not claimed by this branch.
 
 ## Repository map
 
@@ -119,9 +132,9 @@ repository.
 
 ## Boundary
 
-BASTION is a foundation-stage research and tooling repository. It performs no
+BASTION is an early semantic research and tooling repository. It performs no
 targeting, operational planning, vulnerability exploitation, force-employment
 recommendation, official scoring, procurement instruction, savings claim,
-budget allocation, or public release. The repository demonstrates a strong
-typed foundation; the semantic product and flagship aggregate readiness
-scenario remain future work.
+budget allocation, or public release. Its achieved result is limited to the
+included fictional package; a public aggregate corpus, real-force analysis,
+lifecycle cost model, and flagship real-world scenario remain future work.

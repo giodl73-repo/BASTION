@@ -1,10 +1,17 @@
 [workspace]
-members = ["crates/bastion-review"]
+members = ["crates/bastion-review", "crates/bastion-readiness-slice"]
+default-members = ["crates/bastion-review", "crates/bastion-readiness-slice"]
 resolver = "3"
 
 [workspace.package]
 edition = "2024"
 rust-version = "1.95.0"
+publish = false
 
 [workspace.lints.rust]
 unsafe_code = "forbid"
+warnings = "deny"
+
+[workspace.lints.clippy]
+all = "deny"
+pedantic = "deny"
