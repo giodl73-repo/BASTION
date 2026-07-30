@@ -1,0 +1,16 @@
+schema=bastion.transition-feasibility.v1
+alternative_id=commonality-workforce
+owner=portfolio-transition-office
+authority=research-only
+industrial_capacity_bps=7600
+workforce_capacity_bps=7800
+milestones_total=8
+milestones_completed=1
+measure_defined=true
+cadence_days=90
+stop_trigger=safety-floor-below-9500
+rollback_action=restore-prior-support-package
+safety_floor_bps=9700
+transition_cost_millions=12000
+evidence_state=current
+classification=safe-synthetic

@@ -8,6 +8,7 @@ pub mod sem005;
 pub mod sem006;
 pub mod sem007;
 pub mod sem008;
+pub mod sem009;
 
 const MAX_INPUT_BYTES: usize = 128 * 1024;
 
@@ -119,6 +120,7 @@ pub fn run(delivery: &str, input: &str) -> Result<String, String> {
         "sem-006" => sem006::run(input),
         "sem-007" => sem007::run(input),
         "sem-008" => sem008::run(input),
+        "sem-009" => sem009::run(input),
         _ => Err(format!("unknown delivery: {delivery}")),
     }
 }
