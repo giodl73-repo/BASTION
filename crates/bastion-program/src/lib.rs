@@ -3,6 +3,7 @@
 use std::collections::{BTreeMap, BTreeSet};
 
 pub mod sem003;
+pub mod sem004;
 
 const MAX_INPUT_BYTES: usize = 128 * 1024;
 
@@ -98,6 +99,7 @@ impl Document {
 pub fn run(delivery: &str, input: &str) -> Result<String, String> {
     match delivery {
         "sem-003" => sem003::run(input),
+        "sem-004" => sem004::run(input),
         _ => Err(format!("unknown delivery: {delivery}")),
     }
 }

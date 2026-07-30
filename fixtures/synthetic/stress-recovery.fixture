@@ -1,0 +1,17 @@
+schema=bastion.aggregate-stress-recovery.v1
+source_id=gao-25-107569
+baseline_version=bastion-scenario-v1
+successor_version=bastion-scenario-v2
+recovery_days=270
+scenario.baseline.supplier-bps=6000
+scenario.baseline.workforce-bps=8200
+scenario.baseline.maintenance-bps=7000
+scenario.baseline.spares-bps=6800
+scenario.disruption.supplier-bps=4200
+scenario.disruption.workforce-bps=7400
+scenario.disruption.maintenance-bps=6100
+scenario.disruption.spares-bps=5000
+scenario.recovery.supplier-bps=7600
+scenario.recovery.workforce-bps=8200
+scenario.recovery.maintenance-bps=7800
+scenario.recovery.spares-bps=7200
