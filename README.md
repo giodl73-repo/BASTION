@@ -64,6 +64,10 @@ BASTION now provides twelve executable, bounded semantic features:
 Every example is deterministic and uses public aggregate unclassified evidence
 or clearly labelled synthetic, non-operational data.
 
+The repo-local [VERDICT capability assessment](docs/vtrace/CAPABILITY_ASSESSMENT.md)
+scores this bounded program 14/21 while keeping real readiness, lifecycle
+price, distribution, operational learning, and fiscal authority held.
+
 ## What the demonstrations reveal
 
 ### Purchased inventory and usable readiness are different
