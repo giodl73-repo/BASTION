@@ -1,7 +1,9 @@
 # BASTION
 
-**Defense 2.0 — test whether public resources become sustainable readiness,
-not merely purchased inventory.**
+**Purchased inventory is not readiness.**
+
+BASTION is Defense 2.0: a way to test whether public resources become
+sustainable readiness rather than merely purchased inventory.
 
 A purchased system is not readiness if it cannot be staffed, trained, supplied,
 maintained, integrated, repaired, mobilized, or safely used for its declared
@@ -35,6 +37,9 @@ readiness. Inventory does not prove availability. A projected saving is not
 real until transition and lifecycle costs are included. A peer-country
 percentage is context, not a target. Research cannot authorize procurement,
 operations, allocation, or tax rates.
+
+The transferable principle is simple: measure the bottleneck that limits the
+mission, not the input that is easiest to count.
 
 ## What works today
 
@@ -131,7 +136,12 @@ The peer feature uses NATO's common expenditure definition and keeps estimates
 and category limits explicit. It demonstrates comparison discipline; it does
 not infer readiness from spending share or turn a peer value into a US target.
 
-## Try the product
+## Start here
+
+Install the pinned Rust 1.95.0 toolchain, then run one bounded example before
+reading the full program record. The first command tests a readiness floor; the
+second compares remedies against its constraint; the third shows the held
+external handoff.
 
 Assess the fictional support package:
 
@@ -223,3 +233,7 @@ instruction, official scoring, savings claim, budget allocation, tax-rate
 instruction, or public release. Its admitted public corpus is deliberately
 small; its readiness, scenario, accounting, alternative, transition, and
 handoff demonstrations are synthetic and non-operational.
+
+## License
+
+[MIT](LICENSE) — © 2026 Gio Della-Libera.
