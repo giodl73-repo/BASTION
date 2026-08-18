@@ -185,6 +185,21 @@ transition, lifecycle, readiness, resilience, surge, workforce, supplier,
 alliance, legal, civilian-control, and safety constraints—and must be
 re-evaluated as observed results change.
 
+## Reuse boundary
+
+BASTION is intentionally a specialist defense-readiness evidence product, not a
+general procurement, readiness, accounting, or policy library. Its crates,
+fixtures, thresholds, scenarios, and held `LaneEvidencePack` candidate are
+owned by this non-operational research program. The Taxlane handoff is explicitly
+held and non-admitted, so it is not a downstream adoption record; no external
+manifest or consumer-owned compatibility test protects a BASTION contract.
+
+Reuse the evidence discipline and no-authority pattern by adaptation, not by
+embedding BASTION's domain models. A direct contract should graduate only after
+a named external admission process pins a versioned aggregate schema and proves
+classification, civilian-control, safety, migration, and rollback boundaries in
+the consumer repository.
+
 ## Trust and validation
 
 BASTION is governed by VTRACE and reviewed through civilian strategy,
